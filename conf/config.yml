@@ -1,0 +1,3 @@
+---
+logger: /home/gwenrou/gwen2d/conf/log4cpp.properties
+workdir: /home/gwenrou/workspace
