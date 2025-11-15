@@ -11,24 +11,32 @@ using namespace std;
 
 namespace marmot
 {
+
+    constexpr int DEFAULT_SPRITE_SIZE = 32;
+    
     class ImportSheetModel
     {
     public:
 
-        ImportSheetModel() : _path(nullopt) {}
+        ImportSheetModel() : _path(nullopt), _width(DEFAULT_SPRITE_SIZE), _height(DEFAULT_SPRITE_SIZE) {}
 
         virtual ~ImportSheetModel() {}
 
-        void set_path(const string& filename);
-
         optional<filesystem::path>& get_path();
 
-        void update_tiles(vector<SurfacePtr>& tiles);
+        void update_tiles(vector<SurfacePtr>& tiles, const string& filename, int width, int height);
+
         std::vector<SurfacePtr> get_tiles();
+
+        int get_width();
+
+        int get_height();
 
     private:
         optional<filesystem::path> _path;
         vector<SurfacePtr> _tiles;
+        int _width;
+        int _height;
         mutex _mutex;
     };
 }

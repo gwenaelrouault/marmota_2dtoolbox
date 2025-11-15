@@ -1,15 +1,15 @@
-#include "editor_gui.h"
+#include "editor_main_panel.h"
 #include "ImGuiFileDialog.h"
 
 using namespace marmot;
 
-void GUI::display()
+void MainPanel::display()
 {
     draw_menu_bar();
     draw_main_panel();
 }
 
-void GUI::draw_menu_bar()
+void MainPanel::draw_menu_bar()
 {
     static bool open_create = false;
     static std::string project_file;
@@ -29,7 +29,7 @@ void GUI::draw_menu_bar()
     }
 }
 
-void GUI::draw_main_panel()
+void MainPanel::draw_main_panel()
 {
     static char input_buf[256] = "";
     ImGui::SetNextWindowPos(ImVec2(0, 20), ImGuiCond_Always);

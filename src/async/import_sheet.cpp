@@ -17,6 +17,7 @@ int ImportSheetJob::execute()
     _logger.infoStream() << "ASYNC:import_sheet " << _path.c_str();
     vector<SurfacePtr> tiles;
     auto sheet = make_surface(IMG_Load(_path.c_str()));
+
     if (sheet != nullptr)
     {
         _logger.infoStream() << "ASYNC:import_sheet loaded " << _path.c_str() << " [size=" << sheet->w << "," << sheet->w << "]";
@@ -42,9 +43,9 @@ int ImportSheetJob::execute()
                 SDL_BlitSurface(sheet.get(), &srcRect, tile.get(), nullptr);
                 tiles.push_back(std::move(tile));
                 _logger.infoStream() << "ASYNC:import_sheet loaded tile ( " << x_cell << "," << y_cell << ")";
-                _model->update_tiles(tiles);
+                _model->update_tiles(tiles, _path, _width, _height);
             }
-        }        
+        }
     }
 
     return 0;

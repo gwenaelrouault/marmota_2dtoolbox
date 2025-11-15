@@ -11,7 +11,7 @@
 #include "imgui_impl_sdlrenderer2.h"
 #include <CLI/CLI.hpp>
 #include "yaml-cpp/yaml.h"
-#include "editor_gui.h"
+#include "editor_main_panel.h"
 #include "assets_db.h"
 
 constexpr int WIN_WIDTH = 1280;
@@ -51,7 +51,7 @@ int main(int argc, char** argv) {
     // init editor ============================================================
     auto db = std::make_shared<marmot::AssetsDB>(logger, workdir_path);
     auto worker = std::make_shared<marmot::Worker>();
-    auto editor = std::make_unique<marmot::GUI>(renderer, io, logger, worker, workdir_path, db);
+    auto editor = std::make_unique<marmot::MainPanel>(renderer, io, logger, worker, workdir_path, db);
 
     // main loop   ============================================================
     bool done = false;
@@ -87,6 +87,6 @@ int main(int argc, char** argv) {
     SDL_DestroyWindow(window);
     IMG_Quit();
     SDL_Quit();
-
+    worker->stop();
     return 0;
 }

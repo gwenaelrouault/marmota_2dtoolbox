@@ -31,8 +31,8 @@ add_executable(marmot_studio
 	src/model/import_sheet_model.cpp
 	src/async/worker.cpp
 	src/async/import_sheet.cpp
-	src/editor/editor_gui_import_sheet.cpp
-	src/editor/editor_gui.cpp
+	src/editor/editor_import_sheet_panel.cpp
+	src/editor/editor_main_panel.cpp
 	src/editor/editor_cmd.cpp
 	src/editor/editor_model.cpp
 	src/editor/editor.cpp

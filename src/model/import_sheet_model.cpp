@@ -2,30 +2,38 @@
 
 using namespace marmot;
 
-void ImportSheetModel::set_path(const string &filename)
-{
-    scoped_lock lock(_mutex);
-    _path = filename;
-}
-
 optional<filesystem::path> &ImportSheetModel::get_path()
 {
     scoped_lock lock(_mutex);
     return _path;
 }
 
-void ImportSheetModel::update_tiles(vector<SurfacePtr> &tiles)
+void ImportSheetModel::update_tiles(vector<SurfacePtr> &tiles, const string& filename, int width, int height)
 {
-    std::lock_guard<std::mutex> lock(_mutex);
+    lock_guard<std::mutex> lock(_mutex);
+    _tiles.clear();
+    _path = filename;
+    _width = width;
+    _height = height;
     for (auto &t : tiles)
     {
         _tiles.push_back(std::move(t));
     }
-    tiles.clear();
 }
 
-std::vector<SurfacePtr> ImportSheetModel::get_tiles()
+vector<SurfacePtr> ImportSheetModel::get_tiles()
 {
-    std::lock_guard<std::mutex> lock(_mutex);
+    lock_guard<std::mutex> lock(_mutex);
     return _tiles;
+}
+
+int ImportSheetModel::get_width() {
+    lock_guard<std::mutex> lock(_mutex);
+    return _width;
+}
+
+
+int ImportSheetModel::get_height() {
+    lock_guard<std::mutex> lock(_mutex);
+    return _height;
 }

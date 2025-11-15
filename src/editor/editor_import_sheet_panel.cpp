@@ -1,13 +1,13 @@
 #include <SDL.h>
 #include <SDL_image.h>
-#include "editor_gui_import_sheet.h"
+#include "editor_import_sheet_panel.h"
 #include "imgui.h"
 #include "ImGuiFileDialog.h"
 
 using namespace marmot;
 using namespace std;
 
-void GUIImportSpriteSheet::display()
+void ImportSheetPanel::display()
 {
     float height = ImGui::GetContentRegionAvail().y / 2.0f;
     std::string selectedPath;
@@ -44,12 +44,11 @@ void GUIImportSpriteSheet::display()
         _worker->async(std::move(async_import));
     }
     display_params();
-    ImGui::Dummy(ImVec2(400, 200));
     display_sheet();
     ImGui::EndChild();
 }
 
-void GUIImportSpriteSheet::display_params()
+void ImportSheetPanel::display_params()
 {
     ImGui::TextUnformatted("Paramètres");
     ImGui::SameLine();
@@ -64,16 +63,37 @@ void GUIImportSpriteSheet::display_params()
     ImGui::SameLine();
     ImGui::SetNextItemWidth(100);
     ImGui::InputInt("##height", &_height);
-
-    SDL_Texture* tex = IMG_LoadTexture(_renderer, "sprite.png");
-    //ImTextureID texId = (ImTextureID)tex;
-
-    //ImGui::Image(texId, ImVec2(64, 64));
 }
 
-void GUIImportSpriteSheet::display_sheet() {
+void ImportSheetPanel::display_sheet()
+{
+    auto dim = ImGui::GetContentRegionAvail();
+    int avail_w = dim.x;
+    int w_tile = _model->get_width();
+    int h_tile = _model->get_height();
+    int count_col = avail_w / w_tile;
+    int col = 0;
     vector<SurfacePtr> tiles = _model->get_tiles();
-    for (auto &t : tiles) {
-        _logger.infoStream() << "GUI:ImportSpriteSheet:display tile";
+    _tiles.clear();
+    for (auto &t : tiles)
+    {
+        auto tex = SDL_CreateTextureFromSurface(_renderer, t.get());
+        if (tex != nullptr)
+        {
+            auto texture = make_texture(tex);
+            _tiles.push_back(texture);
+            ImGui::Image((void *)texture.get(), ImVec2(w_tile, h_tile));
+            if (++col < count_col)
+            {
+                ImGui::SameLine();
+            }
+            else
+            {
+                col = 0;
+            }
+        }
+        else {
+            //_logger.infoStream() << "GUI:ImportSheetPanel:Error:" << SDL_GetError();
+        }
     }
 }
