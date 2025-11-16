@@ -35,10 +35,7 @@ namespace marmot::studio
         virtual ~MainPanel() {}
 
     private:
-        void draw_menu_bar();
-        void draw_main_panel();
-        void show_new_project(bool &open_dialog, std::string &new_file_name);
-
+    
         SDL_Renderer *_renderer;
         ImGuiIO &_io;
         log4cpp::Category &_logger;

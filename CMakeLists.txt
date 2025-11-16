@@ -33,11 +33,12 @@ add_executable(marmot_studio
 	src/async/worker.cpp
 	src/async/import_sheet.cpp
 	src/editor/model/import_sheet_model.cpp
+	src/editor/services/editor_cmd.cpp
 	src/editor/panels/editor_menu.cpp
 	src/editor/panels/editor_import_sheet_panel.cpp
 	src/editor/panels/editor_sprites.cpp
 	src/editor/panels/editor_main_panel.cpp
-	src/editor/editor_cmd.cpp
+	src/editor/editor.cpp
 	src/marmot_studio/marmot_studio.cpp
 )
 
@@ -58,6 +59,7 @@ include_directories(
 	include/editor
 	include/editor/model
 	include/editor/panels
+	include/editor/services
 	include/model
 	include/marmota
 	include/async

@@ -5,32 +5,6 @@ using namespace marmot::studio;
 
 void MainPanel::display()
 {
-    draw_menu_bar();
-    draw_main_panel();
-}
-
-void MainPanel::draw_menu_bar()
-{
-    static bool open_create = false;
-    static std::string project_file;
-    if (ImGui::BeginMainMenuBar())
-    {
-        if (ImGui::BeginMenu("Fichier"))
-        {
-            if (ImGui::MenuItem("Nouveau"))
-            {
-                open_create = true;
-            }
-            ImGui::MenuItem("Ouvrir");
-            ImGui::MenuItem("Quitter");
-            ImGui::EndMenu();
-        }
-        ImGui::EndMainMenuBar();
-    }
-}
-
-void MainPanel::draw_main_panel()
-{
     static char input_buf[256] = "";
     ImGui::SetNextWindowPos(ImVec2(0, 20), ImGuiCond_Always);
     ImGui::SetNextWindowSize(_io.DisplaySize, ImGuiCond_Always);
