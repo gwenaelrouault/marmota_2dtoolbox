@@ -43,9 +43,10 @@ int ImportSheetJob::execute()
                 SDL_BlitSurface(sheet.get(), &srcRect, tile.get(), nullptr);
                 tiles.push_back(std::move(tile));
                 _logger.infoStream() << "ASYNC:import_sheet loaded tile ( " << x_cell << "," << y_cell << ")";
-                _model->update_tiles(tiles, _path, _width, _height);
+                
             }
         }
+        _model->update_tiles(tiles, _path, _width, _height);
     }
 
     return 0;
