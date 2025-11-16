@@ -31,7 +31,7 @@ add_executable(marmot_studio
 	src/model/sprite.cpp
 	src/model/model.cpp
 	src/async/worker.cpp
-	src/async/import_sheet.cpp
+	src/editor/services/import_sheet.cpp
 	src/editor/model/import_sheet_model.cpp
 	src/editor/services/editor_cmd.cpp
 	src/editor/panels/editor_menu.cpp
