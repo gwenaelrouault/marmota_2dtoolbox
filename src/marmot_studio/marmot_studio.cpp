@@ -17,6 +17,8 @@
 constexpr int WIN_WIDTH = 1280;
 constexpr int WIN_HEIGHT= 720;
 
+using namespace marmot;
+
 int main(int argc, char** argv) {
     // parse arguments ========================================================
     CLI::App app{"GWEN 2D"};
@@ -49,9 +51,9 @@ int main(int argc, char** argv) {
     ImGuiIO& io = ImGui::GetIO(); 
 
     // init editor ============================================================
-    auto db = std::make_shared<marmot::AssetsDB>(logger, workdir_path);
+    auto db = std::make_shared<marmota::AssetsDB>(logger, workdir_path);
     auto worker = std::make_shared<marmot::Worker>();
-    auto editor = std::make_unique<marmot::MainPanel>(renderer, io, logger, worker, workdir_path, db);
+    auto editor = std::make_unique<studio::MainPanel>(renderer, io, logger, worker, workdir_path, db);
 
     // main loop   ============================================================
     bool done = false;

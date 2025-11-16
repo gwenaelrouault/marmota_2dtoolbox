@@ -9,13 +9,13 @@
 #include "imgui_impl_sdlrenderer2.h"
 #include "assets_db.h"
 #include "editor_cmd.h"
-#include "editor_model.h"
+#include "editor_sprites.h"
 #include "editor_import_sheet_panel.h"
 #include "worker.h"
 
 using namespace std;
 
-namespace marmot
+namespace marmot::studio
 {
 
     class MainPanel
@@ -23,7 +23,7 @@ namespace marmot
     public:
         void display();
 
-        MainPanel(SDL_Renderer *renderer, ImGuiIO &io, log4cpp::Category &logger, std::shared_ptr<Worker> &worker, std::filesystem::path &path, std::shared_ptr<AssetsDB> &db) : _renderer(renderer),
+        MainPanel(SDL_Renderer *renderer, ImGuiIO &io, log4cpp::Category &logger, std::shared_ptr<Worker> &worker, std::filesystem::path &path, std::shared_ptr<marmota::AssetsDB> &db) : _renderer(renderer),
                                                                                                                                                                                  _io(io),
                                                                                                                                                                                  _logger(logger),
                                                                                                                                                                                  _worker(worker),
@@ -44,7 +44,7 @@ namespace marmot
         log4cpp::Category &_logger;
         shared_ptr<Worker> _worker;
         filesystem::path _workdir;
-        shared_ptr<AssetsDB> &_db;
+        shared_ptr<marmota::AssetsDB> &_db;
         unique_ptr<Cmd> _cmd;
         unique_ptr<EditorModel> _edModel;
         unique_ptr<ImportSheetPanel> _import_sheet_panel;

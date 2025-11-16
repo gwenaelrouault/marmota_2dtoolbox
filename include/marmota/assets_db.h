@@ -10,12 +10,12 @@
 
 using namespace std;
 
-namespace marmot
+namespace marmot::marmota
 {
     class AssetsDB
     {
     public:
-        AssetsDB(log4cpp::Category &logger, std::filesystem::path &path) : _logger(logger), _workdir(path), _db_assets(nullptr), _db_metadata(nullptr), _name(nullopt) {}
+        AssetsDB(log4cpp::Category &logger, const std::string &path) : _logger(logger), _workdir(path), _db_assets(nullptr), _db_metadata(nullptr), _name(nullopt) {}
         virtual ~AssetsDB() {}
         void create(const std::string &name);
         void close();

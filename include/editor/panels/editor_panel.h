@@ -4,7 +4,7 @@
 #include "imgui_impl_sdlrenderer2.h"
 #include "worker.h"
 
-namespace marmot
+namespace marmot::studio
 {
     class EditorPanel
     {

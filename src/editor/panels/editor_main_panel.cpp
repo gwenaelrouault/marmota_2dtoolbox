@@ -1,7 +1,7 @@
 #include "editor_main_panel.h"
 #include "ImGuiFileDialog.h"
 
-using namespace marmot;
+using namespace marmot::studio;
 
 void MainPanel::display()
 {

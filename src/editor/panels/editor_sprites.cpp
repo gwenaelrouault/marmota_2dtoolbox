@@ -1,6 +1,6 @@
-#include "editor_model.h"
+#include "editor_sprites.h"
 
-using namespace marmot;
+using namespace marmot::studio;
 
 void draw_editable_header(EditableHeader *header)
 {

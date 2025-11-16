@@ -3,6 +3,7 @@ project(gwen2d VERSION 0.1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_EXPERIMENTAL_CXX_MODULE_CMAKE_API ON)
 
 find_package(PkgConfig REQUIRED)
 find_package(SDL2 REQUIRED)
@@ -25,17 +26,19 @@ add_executable(marmot_studio
     imgui/backends/imgui_impl_sdl2.cpp
     imgui/backends/imgui_impl_sdlrenderer2.cpp
 	imgui/ImGuiFileDialog.cpp
+	src/marmota/assets_db.cpp
 	src/model/state.cpp
 	src/model/sprite.cpp
 	src/model/model.cpp
-	src/model/import_sheet_model.cpp
 	src/async/worker.cpp
 	src/async/import_sheet.cpp
-	src/editor/editor_import_sheet_panel.cpp
-	src/editor/editor_main_panel.cpp
+	src/editor/model/import_sheet_model.cpp
+	src/editor/panels/editor_menu.cpp
+	src/editor/panels/editor_import_sheet_panel.cpp
+	src/editor/panels/editor_sprites.cpp
+	src/editor/panels/editor_main_panel.cpp
 	src/editor/editor_cmd.cpp
-	src/editor/editor_model.cpp
-	src/editor/editor.cpp
+	src/marmot_studio/marmot_studio.cpp
 )
 
 add_executable(marmot_baby
@@ -53,8 +56,10 @@ include_directories(
 	include
 	include/utils
 	include/editor
+	include/editor/model
+	include/editor/panels
 	include/model
-	include/db
+	include/marmota
 	include/async
 )
 

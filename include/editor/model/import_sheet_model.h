@@ -26,7 +26,7 @@ namespace marmot
 
         void update_tiles(vector<SurfacePtr>& tiles, const string& filename, int width, int height);
 
-        std::vector<SurfacePtr> get_tiles();
+        void get_tiles(SDL_Renderer* renderer, vector<TexturePtr>& tiles);
 
         int get_width();
 

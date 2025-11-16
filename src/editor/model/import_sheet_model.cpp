@@ -21,10 +21,14 @@ void ImportSheetModel::update_tiles(vector<SurfacePtr> &tiles, const string& fil
     }
 }
 
-vector<SurfacePtr> ImportSheetModel::get_tiles()
+ void ImportSheetModel::get_tiles(SDL_Renderer* renderer, vector<TexturePtr>& tiles)
 {
     lock_guard<std::mutex> lock(_mutex);
-    return _tiles;
+    for (auto &t : _tiles)
+    {
+        auto tex = SDL_CreateTextureFromSurface(renderer, t.get());
+        tiles.push_back(std::move(make_texture(tex)));
+    }
 }
 
 int ImportSheetModel::get_width() {

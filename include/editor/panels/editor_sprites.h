@@ -4,7 +4,7 @@
 #include <imgui.h>
 #include <log4cpp/Category.hh>
 
-namespace marmot
+namespace marmot::studio
 {
     struct EditableHeader
     {

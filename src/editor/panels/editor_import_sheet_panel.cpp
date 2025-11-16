@@ -4,7 +4,7 @@
 #include "imgui.h"
 #include "ImGuiFileDialog.h"
 
-using namespace marmot;
+using namespace marmot::studio;
 using namespace std;
 
 void ImportSheetPanel::display()
@@ -73,27 +73,18 @@ void ImportSheetPanel::display_sheet()
     int h_tile = _model->get_height();
     int count_col = avail_w / w_tile;
     int col = 0;
-    vector<SurfacePtr> tiles = _model->get_tiles();
     _tiles.clear();
-    for (auto &t : tiles)
+    _model->get_tiles(_renderer, _tiles);
+    for (auto &texture : _tiles)
     {
-        auto tex = SDL_CreateTextureFromSurface(_renderer, t.get());
-        if (tex != nullptr)
+        ImGui::Image((void *)texture.get(), ImVec2(w_tile, h_tile));
+        if (++col < count_col)
         {
-            auto texture = make_texture(tex);
-            _tiles.push_back(texture);
-            ImGui::Image((void *)texture.get(), ImVec2(w_tile, h_tile));
-            if (++col < count_col)
-            {
-                ImGui::SameLine();
-            }
-            else
-            {
-                col = 0;
-            }
+            ImGui::SameLine();
         }
-        else {
-            //_logger.infoStream() << "GUI:ImportSheetPanel:Error:" << SDL_GetError();
+        else
+        {
+            col = 0;
         }
     }
 }
