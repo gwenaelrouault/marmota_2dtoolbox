@@ -1,6 +1,6 @@
 #include "import_sheet_model.h"
 
-using namespace marmot;
+using namespace marmot::studio;
 
 optional<filesystem::path> &ImportSheetModel::get_path()
 {

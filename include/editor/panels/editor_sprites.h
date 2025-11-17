@@ -1,8 +1,8 @@
-#include <string>
-#include <vector>
+#pragma once
+
+#include "editor_state.h"
+#include "editor_sprites.h"
 #include <memory>
-#include <imgui.h>
-#include <log4cpp/Category.hh>
 
 namespace marmot::studio
 {
@@ -14,16 +14,19 @@ namespace marmot::studio
         char buffer[128]{};
     };
 
-    class EditorModel
+    class SpritesPanel : public EditorPanel
     {
     public:
-        EditorModel(log4cpp::Category &logger) : _logger(logger) {}
-        virtual ~EditorModel() {}
-        void display();
+        SpritesPanel(log4cpp::Category &logger, shared_ptr<Worker> &worker, SDL_Renderer *renderer, ImGuiIO &io) : EditorPanel(logger, worker, renderer, io),
+            _state_panel(make_unique<StatePanel>(logger, worker, renderer, io)) {}
+        virtual ~SpritesPanel() {}
+        virtual void display();
 
     private:
-        log4cpp::Category &_logger;
+        void draw_editable_header(EditableHeader *header);
+
         std::vector < std::unique_ptr <EditableHeader> > _sprites;
+        std::unique_ptr<StatePanel> _state_panel;
     };
 
 }

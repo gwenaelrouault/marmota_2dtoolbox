@@ -2,7 +2,31 @@
 
 using namespace marmot::studio;
 
-void draw_editable_header(EditableHeader *header)
+void SpritesPanel::display()
+{
+    ImGui::TextUnformatted("Ajouter / supprimer des sprites");
+    ImGui::SameLine();
+    float full_width = ImGui::GetContentRegionAvail().x;
+    float button_size = ImGui::GetFrameHeight();
+    float spacing = ImGui::GetStyle().ItemSpacing.x;
+    float total_buttons_width = button_size * 2 + spacing;
+    ImGui::SetCursorPosX(ImGui::GetCursorPosX() + full_width - total_buttons_width);
+    if (ImGui::Button("+", ImVec2(button_size, button_size)))
+    {
+        _sprites.push_back(std::make_unique<EditableHeader>("Nouveau"));
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("-", ImVec2(button_size, button_size)))
+    {
+    }
+
+    for (const auto &sprite : _sprites)
+    {
+        draw_editable_header(sprite.get());
+    }
+}
+
+void SpritesPanel::draw_editable_header(EditableHeader *header)
 {
     ImGui::PushID(header);
     if (header->editing)
@@ -42,49 +66,9 @@ void draw_editable_header(EditableHeader *header)
     }
     if (open)
     {
-        ImGuiTreeNodeFlags flag = ImGuiTreeNodeFlags_DefaultOpen;
-        if (ImGui::TreeNodeEx("Etats", flag))
-        {
-            ImGui::SameLine();
-            float full_width = ImGui::GetContentRegionAvail().x;
-            float button_size = ImGui::GetFrameHeight();
-            float spacing = ImGui::GetStyle().ItemSpacing.x;
-            float total_buttons_width = button_size * 2 + spacing;
-            ImGui::SetCursorPosX(ImGui::GetCursorPosX() + full_width - total_buttons_width);
-            if (ImGui::Button("+", ImVec2(button_size, button_size)))
-            {
-                
-            }
-            ImGui::SameLine();
-            if (ImGui::Button("-", ImVec2(button_size, button_size)))
-            {
-            }
-            ImGui::TreePop();
-        }
+        _state_panel->display();
     }
     ImGui::PopID();
 }
 
-void EditorModel::display()
-{
-    ImGui::TextUnformatted("Ajouter / supprimer des sprites");
-    ImGui::SameLine();
-    float full_width = ImGui::GetContentRegionAvail().x;
-    float button_size = ImGui::GetFrameHeight();
-    float spacing = ImGui::GetStyle().ItemSpacing.x;
-    float total_buttons_width = button_size * 2 + spacing;
-    ImGui::SetCursorPosX(ImGui::GetCursorPosX() + full_width - total_buttons_width);
-    if (ImGui::Button("+", ImVec2(button_size, button_size)))
-    {
-        _sprites.push_back(std::make_unique<EditableHeader>("Nouveau"));
-    }
-    ImGui::SameLine();
-    if (ImGui::Button("-", ImVec2(button_size, button_size)))
-    {
-    }
 
-    for (const auto &sprite : _sprites)
-    {
-        draw_editable_header(sprite.get());
-    }
-}

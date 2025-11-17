@@ -21,7 +21,7 @@ void MainPanel::display()
     ImGui::BeginTabBar("Settings#left_tabs_bar");
     if (ImGui::BeginTabItem("Sprites"))
     {
-        _edModel->display();
+        _sprites_panel->display();
         ImGui::EndTabItem();
     }
     if (ImGui::BeginTabItem("map"))

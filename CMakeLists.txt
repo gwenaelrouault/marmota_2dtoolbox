@@ -32,11 +32,14 @@ add_executable(marmot_studio
 	src/model/model.cpp
 	src/async/worker.cpp
 	src/editor/services/import_sheet.cpp
+	src/editor/model/entity.cpp
+	src/editor/model/sprites_model.cpp
 	src/editor/model/import_sheet_model.cpp
 	src/editor/services/editor_cmd.cpp
 	src/editor/panels/editor_menu.cpp
 	src/editor/panels/editor_import_sheet_panel.cpp
 	src/editor/panels/editor_sprites.cpp
+	src/editor/panels/editor_state.cpp
 	src/editor/panels/editor_main_panel.cpp
 	src/editor/editor.cpp
 	src/marmot_studio/marmot_studio.cpp
@@ -101,9 +104,7 @@ target_link_libraries(marmot_studio PRIVATE
 	${SDL2_IMAGE_LIBRARIES}
 	${SQLite3_LIBRARIES}
 	${cxxopts_LIBRARIES}
-	OpenGL::GL
 	log4cpp
-    ${CLI11_LIBRARIES}
 	${ROCKSDB_LIB}
 	${YAML_CPP_LIBRARIES}
 )

@@ -1,7 +1,7 @@
 #include "import_sheet.h"
 #include "sdl_utils.h"
 
-using namespace marmot;
+using namespace marmot::studio;
 
 void ImportSheetCallback::onSuccess()
 {

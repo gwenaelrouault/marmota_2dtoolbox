@@ -9,7 +9,7 @@
 
 using namespace std;
 
-namespace marmot
+namespace marmot::studio
 {
 
     constexpr int DEFAULT_SPRITE_SIZE = 32;
