@@ -1,6 +1,8 @@
 #pragma once
 
 #include <string>
+#include <vector>
+#include "sdl_utils.h"
 
 using namespace std;
 
@@ -24,5 +26,6 @@ namespace marmot::studio
         string _name;
         int _width;
         int _height;
+        vector<SurfacePtr> _frames;
     };
 }
