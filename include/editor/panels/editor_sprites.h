@@ -1,32 +1,26 @@
 #pragma once
 
-#include "editor_state.h"
 #include "editor_sprites.h"
+#include "sprites_model.h"
+#include "editor_panel.h"
 #include <memory>
 
 namespace marmot::studio
 {
-    struct EditableHeader
-    {
-        std::string name = "Ma section";
-        bool editing = false;
-        bool requestFocus = false;
-        char buffer[128]{};
-    };
-
     class SpritesPanel : public EditorPanel
     {
     public:
-        SpritesPanel(log4cpp::Category &logger, shared_ptr<Worker> &worker, SDL_Renderer *renderer, ImGuiIO &io) : EditorPanel(logger, worker, renderer, io),
-            _state_panel(make_unique<StatePanel>(logger, worker, renderer, io)) {}
+        SpritesPanel(log4cpp::Category &logger, shared_ptr<Worker> &worker, SDL_Renderer *renderer, ImGuiIO &io, shared_ptr<SpritesModel> &sprites_model) : EditorPanel(logger, worker, renderer, io),
+             _sprites(sprites_model) {}
         virtual ~SpritesPanel() {}
         virtual void display();
 
     private:
-        void draw_editable_header(EditableHeader *header);
+        void display_entity(Entity *entity);
+        void display_states(Entity *entity);
+        void display_state(EntityState* state);
 
-        std::vector < std::unique_ptr <EditableHeader> > _sprites;
-        std::unique_ptr<StatePanel> _state_panel;
+        shared_ptr<SpritesModel> & _sprites;
     };
 
 }

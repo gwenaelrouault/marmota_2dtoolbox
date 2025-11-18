@@ -13,62 +13,114 @@ void SpritesPanel::display()
     ImGui::SetCursorPosX(ImGui::GetCursorPosX() + full_width - total_buttons_width);
     if (ImGui::Button("+", ImVec2(button_size, button_size)))
     {
-        _sprites.push_back(std::make_unique<EditableHeader>("Nouveau"));
+        _sprites->create_sprite();
     }
     ImGui::SameLine();
     if (ImGui::Button("-", ImVec2(button_size, button_size)))
     {
+        _sprites->remove_sprite();
     }
-
-    for (const auto &sprite : _sprites)
+    for (const auto &sprite : _sprites->get_sprites())
     {
-        draw_editable_header(sprite.get());
+        display_entity(sprite.get());
     }
 }
 
-void SpritesPanel::draw_editable_header(EditableHeader *header)
+void SpritesPanel::display_entity(Entity *entity)
 {
-    ImGui::PushID(header);
-    if (header->editing)
+    ImGui::PushID(entity);
+    if (entity->is_editing())
     {
         ImGui::SetNextItemWidth(-1);
-        if (header->requestFocus)
+        if (entity->is_requested_focus())
         {
             ImGui::SetKeyboardFocusHere();
-            header->requestFocus = false;
+            entity->set_request_focus(false);
         }
-        if (ImGui::InputText("##edit", header->buffer, IM_ARRAYSIZE(header->buffer),
+        if (ImGui::InputText("##edit", entity->_buffer, IM_ARRAYSIZE(entity->_buffer),
                              ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
         {
             ImGui::SetKeyboardFocusHere();
-            header->name = header->buffer;
-            header->editing = false;
+            entity->set_name(entity->_buffer);
+            entity->set_editing(false);
         }
         if (!ImGui::IsItemActive() && !ImGui::IsItemHovered())
         {
-            header->name = header->buffer;
-            header->editing = false;
+            entity->set_name(entity->_buffer);
+            entity->set_editing(false);
         }
         ImGui::PopID();
         return;
     }
 
-    bool open = ImGui::CollapsingHeader(header->name.c_str(),
+    bool open = ImGui::CollapsingHeader(entity->getName().c_str(),
                                         ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_SpanAvailWidth);
 
     if (ImGui::IsItemFocused() && ImGui::IsKeyPressed(ImGuiKey_Enter))
     {
-        header->editing = true;
-        header->requestFocus = true;
-        std::snprintf(header->buffer, sizeof(header->buffer), "%s", header->name.c_str());
+        entity->set_editing(true);
+        entity->set_request_focus(true);
+        std::snprintf(entity->_buffer, sizeof(entity->_buffer), "%s", entity->getName().c_str());
         ImGui::PopID();
         return;
     }
     if (open)
     {
-        _state_panel->display();
+        display_states(entity);
     }
     ImGui::PopID();
 }
 
+void SpritesPanel::display_states(Entity *entity)
+{
+    ImGuiTreeNodeFlags flag = ImGuiTreeNodeFlags_DefaultOpen;
+    if (ImGui::TreeNodeEx("Etats", flag))
+    {
+        ImGui::SameLine();
+        float full_width = ImGui::GetContentRegionAvail().x;
+        float button_size = ImGui::GetFrameHeight();
+        float spacing = ImGui::GetStyle().ItemSpacing.x;
+        float total_buttons_width = button_size * 2 + spacing;
+        ImGui::SetCursorPosX(ImGui::GetCursorPosX() + full_width - total_buttons_width);
+        if (ImGui::Button("+", ImVec2(button_size, button_size)))
+        {
+            entity->create_new_state();
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("-", ImVec2(button_size, button_size)))
+        {
+            entity->remove_state();
+        }
+        for (const auto &state : entity->get_states())
+        {
+            display_state(state.get());
+        }
+        ImGui::TreePop();
+    }
+}
 
+void SpritesPanel::display_state(EntityState *state)
+{
+    ImGuiTreeNodeFlags flag = ImGuiTreeNodeFlags_DefaultOpen;
+    if (ImGui::TreeNodeEx(state->get_name().c_str(), flag))
+    {
+        static int width = 0;
+        static int height = 0;
+        ImGui::TextUnformatted("size");
+        ImGui::SameLine();
+
+        ImGui::TextUnformatted("Width");
+        ImGui::SameLine();
+        ImGui::SetNextItemWidth(100);
+        ImGui::InputInt("##width", &width);
+
+        ImGui::SameLine();
+        ImGui::TextUnformatted("Height");
+        ImGui::SameLine();
+        ImGui::SetNextItemWidth(100);
+        ImGui::InputInt("##height", &height);
+        state->set_height(height);
+        state->set_width(width);
+        ImGui::TreePop();
+    }
+}

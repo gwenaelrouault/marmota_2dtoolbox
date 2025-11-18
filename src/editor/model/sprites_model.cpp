@@ -14,3 +14,7 @@ void SpritesModel::create_sprite() {
 void SpritesModel::remove_sprite() {
     _sprites.pop_back();
 }
+
+vector<unique_ptr<Entity>>& SpritesModel::get_sprites() {
+    return _sprites;
+}

@@ -40,7 +40,7 @@ namespace marmot::studio
                                                          _workdir(path),
                                                          _db(db),
                                                          _cmd(make_unique<Cmd>(logger)),
-                                                         _sprites_panel(make_unique<SpritesPanel>(logger, worker, renderer, io)),
+                                                         _sprites_panel(make_unique<SpritesPanel>(logger, worker, renderer, io,sprites_model)),
                                                          _import_sheet_panel(make_unique<ImportSheetPanel>(logger, worker, renderer, io, sheet_model)) {}
         virtual ~MainPanel() {}
 

@@ -19,6 +19,8 @@ namespace marmot::studio
 
         void remove_sprite();
 
+        vector<unique_ptr<Entity>>& get_sprites();
+
     private:
         vector<unique_ptr<Entity>> _sprites;
     };
