@@ -19,6 +19,7 @@ namespace marmot::studio
         void display_entity(Entity *entity);
         void display_states(Entity *entity);
         void display_state(EntityState* state);
+        void display_state_frames(EntityState *state);
 
         shared_ptr<SpritesModel> & _sprites;
     };

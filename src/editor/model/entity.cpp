@@ -10,6 +10,7 @@ void Entity::add_state(unique_ptr<EntityState> &item)
 void Entity::create_new_state()
 {
     auto new_state = make_unique<EntityState>(to_string(_index++));
+    
     add_state(new_state);
 }
 

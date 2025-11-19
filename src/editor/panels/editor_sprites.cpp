@@ -101,11 +101,12 @@ void SpritesPanel::display_states(Entity *entity)
 
 void SpritesPanel::display_state(EntityState *state)
 {
+    ImGui::Separator();
     ImGuiTreeNodeFlags flag = ImGuiTreeNodeFlags_DefaultOpen;
     if (ImGui::TreeNodeEx(state->get_name().c_str(), flag))
     {
-        static int width = 0;
-        static int height = 0;
+        static int width = 32;
+        static int height = 32;
         ImGui::TextUnformatted("size");
         ImGui::SameLine();
 
@@ -125,14 +126,43 @@ void SpritesPanel::display_state(EntityState *state)
         float button_size = ImGui::GetFrameHeight();
         float spacing = ImGui::GetStyle().ItemSpacing.x;
         float total_buttons_width = button_size * 2 + spacing;
-        ImGui::SetCursorPosX(ImGui::GetCursorPosX() + full_width - total_buttons_width); 
+        ImGui::SetCursorPosX(ImGui::GetCursorPosX() + full_width - total_buttons_width);
         if (ImGui::Button("+", ImVec2(button_size, button_size)))
         {
+            _logger.infoStream() << "EDITOR:create_frame (" << state->get_width() << "," << state->get_height() << ")";
+            state->create_frame(_renderer);
         }
         ImGui::SameLine();
         if (ImGui::Button("-", ImVec2(button_size, button_size)))
         {
+            _logger.infoStream() << "EDITOR:remove_frame";
+            state->remove_frame();
         }
+        display_state_frames(state);
+        ImGui::Checkbox("loop", &state->_loop);
+        ImGui::Checkbox("Frames speed", &state->_frame_speed);
+        ImGui::SameLine();
+
+        ImGui::TextUnformatted("Width");
+        ImGui::SameLine();
+        ImGui::SetNextItemWidth(100);
+        ImGui::InputInt("##width", &state->_speed, 10);
         ImGui::TreePop();
+    }
+}
+
+void SpritesPanel::display_state_frames(EntityState *state)
+{
+    auto& frames = state->get_frames();
+    int count_frames = frames.size();
+    int frame_index = 1;
+    for (auto &tex : frames)
+    {
+        _logger.infoStream() << "EDITOR:frame "<< frame_index;
+        ImGui::Image((void *)tex.get(), ImVec2(state->get_width(), state->get_height()));
+        if (frame_index++ < count_frames)
+        {
+            ImGui::SameLine();
+        }
     }
 }
