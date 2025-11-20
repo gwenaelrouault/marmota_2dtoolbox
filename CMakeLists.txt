@@ -27,9 +27,9 @@ add_executable(marmot_studio
     imgui/backends/imgui_impl_sdlrenderer2.cpp
 	imgui/ImGuiFileDialog.cpp
 	src/marmota/assets_db.cpp
-	src/model/state.cpp
-	src/model/sprite.cpp
-	src/model/model.cpp
+	src/marmota/model/state.cpp
+	src/marmota/model/sprite.cpp
+	src/marmota/model/model.cpp
 	src/async/worker.cpp
 	src/marmot_studio/editor/services/import_sheet.cpp
 	src/marmot_studio/editor/model/entity.cpp
@@ -63,7 +63,7 @@ include_directories(
 	include/marmot_studio/editor/model
 	include/marmot_studio/editor/panels
 	include/marmot_studio/editor/services
-	include/model
+	include/marmota/model
 	include/marmota
 	include/async
 )
