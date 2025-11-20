@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace marmot
+namespace marmot::marmota
 {
     class Sprite
     {

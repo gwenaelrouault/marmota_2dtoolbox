@@ -4,7 +4,7 @@
 #include <vector>
 #include "sprite.h"
 
-namespace marmot
+namespace marmot::marmota
 {
     class Model
     {
