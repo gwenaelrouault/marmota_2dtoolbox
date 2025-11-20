@@ -143,23 +143,37 @@ void SpritesPanel::display_state(EntityState *state)
         ImGui::Checkbox("Frames speed", &state->_frame_speed);
         ImGui::SameLine();
 
-        ImGui::TextUnformatted("Width");
+        ImGui::TextUnformatted("speed");
         ImGui::SameLine();
         ImGui::SetNextItemWidth(100);
-        ImGui::InputInt("##width", &state->_speed, 10);
+        ImGui::InputInt("##state_speed", &state->_speed, 10);
         ImGui::TreePop();
     }
 }
 
 void SpritesPanel::display_state_frames(EntityState *state)
 {
-    auto& frames = state->get_frames();
+    auto &frames = state->get_frames();
     int count_frames = frames.size();
     int frame_index = 1;
     for (auto &tex : frames)
     {
-        _logger.infoStream() << "EDITOR:frame "<< frame_index;
         ImGui::Image((void *)tex.get(), ImVec2(state->get_width(), state->get_height()));
+
+        if (ImGui::BeginDragDropTarget())
+        {
+            if (const ImGuiPayload *payload = ImGui::AcceptDragDropPayload("FRAME_INDEX"))
+            {
+                IM_ASSERT(payload->DataSize == sizeof(DragImagePayload));
+                const DragImagePayload *data = (const DragImagePayload *)payload->Data;
+
+                int src_panel = data->panel_id;
+                int src_index = data->index;
+                auto src_tex = make_texture(data->texture);
+                state->replace_frame(src_tex, frame_index - 1);
+            }
+            ImGui::EndDragDropTarget();
+        }
         if (frame_index++ < count_frames)
         {
             ImGui::SameLine();

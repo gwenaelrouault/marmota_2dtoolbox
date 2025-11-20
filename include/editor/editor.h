@@ -12,7 +12,7 @@ namespace marmot::studio
     {
     public:
         Editor(SDL_Renderer *renderer, ImGuiIO &io, log4cpp::Category &logger, std::shared_ptr<Worker> &worker, std::filesystem::path &path, std::shared_ptr<marmota::AssetsDB> &db)
-            : EditorPanel(logger, worker, renderer, io)
+            : EditorPanel(0, logger, worker, renderer, io)
         {
             _sheet_model = make_shared<ImportSheetModel>();
             _sprites_model = make_shared<SpritesModel>();

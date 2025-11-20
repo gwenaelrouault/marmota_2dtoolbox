@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
 
     // init SDL ===============================================================
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER);
-    SDL_Window* window = SDL_CreateWindow("ImGui SDL2 Renderer", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIN_WIDTH, WIN_HEIGHT, 0);
+    SDL_Window* window = SDL_CreateWindow("Marmot Studio", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIN_WIDTH, WIN_HEIGHT, 0);
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
         std::cerr << "Erreur SDL_image: " << IMG_GetError() << "\n";

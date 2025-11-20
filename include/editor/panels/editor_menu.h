@@ -6,7 +6,7 @@ namespace marmot::studio {
     class MainMenu : public EditorPanel
     {
     public:
-        MainMenu(log4cpp::Category &logger, shared_ptr<Worker> &worker, SDL_Renderer *renderer, ImGuiIO &io) : EditorPanel(logger, worker, renderer, io) {}
+        MainMenu(log4cpp::Category &logger, shared_ptr<Worker> &worker, SDL_Renderer *renderer, ImGuiIO &io) : EditorPanel(MAIN_MENU, logger, worker, renderer, io) {}
         virtual ~MainMenu() {}
 
         virtual void display();

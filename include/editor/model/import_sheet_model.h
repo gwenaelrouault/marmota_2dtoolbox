@@ -18,7 +18,7 @@ namespace marmot::studio
     {
     public:
 
-        ImportSheetModel() : _path(nullopt), _width(DEFAULT_SPRITE_SIZE), _height(DEFAULT_SPRITE_SIZE) {}
+        ImportSheetModel() : _path(nullopt), _width(DEFAULT_SPRITE_SIZE), _height(DEFAULT_SPRITE_SIZE), _updated(false) {}
 
         virtual ~ImportSheetModel() {}
 
@@ -32,11 +32,14 @@ namespace marmot::studio
 
         int get_height();
 
+        bool updated();
+
     private:
         optional<filesystem::path> _path;
-        vector<SurfacePtr> _tiles;
         int _width;
         int _height;
+        bool _updated;
+        vector<SurfacePtr> _tiles;
         mutex _mutex;
     };
 }

@@ -10,7 +10,7 @@ namespace marmot::studio
     class SpritesPanel : public EditorPanel
     {
     public:
-        SpritesPanel(log4cpp::Category &logger, shared_ptr<Worker> &worker, SDL_Renderer *renderer, ImGuiIO &io, shared_ptr<SpritesModel> &sprites_model) : EditorPanel(logger, worker, renderer, io),
+        SpritesPanel(log4cpp::Category &logger, shared_ptr<Worker> &worker, SDL_Renderer *renderer, ImGuiIO &io, shared_ptr<SpritesModel> &sprites_model) : EditorPanel(SPRITES_PANEL, logger, worker, renderer, io),
              _sprites(sprites_model) {}
         virtual ~SpritesPanel() {}
         virtual void display();

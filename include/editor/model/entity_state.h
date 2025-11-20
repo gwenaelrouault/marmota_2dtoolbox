@@ -28,6 +28,8 @@ namespace marmot::studio
 
         vector<TexturePtr> &get_frames();
 
+        void replace_frame(TexturePtr img, int index);
+
         bool _loop;
         bool _frame_speed;
         int _speed;

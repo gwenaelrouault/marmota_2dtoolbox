@@ -42,3 +42,7 @@ void EntityState::remove_frame() {
 vector<TexturePtr> &EntityState::get_frames() {
     return _frames;
 }
+
+void EntityState::replace_frame(TexturePtr img, int index) {
+    _frames.at(index).swap(img);
+}

@@ -74,8 +74,10 @@ void ImportSheetPanel::display_sheet()
     int count_col = avail_w / w_tile;
     int col = 0;
     int index = 0;
-    _tiles.clear();
-    _model->get_tiles(_renderer, _tiles);
+    if (_model->updated()) {
+        _tiles.clear();
+        _model->get_tiles(_renderer, _tiles);
+    }
     for (auto &texture : _tiles)
     {
         display_sheet_tile(texture, ++index, w_tile, h_tile);
@@ -93,8 +95,12 @@ void ImportSheetPanel::display_sheet()
 void ImportSheetPanel::display_sheet_tile(TexturePtr& tile, int index, int width, int height) {
     ImGui::Image((void *)tile.get(), ImVec2(width, height));
     if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID)) {
+        DragImagePayload payload;
+        payload.panel_id = _num_panel;
+        payload.index    = index;
+        payload.texture  = tile.get();
         string id = "SP_IMG" + to_string(index);
-        ImGui::SetDragDropPayload(id.c_str(), &index, sizeof(int));
+        ImGui::SetDragDropPayload("FRAME_INDEX", &payload, sizeof(payload));
         ImGui::Image((ImTextureID)tile.get(), ImVec2(width, height));
         ImGui::EndDragDropSource();
     }

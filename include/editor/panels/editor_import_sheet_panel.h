@@ -11,7 +11,7 @@ namespace marmot::studio
     class ImportSheetPanel : public EditorPanel
     {
     public:
-        ImportSheetPanel(log4cpp::Category &logger, shared_ptr<Worker> &worker, SDL_Renderer *renderer, ImGuiIO &io, shared_ptr<ImportSheetModel>& sheet_model) : EditorPanel(logger, worker, renderer, io),
+        ImportSheetPanel(log4cpp::Category &logger, shared_ptr<Worker> &worker, SDL_Renderer *renderer, ImGuiIO &io, shared_ptr<ImportSheetModel>& sheet_model) : EditorPanel(IMPORT_SHEET_PANEL, logger, worker, renderer, io),
                                                                                                                        _model(sheet_model),
                                                                                                                        _width(DEFAULT_SPRITE_SIZE), _height(DEFAULT_SPRITE_SIZE) {}
         virtual ~ImportSheetPanel() {}
