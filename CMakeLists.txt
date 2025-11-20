@@ -31,17 +31,17 @@ add_executable(marmot_studio
 	src/model/sprite.cpp
 	src/model/model.cpp
 	src/async/worker.cpp
-	src/editor/services/import_sheet.cpp
-	src/editor/model/entity.cpp
-	src/editor/model/entity_state.cpp
-	src/editor/model/sprites_model.cpp
-	src/editor/model/import_sheet_model.cpp
-	src/editor/services/editor_cmd.cpp
-	src/editor/panels/editor_menu.cpp
-	src/editor/panels/editor_import_sheet_panel.cpp
-	src/editor/panels/editor_sprites.cpp
-	src/editor/panels/editor_main_panel.cpp
-	src/editor/editor.cpp
+	src/marmot_studio/editor/services/import_sheet.cpp
+	src/marmot_studio/editor/model/entity.cpp
+	src/marmot_studio/editor/model/entity_state.cpp
+	src/marmot_studio/editor/model/sprites_model.cpp
+	src/marmot_studio/editor/model/import_sheet_model.cpp
+	src/marmot_studio/editor/services/editor_cmd.cpp
+	src/marmot_studio/editor/panels/editor_menu.cpp
+	src/marmot_studio/editor/panels/editor_import_sheet_panel.cpp
+	src/marmot_studio/editor/panels/editor_sprites.cpp
+	src/marmot_studio/editor/panels/editor_main_panel.cpp
+	src/marmot_studio/editor/editor.cpp
 	src/marmot_studio/marmot_studio.cpp
 )
 
@@ -59,10 +59,10 @@ add_executable(marmot_baby
 include_directories(
 	include
 	include/utils
-	include/editor
-	include/editor/model
-	include/editor/panels
-	include/editor/services
+	include/marmot_studio/editor
+	include/marmot_studio/editor/model
+	include/marmot_studio/editor/panels
+	include/marmot_studio/editor/services
 	include/model
 	include/marmota
 	include/async
