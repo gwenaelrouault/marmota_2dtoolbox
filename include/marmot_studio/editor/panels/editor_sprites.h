@@ -7,6 +7,9 @@
 
 namespace marmot::studio
 {
+
+    constexpr size_t INPUT_BUFFER_SIZE = 128;
+
     class SpritesPanel : public EditorPanel
     {
     public:
@@ -21,7 +24,12 @@ namespace marmot::studio
         void display_state(EntityState* state);
         void display_state_frames(EntityState *state);
 
+        bool input_state_name(EntityState *state);
+        bool input_size(EntityState *state);
+
         shared_ptr<SpritesModel> & _sprites;
+        char _input_buf[INPUT_BUFFER_SIZE];
+
     };
 
 }

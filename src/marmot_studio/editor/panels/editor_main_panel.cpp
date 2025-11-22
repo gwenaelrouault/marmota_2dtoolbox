@@ -21,6 +21,12 @@ void MainPanel::display()
     ImGui::BeginTabBar("Settings#left_tabs_bar");
     if (ImGui::BeginTabItem("Sprites"))
     {
+        string project_name = "PROJECT:";
+        if (_menu_model->_filename.has_value()) {
+            project_name += _menu_model->_filename.value().filename();
+        }
+        ImGui::TextUnformatted(project_name.c_str());
+        ImGui::Separator();
         _sprites_panel->display();
         ImGui::EndTabItem();
     }

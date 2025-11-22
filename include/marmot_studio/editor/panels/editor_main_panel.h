@@ -14,6 +14,7 @@
 #include "worker.h"
 #include "import_sheet_model.h"
 #include "sprites_model.h"
+#include "menu_model.h"
 
 using namespace std;
 
@@ -33,14 +34,16 @@ namespace marmot::studio
             std::filesystem::path &path,
             std::shared_ptr<marmota::AssetsDB> &db,
             shared_ptr<SpritesModel> &sprites_model,
-            shared_ptr<ImportSheetModel> &sheet_model) : _renderer(renderer),
+            shared_ptr<ImportSheetModel> &sheet_model,
+            shared_ptr<MenuModel>& menu_model) : _renderer(renderer),
                                                          _io(io),
                                                          _logger(logger),
                                                          _worker(worker),
                                                          _workdir(path),
                                                          _db(db),
                                                          _cmd(make_unique<Cmd>(logger)),
-                                                         _sprites_panel(make_unique<SpritesPanel>(logger, worker, renderer, io,sprites_model)),
+                                                         _menu_model(menu_model),
+                                                         _sprites_panel(make_unique<SpritesPanel>(logger, worker, renderer, io, sprites_model)),
                                                          _import_sheet_panel(make_unique<ImportSheetPanel>(logger, worker, renderer, io, sheet_model)) {}
         virtual ~MainPanel() {}
 
@@ -52,6 +55,7 @@ namespace marmot::studio
         filesystem::path _workdir;
         shared_ptr<marmota::AssetsDB> &_db;
         unique_ptr<Cmd> _cmd;
+        shared_ptr<MenuModel>& _menu_model;
         unique_ptr<SpritesPanel> _sprites_panel;
         unique_ptr<ImportSheetPanel> _import_sheet_panel;
     };

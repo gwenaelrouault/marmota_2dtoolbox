@@ -4,6 +4,23 @@ using namespace marmot::marmota;
 
 namespace fs = std::filesystem;
 
+struct SQLiteDeleter {
+    void operator()(sqlite3* db) const noexcept {
+        if (db) sqlite3_close(db);
+    }
+};
+
+void AssetsDB::open(const filesystem::path& path) {
+    _logger.infoStream() << "MARMOTA:DB:open " << path;
+    sqlite3 *index_db = nullptr;
+    int rc = sqlite3_open(path.c_str(), &index_db);
+    if (rc) {
+        sqlite3_close(index_db);
+        throw DBException("Cannot open new project : cannot open metadata database");
+    }
+    _db_metadata = SQLiteDB(index_db);
+}
+
 void AssetsDB::create(const std::string &name)
 {
    _logger.infoStream() << "gwen2d:DB:try to create " << name;
@@ -36,8 +53,6 @@ void AssetsDB::create(const std::string &name)
         throw DBException("Cannot create new project : cannot open metadata database");
     }
     _logger.infoStream() << "gwen2d:DB:" << metadata_db_path.c_str() << " created";
-    _db_metadata = metadata_db;
-    _db_metadata_path = metadata_db_path;
     _db_assets_path = assets_db_path;
     _db_assets = db;
     _name = name;
@@ -55,8 +70,8 @@ void AssetsDB::close()
         }
         if (_db_metadata != nullptr)
         {
-            sqlite3_close(_db_metadata);
-            _db_assets_path = std::nullopt;
+            //sqlite3_close(_db_metadata);
+            //_db_assets_path = std::nullopt;
         }
         _name = std::nullopt; 
     }

@@ -99,29 +99,50 @@ void SpritesPanel::display_states(Entity *entity)
     }
 }
 
+bool SpritesPanel::input_state_name(EntityState *state)
+{
+    if (ImGui::InputText("name", _input_buf, INPUT_BUFFER_SIZE)) {
+        state->set_name(_input_buf);
+        return true;
+    }
+    return false;
+}
+
+bool SpritesPanel::input_size(EntityState *state)
+{
+    static int width = 32;
+    static int height = 32;
+    bool updated = false;
+    ImGui::TextUnformatted("size");
+    ImGui::SameLine();
+    ImGui::TextUnformatted("Width=");
+    ImGui::SameLine();
+    ImGui::SetNextItemWidth(100);
+    if (ImGui::InputInt("##width", &width)) {
+        updated = true;
+    }
+    ImGui::SameLine();
+    ImGui::TextUnformatted("Height=");
+    ImGui::SameLine();
+    ImGui::SetNextItemWidth(100);
+    if (ImGui::InputInt("##height", &height)) {
+        updated = true;
+    }
+    state->set_width(width);
+    state->set_height(height);
+    return updated;
+}
+
 void SpritesPanel::display_state(EntityState *state)
 {
+    bool updated_state = false;
     ImGui::Separator();
     ImGuiTreeNodeFlags flag = ImGuiTreeNodeFlags_DefaultOpen;
     if (ImGui::TreeNodeEx(state->get_name().c_str(), flag))
     {
-        static int width = 32;
-        static int height = 32;
-        ImGui::TextUnformatted("size");
-        ImGui::SameLine();
+        updated_state = input_state_name(state) && updated_state;
+        updated_state = input_size(state) && updated_state;
 
-        ImGui::TextUnformatted("Width");
-        ImGui::SameLine();
-        ImGui::SetNextItemWidth(100);
-        ImGui::InputInt("##width", &width);
-
-        ImGui::SameLine();
-        ImGui::TextUnformatted("Height");
-        ImGui::SameLine();
-        ImGui::SetNextItemWidth(100);
-        ImGui::InputInt("##height", &height);
-        state->set_height(height);
-        state->set_width(width);
         float full_width = ImGui::GetContentRegionAvail().x;
         float button_size = ImGui::GetFrameHeight();
         float spacing = ImGui::GetStyle().ItemSpacing.x;

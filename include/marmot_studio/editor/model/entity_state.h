@@ -15,6 +15,7 @@ namespace marmot::studio
         EntityState(const std::string &name) : _loop(false), _frame_speed(0), _speed(0), _name(name), _width(0), _height(0) {}
         virtual ~EntityState() {}
 
+        void set_name(const string& name);
         string get_name();
 
         int get_width();

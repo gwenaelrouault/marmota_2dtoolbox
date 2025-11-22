@@ -1,6 +1,11 @@
 #pragma once
 
 #include <string>
+#include <memory>
+#include <vector>
+#include "state.h"
+
+using namespace std;
 
 namespace marmot::marmota
 {
@@ -12,5 +17,6 @@ namespace marmot::marmota
 
     private:
         std::string _name;
+        vector<unique_ptr<State>> _states;
     };
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <memory>
 #include <exception>
 #include <filesystem>
 #include <optional>
@@ -12,6 +13,18 @@ using namespace std;
 
 namespace marmot::marmota
 {
+
+    struct SQLiteDeleter
+    {
+        void operator()(sqlite3 *db) const noexcept
+        {
+            if (db)
+                sqlite3_close(db);
+        }
+    };
+
+    using SQLiteDB = std::unique_ptr<sqlite3, SQLiteDeleter>;
+
     class AssetsDB
     {
     public:
@@ -19,11 +32,12 @@ namespace marmot::marmota
         virtual ~AssetsDB() {}
         void create(const std::string &name);
         void close();
+        void open(const filesystem::path &path);
 
     private:
         log4cpp::Category &_logger;
         filesystem::path _workdir;
-        sqlite3 *_db_metadata;
+        SQLiteDB _db_metadata;
         rocksdb::DB *_db_assets;
         optional<std::string> _name;
         optional<std::filesystem::path> _db_metadata_path;

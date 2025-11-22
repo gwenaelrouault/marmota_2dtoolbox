@@ -28,6 +28,11 @@ void EntityState::set_height(int height)
     _height = height;
 }
 
+void EntityState::set_name(const string& name)
+{
+    _name = name;
+}
+
 void EntityState::create_frame(SDL_Renderer* renderer) {
     auto frame = make_surface(SDL_CreateRGBSurfaceWithFormat(0, _width, _height, 32, SDL_PIXELFORMAT_RGBA32));
     SDL_FillRect(frame.get(), nullptr, SDL_MapRGBA(frame.get()->format, 255, 255, 255, 255));
@@ -36,7 +41,9 @@ void EntityState::create_frame(SDL_Renderer* renderer) {
 }
 
 void EntityState::remove_frame() {
-    _frames.pop_back();
+    if (!_frames.empty()) {
+        _frames.pop_back();
+    }
 }
 
 vector<TexturePtr> &EntityState::get_frames() {

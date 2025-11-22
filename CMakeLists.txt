@@ -30,8 +30,14 @@ add_executable(marmot_studio
 	src/marmota/model/state.cpp
 	src/marmota/model/sprite.cpp
 	src/marmota/model/model.cpp
+	src/marmota/tables/index_table.cpp
+	src/marmota/tables/table_entity.cpp
+	src/marmota/tables/table_frame.cpp
+	src/marmota/tables/table_state.cpp
+	src/marmota/marmota_asset_store.cpp
 	src/async/worker.cpp
 	src/marmot_studio/editor/services/import_sheet.cpp
+	src/marmot_studio/editor/services/open_project.cpp
 	src/marmot_studio/editor/model/entity.cpp
 	src/marmot_studio/editor/model/entity_state.cpp
 	src/marmot_studio/editor/model/sprites_model.cpp
@@ -64,6 +70,7 @@ include_directories(
 	include/marmot_studio/editor/panels
 	include/marmot_studio/editor/services
 	include/marmota/model
+	include/marmota/tables
 	include/marmota
 	include/async
 )
