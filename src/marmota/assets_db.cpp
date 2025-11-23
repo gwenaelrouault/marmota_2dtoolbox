@@ -18,7 +18,7 @@ void AssetsDB::open(const filesystem::path& path) {
         sqlite3_close(index_db);
         throw DBException("Cannot open new project : cannot open metadata database");
     }
-    _db_metadata = SQLiteDB(index_db);
+    _db_metadata = SQLiteDB2(index_db);
 }
 
 void AssetsDB::create(const std::string &name)

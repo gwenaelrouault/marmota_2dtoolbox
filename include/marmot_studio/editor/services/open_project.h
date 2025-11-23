@@ -4,7 +4,7 @@
 #include "task.h"
 #include "sprites_model.h"
 #include <filesystem>
-#include "assets_db.h"
+#include "marmota_asset_store.h"
 
 using namespace std;
 
@@ -30,16 +30,16 @@ namespace marmot::studio
     public:
         OpenProjectJob(log4cpp::Category &logger, 
             shared_ptr<SpritesModel>& model, 
-            shared_ptr<marmota::AssetsDB>& db, 
+            shared_ptr<marmota::MarmotaAssetStore>& store, 
             filesystem::path& project) 
-            : _logger(logger), _model(model), _db(db), _path(project) {}
+            : _logger(logger), _model(model), _store(store), _path(project) {}
         virtual ~OpenProjectJob() {}
         int execute();
 
     private:
         log4cpp::Category &_logger;
         shared_ptr<SpritesModel>& _model;
-        shared_ptr<marmota::AssetsDB>& _db;
+        shared_ptr<marmota::MarmotaAssetStore>& _store;
         filesystem::path _path;
     };
 

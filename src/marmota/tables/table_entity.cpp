@@ -6,8 +6,9 @@ void TableEntity::create() {
     const char* query = R"(
         CREATE TABLE IF NOT EXISTS entity (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
+            name TEXT NOT NULL
             );
         )";
     exec(query);
+    _logger.infoStream() << "Marmota:Table entity created";
 }

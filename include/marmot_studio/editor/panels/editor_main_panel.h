@@ -7,7 +7,7 @@
 #include "imgui.h"
 #include <filesystem>
 #include "imgui_impl_sdlrenderer2.h"
-#include "assets_db.h"
+#include "marmota_asset_store.h"
 #include "editor_cmd.h"
 #include "editor_sprites.h"
 #include "editor_import_sheet_panel.h"
@@ -32,7 +32,7 @@ namespace marmot::studio
             log4cpp::Category &logger,
             std::shared_ptr<Worker> &worker,
             std::filesystem::path &path,
-            std::shared_ptr<marmota::AssetsDB> &db,
+            std::shared_ptr<marmota::MarmotaAssetStore> &store,
             shared_ptr<SpritesModel> &sprites_model,
             shared_ptr<ImportSheetModel> &sheet_model,
             shared_ptr<MenuModel>& menu_model) : _renderer(renderer),
@@ -40,7 +40,7 @@ namespace marmot::studio
                                                          _logger(logger),
                                                          _worker(worker),
                                                          _workdir(path),
-                                                         _db(db),
+                                                         _store(store),
                                                          _cmd(make_unique<Cmd>(logger)),
                                                          _menu_model(menu_model),
                                                          _sprites_panel(make_unique<SpritesPanel>(logger, worker, renderer, io, sprites_model)),
@@ -53,7 +53,7 @@ namespace marmot::studio
         log4cpp::Category &_logger;
         shared_ptr<Worker> _worker;
         filesystem::path _workdir;
-        shared_ptr<marmota::AssetsDB> &_db;
+        shared_ptr<marmota::MarmotaAssetStore> &_store;
         unique_ptr<Cmd> _cmd;
         shared_ptr<MenuModel>& _menu_model;
         unique_ptr<SpritesPanel> _sprites_panel;

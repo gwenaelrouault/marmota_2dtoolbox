@@ -12,7 +12,7 @@ void OpenProjectCallback::onFailed(int err_code)
 
 int OpenProjectJob::execute()
 {
-    _db->open(_path);
+    _store->open(_path);
     return 0;
 }
 

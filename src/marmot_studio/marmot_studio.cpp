@@ -51,9 +51,9 @@ int main(int argc, char** argv) {
     ImGuiIO& io = ImGui::GetIO(); 
 
     // init editor ============================================================
-    auto db = std::make_shared<marmota::AssetsDB>(logger, workdir_path);
+    auto store = std::make_shared<marmota::MarmotaAssetStore>(logger);
     auto worker = std::make_shared<marmot::Worker>();
-    auto editor = std::make_unique<studio::Editor>(renderer, io, logger, worker, workdir_path, db);
+    auto editor = std::make_unique<studio::Editor>(renderer, io, logger, worker, workdir_path, store);
 
     // main loop   ============================================================
     bool done = false;

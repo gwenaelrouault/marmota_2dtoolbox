@@ -14,12 +14,13 @@ namespace marmot::marmota
     class MarmotaAssetStore
     {
     public:
-        MarmotaAssetStore(log4cpp::Category &logger) : _db_index(nullptr), _table_entity(nullptr), _table_state(nullptr), _table_frame(nullptr) {}
+        MarmotaAssetStore(log4cpp::Category &logger) : _logger(logger), _db_index(nullptr), _table_entity(nullptr), _table_state(nullptr), _table_frame(nullptr) {}
         virtual ~MarmotaAssetStore() {}
 
         void open(const filesystem::path &path);
 
     private:
+        log4cpp::Category & _logger;
         SQLiteDB _db_index;
         unique_ptr<TableEntity> _table_entity;
         unique_ptr<TableState> _table_state;

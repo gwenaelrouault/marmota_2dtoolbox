@@ -6,13 +6,19 @@
 #include "import_sheet_model.h"
 #include "sprites_model.h"
 #include "menu_model.h"
+#include "marmota_asset_store.h"
 
 namespace marmot::studio
 {
     class Editor : public EditorPanel
     {
     public:
-        Editor(SDL_Renderer *renderer, ImGuiIO &io, log4cpp::Category &logger, std::shared_ptr<Worker> &worker, std::filesystem::path &path, std::shared_ptr<marmota::AssetsDB> &db)
+        Editor(SDL_Renderer *renderer, 
+            ImGuiIO &io, 
+            log4cpp::Category &logger, 
+            std::shared_ptr<Worker> &worker, 
+            std::filesystem::path &path, 
+            std::shared_ptr<marmota::MarmotaAssetStore> &store)
             : EditorPanel(0, logger, worker, renderer, io)
         {
             // create models
@@ -21,8 +27,8 @@ namespace marmot::studio
             _menu_model = make_shared<MenuModel>();
             
             // create panels
-            _menu = make_unique<MainMenu>(logger, worker, renderer, io, _menu_model);
-            _main_panel = make_unique<MainPanel>(renderer, io, logger, worker, path, db, _sprites_model, _sheet_model, _menu_model);
+            _menu = make_unique<MainMenu>(logger, worker, renderer, io, store, _menu_model, _sprites_model);
+            _main_panel = make_unique<MainPanel>(renderer, io, logger, worker, path, store, _sprites_model, _sheet_model, _menu_model);
         }
         virtual ~Editor() {}
 

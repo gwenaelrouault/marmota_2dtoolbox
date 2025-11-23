@@ -14,7 +14,7 @@ using namespace std;
 namespace marmot::marmota
 {
 
-    struct SQLiteDeleter
+    struct SQLiteDeleter2
     {
         void operator()(sqlite3 *db) const noexcept
         {
@@ -23,7 +23,7 @@ namespace marmot::marmota
         }
     };
 
-    using SQLiteDB = std::unique_ptr<sqlite3, SQLiteDeleter>;
+    using SQLiteDB2 = std::unique_ptr<sqlite3, SQLiteDeleter2>;
 
     class AssetsDB
     {
@@ -37,7 +37,7 @@ namespace marmot::marmota
     private:
         log4cpp::Category &_logger;
         filesystem::path _workdir;
-        SQLiteDB _db_metadata;
+        SQLiteDB2 _db_metadata;
         rocksdb::DB *_db_assets;
         optional<std::string> _name;
         optional<std::filesystem::path> _db_metadata_path;
