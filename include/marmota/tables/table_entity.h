@@ -11,5 +11,7 @@ namespace marmot::marmota
         virtual ~TableEntity() {}
 
         virtual void create();
+
+        int new_entity(const string& name);
     };
 }

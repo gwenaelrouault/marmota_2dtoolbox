@@ -38,11 +38,12 @@ add_executable(marmot_studio
 	src/async/worker.cpp
 	src/marmot_studio/editor/services/import_sheet.cpp
 	src/marmot_studio/editor/services/open_project.cpp
+	src/marmot_studio/editor/services/create_entity.cpp
+	src/marmot_studio/editor/services/editor_cmd.cpp
 	src/marmot_studio/editor/model/entity.cpp
 	src/marmot_studio/editor/model/entity_state.cpp
 	src/marmot_studio/editor/model/sprites_model.cpp
 	src/marmot_studio/editor/model/import_sheet_model.cpp
-	src/marmot_studio/editor/services/editor_cmd.cpp
 	src/marmot_studio/editor/panels/editor_menu.cpp
 	src/marmot_studio/editor/panels/editor_import_sheet_panel.cpp
 	src/marmot_studio/editor/panels/editor_sprites.cpp

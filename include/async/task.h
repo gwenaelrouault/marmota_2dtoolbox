@@ -7,6 +7,9 @@ using namespace std;
 
 namespace marmot
 {
+
+    constexpr int RESULT_OK = 0;
+
     struct ITask
     {
     public:

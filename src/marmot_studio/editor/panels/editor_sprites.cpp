@@ -1,4 +1,5 @@
 #include "editor_sprites.h"
+#include "create_entity.h"
 
 using namespace marmot::studio;
 

@@ -6,6 +6,8 @@
 
 namespace marmot::marmota
 {
+    using namespace std;
+
     class IndexTable
     {
     public:

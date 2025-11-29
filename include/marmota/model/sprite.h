@@ -17,6 +17,6 @@ namespace marmot::marmota
 
     private:
         std::string _name;
-        vector<unique_ptr<State>> _states;
+        vector<shared_ptr<State>> _states;
     };
 }
