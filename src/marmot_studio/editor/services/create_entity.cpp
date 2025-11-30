@@ -1,6 +1,6 @@
 #include "create_entity.h"
 #include "sdl_utils.h"
-#include "db_error.h"
+#include "db_error.hpp"
 
 using namespace marmot::studio;
 

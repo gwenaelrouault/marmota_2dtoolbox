@@ -1,6 +1,6 @@
 #pragma once
 
-#include "index_table.h"
+#include "index_table.hpp"
 
 namespace marmot::marmota
 {

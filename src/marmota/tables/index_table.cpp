@@ -1,5 +1,5 @@
-#include "index_table.h"
-#include "db_error.h"
+#include "index_table.hpp"
+#include "db_error.hpp"
 
 using namespace marmot::marmota;
 

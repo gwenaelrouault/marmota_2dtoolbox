@@ -1,5 +1,5 @@
 #include "marmota_asset_store.h"
-#include "db_error.h"
+#include "db_error.hpp"
 
 using namespace marmot::marmota;
 
@@ -52,5 +52,5 @@ int MarmotaAssetStore::create_frame(int state_id)
 }
 
 void MarmotaAssetStore::load_entity(uint64_t id, Sprite& sprite) {
-    
+
 }

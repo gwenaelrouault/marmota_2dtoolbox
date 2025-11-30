@@ -2,11 +2,11 @@
 
 #include <log4cpp/Category.hh>
 #include <filesystem>
-
-#include "table_entity.h"
-#include "table_state.h"
-#include "table_frame.h"
-#include "model.h"
+#include "rocksdb/db.h"
+#include "table_entity.hpp"
+#include "table_state.hpp"
+#include "table_frame.hpp"
+#include "model.hpp"
 
 using namespace std;
 
@@ -18,7 +18,7 @@ namespace marmot::marmota
         MarmotaAssetStore(log4cpp::Category &logger) : 
         _logger(logger), 
         _db_index(nullptr), 
-        _table_entity(nullptr), _table_state(nullptr), _table_frame(nullptr), _model(make_shared<Model>()) {}
+        _table_entity(nullptr), _table_state(nullptr), _table_frame(nullptr), _model(make_shared<Model>()), _db_assets(nullptr) {}
         virtual ~MarmotaAssetStore() {}
 
         void open(const filesystem::path &path);
@@ -34,5 +34,6 @@ namespace marmot::marmota
         unique_ptr<TableState> _table_state;
         unique_ptr<TableFrame> _table_frame;
         shared_ptr<Model> _model;
+        rocksdb::DB *_db_assets;
     };
 }

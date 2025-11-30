@@ -4,7 +4,7 @@
 #include "entity.h"
 #include <atomic>
 #include <optional>
-#include "sprite.h"
+#include "sprite.hpp"
 #include <mutex>
 
 using namespace std;

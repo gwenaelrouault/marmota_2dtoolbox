@@ -2,19 +2,15 @@
 
 #include <string>
 #include <vector>
-#include "sprite.h"
+#include "sprite.hpp"
 
 namespace marmot::marmota
 {
-    class Model
-    {
-    public:
+    struct Model {
+
         Model() {}
         virtual ~Model() {}
 
-        std::vector<Sprite>& get_sprites();
-
-    private:
         std::vector<Sprite> _sprites;
     };
 }

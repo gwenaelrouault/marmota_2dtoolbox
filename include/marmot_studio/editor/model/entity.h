@@ -3,7 +3,7 @@
 #include <vector>
 #include <memory>
 #include "entity_state.h"
-#include  "sprite.h"
+#include  "sprite.hpp"
 
 using namespace std;
 

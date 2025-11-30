@@ -2,7 +2,7 @@
 
 #include <log4cpp/Category.hh>
 #include <memory>
-#include "index_db.h"
+#include "index_db.hpp"
 
 namespace marmot::marmota
 {

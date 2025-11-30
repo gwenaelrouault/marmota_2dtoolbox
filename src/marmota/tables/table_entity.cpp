@@ -1,5 +1,5 @@
-#include "table_entity.h"
-#include "db_error.h"
+#include "table_entity.hpp"
+#include "db_error.hpp"
 using namespace marmot::marmota;
 
 void TableEntity::create()

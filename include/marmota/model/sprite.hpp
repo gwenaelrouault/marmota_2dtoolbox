@@ -3,7 +3,8 @@
 #include <string>
 #include <memory>
 #include <vector>
-#include "state.h"
+#include "state.hpp"
+#include <cstdint>
 
 using namespace std;
 
