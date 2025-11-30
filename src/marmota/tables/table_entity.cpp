@@ -14,7 +14,7 @@ void TableEntity::create()
     _logger.infoStream() << "Marmota:Table entity created";
 }
 
-int TableEntity::new_entity(const string &name)
+uint64_t TableEntity::new_entity(const string &name)
 {
     sqlite3_stmt *stmt;
     const char *query = R"(
@@ -37,6 +37,6 @@ int TableEntity::new_entity(const string &name)
     {
         sqlite3_int64 newId = sqlite3_last_insert_rowid(_db.get());
         _logger.infoStream() << "Marmota:Entity added (" << newId << ")";
-        return (int)newId;
+        return (uint64_t)newId;
     }
 }

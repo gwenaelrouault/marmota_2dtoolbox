@@ -30,25 +30,25 @@ void SpritesPanel::display()
 void SpritesPanel::display_entity(Entity *entity)
 {
     ImGui::PushID(entity);
-    if (entity->is_editing())
+    if (entity->_editing)
     {
         ImGui::SetNextItemWidth(-1);
-        if (entity->is_requested_focus())
+        if (entity->_request_focus)
         {
             ImGui::SetKeyboardFocusHere();
-            entity->set_request_focus(false);
+            entity->_request_focus = false;
         }
         if (ImGui::InputText("##edit", entity->_buffer, IM_ARRAYSIZE(entity->_buffer),
                              ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
         {
             ImGui::SetKeyboardFocusHere();
-            entity->set_name(entity->_buffer);
-            entity->set_editing(false);
+            entity->_name = entity->_buffer;
+            entity->_editing = false;
         }
         if (!ImGui::IsItemActive() && !ImGui::IsItemHovered())
         {
-            entity->set_name(entity->_buffer);
-            entity->set_editing(false);
+            entity->_name = entity->_buffer;
+            entity->_editing = false;
         }
         ImGui::PopID();
         return;
@@ -59,8 +59,8 @@ void SpritesPanel::display_entity(Entity *entity)
 
     if (ImGui::IsItemFocused() && ImGui::IsKeyPressed(ImGuiKey_Enter))
     {
-        entity->set_editing(true);
-        entity->set_request_focus(true);
+        entity->_editing = true;
+        entity->_request_focus = true;
         std::snprintf(entity->_buffer, sizeof(entity->_buffer), "%s", entity->getName().c_str());
         ImGui::PopID();
         return;

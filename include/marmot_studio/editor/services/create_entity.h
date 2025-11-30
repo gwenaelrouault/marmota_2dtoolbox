@@ -18,7 +18,10 @@ namespace marmot::studio
     class CreateEntityCallback
     {
     public:
-        CreateEntityCallback(log4cpp::Category &logger) : _logger(logger) {}
+        CreateEntityCallback(
+            log4cpp::Category &logger, 
+            shared_ptr<SpritesModel>& model,
+            shared_ptr<marmota::MarmotaAssetStore>& store) : _logger(logger), _model(model), _store(store) {}
         virtual ~CreateEntityCallback() {}
 
         void onSuccess();
@@ -26,6 +29,8 @@ namespace marmot::studio
 
     private:
         log4cpp::Category &_logger;
+        shared_ptr<SpritesModel>& _model;
+        shared_ptr<marmota::MarmotaAssetStore>& _store;
     };
 
     class CreateEntityJob

@@ -12,6 +12,6 @@ namespace marmot::marmota
 
         virtual void create();
 
-        int new_entity(const string& name);
+        uint64_t new_entity(const string& name);
     };
 }

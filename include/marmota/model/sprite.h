@@ -9,14 +9,14 @@ using namespace std;
 
 namespace marmot::marmota
 {
-    class Sprite
+    struct Sprite
     {
-    public:
-        Sprite(const std::string name) : _name(name) {}
+        Sprite() {}
+        Sprite(const std::string name) : _name(name), _id(-1) {}
         virtual ~Sprite() {}
 
-    private:
         std::string _name;
+        uint64_t _id;
         vector<shared_ptr<State>> _states;
     };
 }

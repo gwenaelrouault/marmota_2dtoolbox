@@ -19,31 +19,6 @@ void Entity::remove_state()
     _states.pop_back();
 }
 
-bool Entity::is_editing()
-{
-    return _editing;
-}
-
-bool Entity::is_requested_focus()
-{
-    return _request_focus;
-}
-
-void Entity::set_editing(bool flag)
-{
-    _editing = flag;
-}
-
-void Entity::set_request_focus(bool flag)
-{
-    _request_focus = flag;
-}
-
-void Entity::set_name(const std::string &name)
-{
-    _name = name;
-}
-
 std::string Entity::getName()
 {
     return _name;

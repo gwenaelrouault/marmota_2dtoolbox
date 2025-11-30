@@ -2,6 +2,10 @@
 
 #include <vector>
 #include "entity.h"
+#include <atomic>
+#include <optional>
+#include "sprite.h"
+#include <mutex>
 
 using namespace std;
 
@@ -14,14 +18,20 @@ namespace marmot::studio
         virtual ~SpritesModel() {}
 
         void add_sprite(unique_ptr<Entity>& item);
-
         void create_sprite();
-
         void remove_sprite();
 
         vector<unique_ptr<Entity>>& get_sprites();
 
+        void on_current_sprite(uint64_t id);
+        optional<uint64_t> get_current_sprite();
+        void on_no_sprite();
+
+        void set_sprite(marmota::Sprite& sprite);
+
     private:
         vector<unique_ptr<Entity>> _sprites;
+        optional<uint64_t>  _current_sprite;
+        mutex _mutex;
     };
 }

@@ -33,7 +33,7 @@ void MarmotaAssetStore::open(const filesystem::path &path)
     _table_frame->create();
 }
 
-int MarmotaAssetStore::create_sprite(const std::string &name)
+uint64_t MarmotaAssetStore::create_sprite(const std::string &name)
 {
     if (_table_entity == nullptr) {
         throw DBException("Cannot create sprite : table entity not created");
@@ -41,10 +41,16 @@ int MarmotaAssetStore::create_sprite(const std::string &name)
     return _table_entity->new_entity(name);
 }
 
+
+
 int MarmotaAssetStore::create_state(int entity_id, const string &name)
 {
 }
 
 int MarmotaAssetStore::create_frame(int state_id)
 {
+}
+
+void MarmotaAssetStore::load_entity(uint64_t id, Sprite& sprite) {
+    
 }
