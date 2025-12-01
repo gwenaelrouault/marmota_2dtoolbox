@@ -1,6 +1,7 @@
 #pragma once
 
 #include "index_table.hpp"
+#include "marmota_sprite.hpp"
 #include <cstdint>
 
 namespace marmot::marmota
@@ -14,5 +15,7 @@ namespace marmot::marmota
         virtual void create();
 
         uint64_t new_entity(const string& name);
+
+        void load_sprites(vector<shared_ptr<MarmotaSprite>>& sprites);
     };
 }

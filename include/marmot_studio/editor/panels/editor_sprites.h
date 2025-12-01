@@ -13,8 +13,11 @@ namespace marmot::studio
     class SpritesPanel : public EditorPanel
     {
     public:
-        SpritesPanel(log4cpp::Category &logger, shared_ptr<Worker> &worker, SDL_Renderer *renderer, ImGuiIO &io, shared_ptr<SpritesModel> &sprites_model) : EditorPanel(SPRITES_PANEL, logger, worker, renderer, io),
-             _sprites(sprites_model) {}
+        SpritesPanel(log4cpp::Category &logger, 
+            shared_ptr<Worker> &worker, 
+            SDL_Renderer *renderer, ImGuiIO &io, 
+            shared_ptr<SpritesModel> &sprites_model) : EditorPanel(SPRITES_PANEL, logger, worker, renderer, io),
+             _model(sprites_model) {}
         virtual ~SpritesPanel() {}
         virtual void display();
 
@@ -27,7 +30,7 @@ namespace marmot::studio
         bool input_state_name(EntityState *state);
         bool input_size(EntityState *state);
 
-        shared_ptr<SpritesModel> & _sprites;
+        shared_ptr<SpritesModel> & _model;
         char _input_buf[INPUT_BUFFER_SIZE];
 
     };

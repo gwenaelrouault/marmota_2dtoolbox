@@ -19,11 +19,6 @@ void Entity::remove_state()
     _states.pop_back();
 }
 
-std::string Entity::getName()
-{
-    return _name;
-}
-
 vector<unique_ptr<EntityState>>& Entity::get_states() {
     return _states;
 }

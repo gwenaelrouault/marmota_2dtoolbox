@@ -51,6 +51,6 @@ int MarmotaAssetStore::create_frame(int state_id)
 {
 }
 
-void MarmotaAssetStore::load_entity(uint64_t id, Sprite& sprite) {
+void MarmotaAssetStore::load_entity(uint64_t id, MarmotaSprite& sprite) {
 
 }

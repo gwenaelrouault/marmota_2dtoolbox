@@ -4,7 +4,7 @@
 #include "entity.h"
 #include <atomic>
 #include <optional>
-#include "sprite.hpp"
+#include "marmota_sprite.hpp"
 #include <mutex>
 
 using namespace std;
@@ -27,11 +27,15 @@ namespace marmot::studio
         optional<uint64_t> get_current_sprite();
         void on_no_sprite();
 
-        void set_sprite(marmota::Sprite& sprite);
+        void set_sprite(marmota::MarmotaSprite& sprite);
+
+        void set_updated(bool flag);
+        bool is_updated();
 
     private:
         vector<unique_ptr<Entity>> _sprites;
         optional<uint64_t>  _current_sprite;
+        atomic_bool _flag_updated;
         mutex _mutex;
     };
 }

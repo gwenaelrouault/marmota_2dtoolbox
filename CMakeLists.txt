@@ -27,9 +27,6 @@ add_executable(marmot_studio
     imgui/backends/imgui_impl_sdlrenderer2.cpp
 	imgui/ImGuiFileDialog.cpp
 	src/marmota/assets_db.cpp
-	src/marmota/model/state.cpp
-	src/marmota/model/sprite.cpp
-	src/marmota/model/model.cpp
 	src/marmota/tables/index_table.cpp
 	src/marmota/tables/table_entity.cpp
 	src/marmota/tables/table_frame.cpp

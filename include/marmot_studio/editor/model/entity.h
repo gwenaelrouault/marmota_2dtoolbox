@@ -3,7 +3,7 @@
 #include <vector>
 #include <memory>
 #include "entity_state.h"
-#include  "sprite.hpp"
+#include  "marmota_sprite.hpp"
 
 using namespace std;
 
@@ -22,8 +22,6 @@ namespace marmot::studio
 
         void remove_state();
 
-        std::string getName();
-
         vector<unique_ptr<EntityState>> &get_states();
 
         char _buffer[SIZE_BUF]{};
@@ -40,7 +38,7 @@ namespace marmot::studio
 
         int _index;
 
-        void set(const marmota::Sprite &other) {
+        void set(const marmota::MarmotaSprite &other) {
             this->_id = other._id;
             this->_name = other._name;
         }

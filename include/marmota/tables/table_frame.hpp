@@ -1,6 +1,7 @@
 #pragma once
 
 #include "index_table.hpp"
+#include "marmota_frame.hpp"
 
 namespace marmot::marmota
 {
@@ -11,5 +12,7 @@ namespace marmot::marmota
         virtual ~TableFrame() {}
 
         virtual void create();
+
+        void load_frames(vector<shared_ptr<MarmotaFrame>>& frames, uint64_t state_id);
     };
 }

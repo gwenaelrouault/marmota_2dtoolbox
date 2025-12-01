@@ -14,14 +14,17 @@ void SpritesPanel::display()
     ImGui::SetCursorPosX(ImGui::GetCursorPosX() + full_width - total_buttons_width);
     if (ImGui::Button("+", ImVec2(button_size, button_size)))
     {
-        _sprites->create_sprite();
+        _model->create_sprite();
     }
     ImGui::SameLine();
     if (ImGui::Button("-", ImVec2(button_size, button_size)))
     {
-        _sprites->remove_sprite();
+        _model->remove_sprite();
     }
-    for (const auto &sprite : _sprites->get_sprites())
+    if (_model.get()->is_updated()) {
+        _model.get()->set_updated(false);
+    }
+    for (const auto &sprite : _model->get_sprites())
     {
         display_entity(sprite.get());
     }
@@ -54,14 +57,14 @@ void SpritesPanel::display_entity(Entity *entity)
         return;
     }
 
-    bool open = ImGui::CollapsingHeader(entity->getName().c_str(),
+    bool open = ImGui::CollapsingHeader(entity->_name.c_str(),
                                         ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_SpanAvailWidth);
 
     if (ImGui::IsItemFocused() && ImGui::IsKeyPressed(ImGuiKey_Enter))
     {
         entity->_editing = true;
         entity->_request_focus = true;
-        std::snprintf(entity->_buffer, sizeof(entity->_buffer), "%s", entity->getName().c_str());
+        std::snprintf(entity->_buffer, sizeof(entity->_buffer), "%s", entity->_name.c_str());
         ImGui::PopID();
         return;
     }

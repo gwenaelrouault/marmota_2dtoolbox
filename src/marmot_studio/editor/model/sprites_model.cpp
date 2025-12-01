@@ -38,7 +38,15 @@ optional<uint64_t> SpritesModel::get_current_sprite()
     return _current_sprite;
 }
 
-void SpritesModel::set_sprite(marmota::Sprite &sprite)
+void SpritesModel::set_updated(bool flag) {
+    _flag_updated.store(flag);
+}
+
+bool SpritesModel::is_updated() {
+    return _flag_updated.load();
+}
+
+void SpritesModel::set_sprite(marmota::MarmotaSprite &sprite)
 {
     lock_guard<std::mutex> lock(_mutex);
     {

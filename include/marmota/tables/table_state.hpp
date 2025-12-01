@@ -1,6 +1,7 @@
 #pragma once
 
 #include "index_table.hpp"
+#include "marmota_state.hpp"
 
 namespace marmot::marmota
 {
@@ -11,5 +12,7 @@ namespace marmot::marmota
         virtual ~TableState() {}
 
         virtual void create();
+
+        void load_states(vector<shared_ptr<MarmotaState>>& states, uint64_t entity_id);
     };
 }
