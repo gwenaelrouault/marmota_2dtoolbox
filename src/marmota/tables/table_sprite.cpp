@@ -11,7 +11,7 @@ void TableSprite::create()
             );
         )";
     exec(query);
-    _logger.infoStream() << "Marmota:Table entity created";
+    _logger.infoStream() << "Marmota:Table SPRITE created";
 }
 
 uint64_t TableSprite::new_entity(const string &name)
@@ -23,20 +23,20 @@ uint64_t TableSprite::new_entity(const string &name)
     if (sqlite3_prepare_v2(_db.get(), query, -1, &stmt, nullptr) != SQLITE_OK)
     {
         const char *err = sqlite3_errmsg(_db.get());
-        _logger.errorStream() << "Marmota:Table ENTITY:" << err << "\n";
+        _logger.errorStream() << "Marmota:Table SPRITE:" << err << "\n";
         throw DBException(err);
     }
     sqlite3_bind_text(stmt, 1, name.c_str(), -1, SQLITE_TRANSIENT);
     if (sqlite3_step(stmt) != SQLITE_DONE)
     {
         const char *err = sqlite3_errmsg(_db.get());
-        _logger.errorStream() << "Marmota:Table ENTITY:" << err << "\n";
+        _logger.errorStream() << "Marmota:Table SPRITE:" << err << "\n";
         throw DBException(err);
     }
     else
     {
         sqlite3_int64 newId = sqlite3_last_insert_rowid(_db.get());
-        _logger.infoStream() << "Marmota:Table ENTITY added (" << newId << ")";
+        _logger.infoStream() << "Marmota:Table SPRITE added (" << newId << ")";
         return (uint64_t)newId;
     }
 }
@@ -51,7 +51,7 @@ void TableSprite::load_sprites(vector<shared_ptr<MarmotaSprite>>& sprites) {
     if (sqlite3_prepare_v2(_db.get(), query, -1, &stmt, nullptr) != SQLITE_OK)
     {
         const char *err = sqlite3_errmsg(_db.get());
-        _logger.errorStream() << "Marmota:Table entity:" << err << "\n";
+        _logger.errorStream() << "Marmota:Table SPRITE:" << err << "\n";
         throw DBException(err);
     }
     // fill vector with query result -------------------------------------------
@@ -72,7 +72,7 @@ shared_ptr<MarmotaSprite> TableSprite::load_sprite(uint64_t id) {
     if (sqlite3_prepare_v2(_db.get(), query, -1, &stmt, nullptr) != SQLITE_OK)
     {
         const char *err = sqlite3_errmsg(_db.get());
-        _logger.errorStream() << "Marmota:Table entity:" << err << "\n";
+        _logger.errorStream() << "Marmota:Table SPRITE:" << err << "\n";
         throw DBException(err);
     }
     // complete query complete query with id-----------------------------------

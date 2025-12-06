@@ -31,6 +31,7 @@ void MarmotaAssetStore::open(const filesystem::path &path)
     _table_state->create();
     _table_frame = make_unique<TableFrame>(_logger, _db_index);
     _table_frame->create();
+    _logger.infoStream() << "Marmota:open(" << path << ") - database initialized";
 }
 
 uint64_t MarmotaAssetStore::create_sprite(const std::string &name)

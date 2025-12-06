@@ -12,6 +12,9 @@ using namespace marmot;
 
 namespace marmot::studio
 {
+
+    constexpr int ERROR_OPEN = 1;
+
     class OpenProjectCallback
     {
     public:
