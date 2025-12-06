@@ -18,9 +18,8 @@ void TableFrame::create() {
     _logger.infoStream() << "Marmota:Table FRAME created";
 }
 
-void TableFrame::load_frames(vector<shared_ptr<MarmotaFrame>>& frames, uint64_t state_id) {
-    frames.clear();
-
+void TableFrame::load_frames(shared_ptr<MarmotaState>& state) {
+    state->_frames.clear();
     // create query -----------------------------------------------------------
     sqlite3_stmt *stmt;
     const char *query = R"(
@@ -33,13 +32,13 @@ void TableFrame::load_frames(vector<shared_ptr<MarmotaFrame>>& frames, uint64_t 
         throw DBException(err);
     }
     // complete query complete query with id-----------------------------------
-    sqlite3_bind_int(stmt, 1, state_id);
+    sqlite3_bind_int(stmt, 1, state->_id);
 
     // fill vector with query result -------------------------------------------
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         uint64_t id = (uint64_t) sqlite3_column_int(stmt, 0);
-        frames.push_back(make_shared<MarmotaFrame>(id));
+        state->_frames[id] = make_shared<MarmotaFrame>(id);
     }
     sqlite3_finalize(stmt);
-     _logger.infoStream() << "Marmota:Loaded " << frames.size() << " from table frame for FRAME (" << state_id << ")";
+     _logger.infoStream() << "Marmota:Loaded " << state->_frames.size() << " from table frame for FRAME (" << state->_id << ")";
 }

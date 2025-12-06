@@ -2,7 +2,7 @@
 
 #include <string>
 #include <memory>
-#include <vector>
+#include <map>
 #include "marmota_state.hpp"
 #include <cstdint>
 
@@ -19,6 +19,8 @@ namespace marmot::marmota
 
         std::string _name;
         uint64_t _id;
-        vector<shared_ptr<MarmotaState>> _states;
+        map<uint64_t, shared_ptr<MarmotaState>> _states;
+
+        void update(shared_ptr<MarmotaSprite>&other);
     };
 }

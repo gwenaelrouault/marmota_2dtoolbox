@@ -8,8 +8,7 @@ void CreateEntityCallback::onSuccess()
 {
     auto id = _model->get_current_sprite();
     if (id.has_value()) {
-        struct marmota::MarmotaSprite sprite;
-        _store->load_entity(id.value(), sprite);
+        auto sprite = _store->load_sprite(id.value());
         _model->set_sprite(sprite);
     }
     _model->on_no_sprite();

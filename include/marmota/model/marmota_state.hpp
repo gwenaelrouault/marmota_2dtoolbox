@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <vector>
+#include <map>
 #include "marmota_frame.hpp"
 
 namespace marmot::marmota
@@ -18,6 +18,6 @@ namespace marmot::marmota
         bool _loop;
         int _width;
         int _height;
-        vector<shared_ptr<MarmotaFrame>> _frames;
+        map<uint64_t, shared_ptr<MarmotaFrame>> _frames;
     };
 }

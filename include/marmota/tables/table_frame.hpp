@@ -2,6 +2,7 @@
 
 #include "index_table.hpp"
 #include "marmota_frame.hpp"
+#include "marmota_state.hpp"
 
 namespace marmot::marmota
 {
@@ -13,6 +14,6 @@ namespace marmot::marmota
 
         virtual void create();
 
-        void load_frames(vector<shared_ptr<MarmotaFrame>>& frames, uint64_t state_id);
+        void load_frames(shared_ptr<MarmotaState>& state);
     };
 }

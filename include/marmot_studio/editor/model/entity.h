@@ -38,9 +38,9 @@ namespace marmot::studio
 
         int _index;
 
-        void set(const marmota::MarmotaSprite &other) {
-            this->_id = other._id;
-            this->_name = other._name;
+        void set(shared_ptr<marmota::MarmotaSprite> &other) {
+            this->_id = other->_id;
+            this->_name = other->_name;
         }
     };
 }

@@ -46,13 +46,13 @@ bool SpritesModel::is_updated() {
     return _flag_updated.load();
 }
 
-void SpritesModel::set_sprite(marmota::MarmotaSprite &sprite)
+void SpritesModel::set_sprite(shared_ptr<marmota::MarmotaSprite> &sprite)
 {
     lock_guard<std::mutex> lock(_mutex);
     {
         for (auto &s : _sprites)
         {
-            if (sprite._id == s.get()->_id) {
+            if (sprite->_id == s->_id) {
                 s->set(sprite);
             }
         }

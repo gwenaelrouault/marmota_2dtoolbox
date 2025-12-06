@@ -27,7 +27,7 @@ namespace marmot::studio
         optional<uint64_t> get_current_sprite();
         void on_no_sprite();
 
-        void set_sprite(marmota::MarmotaSprite& sprite);
+        void set_sprite(shared_ptr<marmota::MarmotaSprite>& sprite);
 
         void set_updated(bool flag);
         bool is_updated();

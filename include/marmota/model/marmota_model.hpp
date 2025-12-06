@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <vector>
+#include <map>
 #include "marmota_sprite.hpp"
 
 namespace marmot::marmota
@@ -11,6 +11,6 @@ namespace marmot::marmota
         MarmotaModel() {}
         virtual ~MarmotaModel() {}
 
-        vector<shared_ptr<MarmotaSprite>> _sprites;
+        map<uint64_t,shared_ptr<MarmotaSprite>> _sprites;
     };
 }

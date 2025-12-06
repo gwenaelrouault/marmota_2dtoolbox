@@ -1,11 +1,11 @@
-#include "table_entity.hpp"
+#include "table_sprite.hpp"
 #include "db_error.hpp"
 using namespace marmot::marmota;
 
-void TableEntity::create()
+void TableSprite::create()
 {
     const char *query = R"(
-        CREATE TABLE IF NOT EXISTS entity (
+        CREATE TABLE IF NOT EXISTS sprite (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL
             );
@@ -14,11 +14,11 @@ void TableEntity::create()
     _logger.infoStream() << "Marmota:Table entity created";
 }
 
-uint64_t TableEntity::new_entity(const string &name)
+uint64_t TableSprite::new_entity(const string &name)
 {
     sqlite3_stmt *stmt;
     const char *query = R"(
-        INSERT INTO entity (name) VALUES (?);
+        INSERT INTO sprite (name) VALUES (?);
         )";
     if (sqlite3_prepare_v2(_db.get(), query, -1, &stmt, nullptr) != SQLITE_OK)
     {
@@ -41,12 +41,12 @@ uint64_t TableEntity::new_entity(const string &name)
     }
 }
 
-void TableEntity::load_sprites(vector<shared_ptr<MarmotaSprite>>& sprites) {
+void TableSprite::load_sprites(vector<shared_ptr<MarmotaSprite>>& sprites) {
     sprites.clear();
     // create query -----------------------------------------------------------
     sqlite3_stmt *stmt;
     const char *query = R"(
-        SELECT id, name FROM entity;
+        SELECT id, name FROM sprite;
         )";
     if (sqlite3_prepare_v2(_db.get(), query, -1, &stmt, nullptr) != SQLITE_OK)
     {
@@ -61,4 +61,26 @@ void TableEntity::load_sprites(vector<shared_ptr<MarmotaSprite>>& sprites) {
         sprites.push_back(make_shared<MarmotaSprite>(name, id));
     }
     sqlite3_finalize(stmt);
+}
+
+shared_ptr<MarmotaSprite> TableSprite::load_sprite(uint64_t id) {
+    // create query -----------------------------------------------------------
+    sqlite3_stmt *stmt;
+    const char *query = R"(
+        SELECT id, name FROM sprite WHERE id=?;
+        )";
+    if (sqlite3_prepare_v2(_db.get(), query, -1, &stmt, nullptr) != SQLITE_OK)
+    {
+        const char *err = sqlite3_errmsg(_db.get());
+        _logger.errorStream() << "Marmota:Table entity:" << err << "\n";
+        throw DBException(err);
+    }
+    // complete query complete query with id-----------------------------------
+    sqlite3_bind_int(stmt, 1, id);
+    if (sqlite3_step(stmt) == SQLITE_ROW) {
+        uint64_t id = sqlite3_column_int(stmt, 0);
+        string name = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+        return make_shared<MarmotaSprite>(name, id);
+    }
+    return nullptr;
 }

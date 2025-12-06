@@ -25,8 +25,8 @@ void MarmotaAssetStore::open(const filesystem::path &path)
     _logger.infoStream() << "Marmota:open(" << path << ") - foreign_keys enabled";
     _db_index = make_index_db(index_db);
     _logger.infoStream() << "Marmota:open(" << path << ") - database created";
-    _table_entity = make_unique<TableEntity>(_logger, _db_index);
-    _table_entity->create();
+    _table_sprite = make_unique<TableSprite>(_logger, _db_index);
+    _table_sprite->create();
     _table_state = make_unique<TableState>(_logger, _db_index);
     _table_state->create();
     _table_frame = make_unique<TableFrame>(_logger, _db_index);
@@ -35,10 +35,10 @@ void MarmotaAssetStore::open(const filesystem::path &path)
 
 uint64_t MarmotaAssetStore::create_sprite(const std::string &name)
 {
-    if (_table_entity == nullptr) {
-        throw DBException("Cannot create sprite : table entity not created");
+    if (_table_sprite == nullptr) {
+        throw DBException("Cannot create sprite : table sprite not created");
     }
-    return _table_entity->new_entity(name);
+    return _table_sprite->new_entity(name);
 }
 
 
@@ -51,6 +51,31 @@ int MarmotaAssetStore::create_frame(int state_id)
 {
 }
 
-void MarmotaAssetStore::load_entity(uint64_t id, MarmotaSprite& sprite) {
-
+shared_ptr<MarmotaSprite> &MarmotaAssetStore::load_sprite(uint64_t id)
+{
+    auto new_sprite = _table_sprite->load_sprite(id);
+    if (new_sprite == nullptr)
+    {
+        throw DBException("No sprite");
+    }
+    bool updated = false;
+    _table_state->load_states(new_sprite);
+    for (auto state : new_sprite->_states)
+    {
+        _table_frame->load_frames(state.second);
+    }
+    for (auto sprite : _model->_sprites)
+    {
+        if (sprite.first == id)
+        {
+            sprite.second->update(new_sprite);
+            updated = true;
+            break;
+        }
+    }
+    if (!updated)
+    {
+        _model->_sprites[id] = std::move(new_sprite);
+    }
+    return _model->_sprites[id];
 }

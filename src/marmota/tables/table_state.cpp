@@ -22,8 +22,8 @@ void TableState::create() {
     _logger.infoStream() << "Marmota:Table STATE created";
 }
 
-void TableState::load_states(vector<shared_ptr<MarmotaState>>& states, uint64_t entity_id) {
-    states.clear();
+void TableState::load_states(shared_ptr<MarmotaSprite>& sprite) {
+    sprite->_states.clear();
     // create query -----------------------------------------------------------
     sqlite3_stmt *stmt;
     const char *query = R"(
@@ -36,7 +36,7 @@ void TableState::load_states(vector<shared_ptr<MarmotaState>>& states, uint64_t 
         throw DBException(err);
     }
     // complete query complete query with id-----------------------------------
-    sqlite3_bind_int(stmt, 1, entity_id);
+    sqlite3_bind_int(stmt, 1, sprite->_id);
 
     // fill vector with query result -------------------------------------------
     while (sqlite3_step(stmt) == SQLITE_ROW) {
@@ -45,8 +45,8 @@ void TableState::load_states(vector<shared_ptr<MarmotaState>>& states, uint64_t 
         bool loop = sqlite3_column_int(stmt, 2) == 1;
         int width = sqlite3_column_int(stmt, 3);
         int height = sqlite3_column_int(stmt, 4);
-        states.push_back(make_shared<MarmotaState>(name, id, loop, width, height));
+        sprite->_states[id] = make_shared<MarmotaState>(name, id, loop, width, height);
     }
     sqlite3_finalize(stmt);
-    _logger.infoStream() << "Marmota:Loaded " << states.size() << " from table STATE for sprite (" << entity_id << ")";
+    _logger.infoStream() << "Marmota:Loaded " << sprite->_states.size() << " from table STATE for sprite (" << sprite->_id << ")";
 }
