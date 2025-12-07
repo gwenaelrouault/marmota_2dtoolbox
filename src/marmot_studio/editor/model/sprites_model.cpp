@@ -57,6 +57,14 @@ void SpritesModel::create_new_sprite()
     }
 }
 
+void SpritesModel::update_sprite(uint64_t id, const string& name) {
+    lock_guard<std::mutex> lock(_mutex);
+    {
+        _store->update_sprite(_db_cache, id, name);
+        _evt_queue.push(make_unique<UpdateEvt>(UpdateEvt{M_UPDATE, E_SPRITE, id}));
+    }
+}
+
 void SpritesModel::load_cache_from_db(const filesystem::path &path)
 {
     lock_guard<std::mutex> lock(_mutex);
@@ -99,18 +107,4 @@ bool SpritesModel::update_model_from_cache(map<uint64_t, unique_ptr<EditorSprite
         }
     }
     return updated;
-}
-
-void SpritesModel::set_sprite(shared_ptr<marmota::MarmotaSprite> &sprite)
-{
-    lock_guard<std::mutex> lock(_mutex);
-    {
-        //for (auto &s : _sprites)
-        //{
-          //  if (sprite->_id == s->_id)
-          //  {
-          //      s->set(sprite);
-          //  }
-        //}
-    }
 }

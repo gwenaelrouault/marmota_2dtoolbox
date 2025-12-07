@@ -1,5 +1,6 @@
 #include "editor_sprites.h"
-#include "create_entity.h"
+#include "create_sprite.h"
+#include "update_sprite.h"
 
 using namespace marmot::studio;
 
@@ -27,12 +28,7 @@ void SpritesPanel::display()
     }
 }
 
-void SpritesPanel::create_sprite() {
-    std::unique_ptr<CreateEntity> async_create= make_unique<CreateEntity>(
-            _logger, 
-            CreateEntityJob{_logger, _model});
-        _worker->async(std::move(async_create));
-}
+
 
 void SpritesPanel::remove_sprite() {
     _model->remove_sprite();
@@ -53,13 +49,14 @@ void SpritesPanel::display_entity(EditorSprite *entity)
                              ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
         {
             ImGui::SetKeyboardFocusHere();
-            entity->_name = entity->_buffer;
             entity->_editing = false;
+            update_sprite(entity->_id, entity->_buffer);
         }
         if (!ImGui::IsItemActive() && !ImGui::IsItemHovered())
         {
             entity->_name = entity->_buffer;
             entity->_editing = false;
+            update_sprite(entity->_id, entity->_buffer);
         }
         ImGui::PopID();
         return;
@@ -212,4 +209,18 @@ void SpritesPanel::display_state_frames(EditorState *state)
             ImGui::SameLine();
         }
     }
+}
+
+void SpritesPanel::create_sprite() {
+    std::unique_ptr<CreateSprite> async_create= make_unique<CreateSprite>(
+            _logger, 
+            CreateSpriteJob{_logger, _model});
+        _worker->async(std::move(async_create));
+}
+
+void SpritesPanel::update_sprite(uint64_t id, const string& name) {
+    auto async_update = make_unique<UpdateSprite>(
+            _logger, 
+            UpdateSpriteJob{_logger, _model, id, name});
+        _worker->async(std::move(async_update));
 }

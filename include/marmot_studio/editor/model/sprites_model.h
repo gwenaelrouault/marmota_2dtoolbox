@@ -34,14 +34,13 @@ namespace marmot::studio
         optional<uint64_t> get_current_sprite();
         void on_no_sprite();
 
-        void set_sprite(shared_ptr<marmota::MarmotaSprite> &sprite);
-
         void set_updated(bool flag);
         bool is_updated();
 
         bool update_model_from_cache(map<uint64_t, unique_ptr<EditorSprite>>& sprites);
         void load_cache_from_db(const filesystem::path &path);
         void create_new_sprite();
+        void update_sprite(uint64_t id, const string& name);
 
         optional<filesystem::path> _filename;
         atomic_bool _flag_updated;

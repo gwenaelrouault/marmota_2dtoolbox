@@ -15,13 +15,13 @@ namespace marmot::studio
 
     constexpr int ERROR_SPRITE_CREATION = 1;
 
-    class CreateEntityJob
+    class CreateSpriteJob
     {
     public:
-        CreateEntityJob(log4cpp::Category &logger,
+        CreateSpriteJob(log4cpp::Category &logger,
                         shared_ptr<SpritesModel> &model)
             : _logger(logger), _model(model) {}
-        virtual ~CreateEntityJob() {}
+        virtual ~CreateSpriteJob() {}
         int execute();
         void onSuccess();
         void onFailed(int err_code);
@@ -31,11 +31,11 @@ namespace marmot::studio
         shared_ptr<SpritesModel> &_model;
     };
 
-    class CreateEntity : public Task<CreateEntityJob>
+    class CreateSprite : public Task<CreateSpriteJob>
     {
     public:
-        CreateEntity(log4cpp::Category &logger, CreateEntityJob job) : Task(job), _logger(logger) {}
-        virtual ~CreateEntity() {}
+        CreateSprite(log4cpp::Category &logger, CreateSpriteJob job) : Task(job), _logger(logger) {}
+        virtual ~CreateSprite() {}
 
     private:
         log4cpp::Category &_logger;

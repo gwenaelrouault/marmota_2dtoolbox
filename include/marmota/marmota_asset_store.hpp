@@ -27,6 +27,7 @@ namespace marmot::marmota
 
         void open(shared_ptr<MarmotaCache>& cache, const filesystem::path &path);
         uint64_t create_sprite(shared_ptr<MarmotaCache>& cache);
+        void update_sprite(shared_ptr<MarmotaCache>& cache, uint64_t id, const string& name);
         void load_sprite(shared_ptr<MarmotaCache>& cache, uint64_t id);
 
     private:

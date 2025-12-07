@@ -35,6 +35,7 @@ namespace marmot::studio
         bool input_size(EditorState *state);
 
         void create_sprite();
+        void update_sprite(uint64_t id, const string& name);
         void remove_sprite();
 
         shared_ptr<SpritesModel> & _model;

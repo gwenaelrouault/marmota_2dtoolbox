@@ -40,7 +40,8 @@ add_executable(marmot_studio
 
 	src/marmot_studio/editor/services/import_sheet.cpp
 	src/marmot_studio/editor/services/open_project.cpp
-	src/marmot_studio/editor/services/create_entity.cpp
+	src/marmot_studio/editor/services/create_sprite.cpp
+	src/marmot_studio/editor/services/update_sprite.cpp
 	src/marmot_studio/editor/services/editor_cmd.cpp
 	src/marmot_studio/editor/model/editor_sprite.cpp
 	src/marmot_studio/editor/model/editor_state.cpp

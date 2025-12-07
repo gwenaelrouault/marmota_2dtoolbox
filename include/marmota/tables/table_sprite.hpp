@@ -17,6 +17,8 @@ namespace marmot::marmota
 
         uint64_t new_entity(const string& name);
 
+        void update_entity(uint64_t id, const string& name);
+
         void load_sprites(vector<shared_ptr<MarmotaSprite>>& sprites);
 
         shared_ptr<MarmotaSprite> load_sprite(uint64_t id);
