@@ -36,7 +36,7 @@ void MainMenu::display()
         if (ImGuiFileDialog::Instance()->IsOk())
         {
             _project_path = ImGuiFileDialog::Instance()->GetFilePathName();
-            unique_ptr<OpenProject> async_import = make_unique<OpenProject>(_logger, OpenProjectJob{_logger, _sprites_model, _store, _project_path}, OpenProjectCallback{_logger});
+            auto async_import = make_unique<OpenProject>(_logger, OpenProjectJob{_logger, _sprites_model, _project_path});
             _worker->async(std::move(async_import));
         }
         ImGuiFileDialog::Instance()->Close();

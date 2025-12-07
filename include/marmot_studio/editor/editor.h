@@ -5,8 +5,8 @@
 #include "editor_menu.h"
 #include "import_sheet_model.h"
 #include "sprites_model.h"
-#include "menu_model.h"
-#include "marmota_asset_store.h"
+#include "marmota_asset_store.hpp"
+#include "marmota_cache.hpp"
 
 namespace marmot::studio
 {
@@ -18,17 +18,17 @@ namespace marmot::studio
             log4cpp::Category &logger, 
             std::shared_ptr<Worker> &worker, 
             std::filesystem::path &path, 
-            std::shared_ptr<marmota::MarmotaAssetStore> &store)
+            std::shared_ptr<marmota::MarmotaAssetStore> &store,
+            std::shared_ptr<marmota::MarmotaCache> &cache)
             : EditorPanel(0, logger, worker, renderer, io)
         {
             // create models
             _sheet_model = make_shared<ImportSheetModel>();
-            _sprites_model = make_shared<SpritesModel>();
-            _menu_model = make_shared<MenuModel>();
+            _sprites_model = make_shared<SpritesModel>(store, cache);
             
             // create panels
-            _menu = make_unique<MainMenu>(logger, worker, renderer, io, store, _menu_model, _sprites_model);
-            _main_panel = make_unique<MainPanel>(renderer, io, logger, worker, path, store, _sprites_model, _sheet_model, _menu_model);
+            _menu = make_unique<MainMenu>(logger, worker, renderer, io, _sprites_model);
+            _main_panel = make_unique<MainPanel>(renderer, io, logger, worker, path, _sprites_model, _sheet_model);
         }
         virtual ~Editor() {}
 
@@ -37,7 +37,6 @@ namespace marmot::studio
     private:
         shared_ptr<ImportSheetModel> _sheet_model;
         shared_ptr<SpritesModel> _sprites_model;
-        shared_ptr<MenuModel> _menu_model;
         unique_ptr<MainPanel> _main_panel;
         unique_ptr<MainMenu> _menu;
     };

@@ -1,11 +1,12 @@
-#include "marmota_asset_store.h"
+#include "marmota_asset_store.hpp"
 #include "db_error.hpp"
 
 using namespace marmot::marmota;
 
-void MarmotaAssetStore::open(const filesystem::path &path)
+void MarmotaAssetStore::open(shared_ptr<MarmotaCache>& cache, const filesystem::path &path)
 {
     _logger.infoStream() << "Marmota:open(" << path << ")";
+    cache->clear();
     sqlite3 *index_db = nullptr;
     int rc = sqlite3_open(path.c_str(), &index_db);
     if (rc)
@@ -34,15 +35,14 @@ void MarmotaAssetStore::open(const filesystem::path &path)
     _logger.infoStream() << "Marmota:open(" << path << ") - database initialized";
 }
 
-uint64_t MarmotaAssetStore::create_sprite(const std::string &name)
+uint64_t MarmotaAssetStore::create_sprite(shared_ptr<MarmotaCache>& cache)
 {
     if (_table_sprite == nullptr) {
         throw DBException("Cannot create sprite : table sprite not created");
     }
-    return _table_sprite->new_entity(name);
+    uint64_t new_id = _table_sprite->new_entity("NEW");
+    return new_id;
 }
-
-
 
 int MarmotaAssetStore::create_state(int entity_id, const string &name)
 {
@@ -52,7 +52,7 @@ int MarmotaAssetStore::create_frame(int state_id)
 {
 }
 
-shared_ptr<MarmotaSprite> &MarmotaAssetStore::load_sprite(uint64_t id)
+void MarmotaAssetStore::load_sprite(shared_ptr<MarmotaCache>& cache, uint64_t id)
 {
     auto new_sprite = _table_sprite->load_sprite(id);
     if (new_sprite == nullptr)
@@ -65,7 +65,7 @@ shared_ptr<MarmotaSprite> &MarmotaAssetStore::load_sprite(uint64_t id)
     {
         _table_frame->load_frames(state.second);
     }
-    for (auto sprite : _model->_sprites)
+    for (auto sprite : cache->_sprites)
     {
         if (sprite.first == id)
         {
@@ -76,7 +76,6 @@ shared_ptr<MarmotaSprite> &MarmotaAssetStore::load_sprite(uint64_t id)
     }
     if (!updated)
     {
-        _model->_sprites[id] = std::move(new_sprite);
+        cache->_sprites[id] = std::move(new_sprite);
     }
-    return _model->_sprites[id];
 }

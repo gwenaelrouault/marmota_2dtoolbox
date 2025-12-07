@@ -22,8 +22,8 @@ void MainPanel::display()
     if (ImGui::BeginTabItem("Sprites"))
     {
         string project_name = "PROJECT:";
-        if (_menu_model->_filename.has_value()) {
-            project_name += _menu_model->_filename.value().filename();
+        if (_model->_filename.has_value()) {
+            project_name += _model->_filename.value().filename();
         }
         ImGui::TextUnformatted(project_name.c_str());
         ImGui::Separator();

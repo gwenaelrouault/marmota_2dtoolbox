@@ -3,11 +3,11 @@
 
 using namespace marmot::studio;
 
-void ImportSheetCallback::onSuccess()
+void ImportSheetJob::onSuccess()
 {
 }
 
-void ImportSheetCallback::onFailed(int err_code)
+void ImportSheetJob::onFailed(int err_code)
 {
 }
 

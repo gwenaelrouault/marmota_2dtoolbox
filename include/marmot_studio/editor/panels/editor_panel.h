@@ -2,7 +2,7 @@
 
 #include <log4cpp/Category.hh>
 #include "imgui_impl_sdlrenderer2.h"
-#include "worker.h"
+#include "worker.hpp"
 #include "sdl_utils.h"
 
 using namespace std;

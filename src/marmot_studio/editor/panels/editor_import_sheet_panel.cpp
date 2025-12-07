@@ -40,7 +40,7 @@ void ImportSheetPanel::display()
     }
     if (!selectedPath.empty())
     {
-        std::unique_ptr<ImportSheet> async_import = make_unique<ImportSheet>(_logger, ImportSheetJob{_logger, _model, selectedPath, _width, _height}, ImportSheetCallback{_logger});
+        unique_ptr<ImportSheet> async_import = make_unique<ImportSheet>(_logger, ImportSheetJob{_logger, _model, selectedPath, _width, _height});
         _worker->async(std::move(async_import));
     }
     display_params();

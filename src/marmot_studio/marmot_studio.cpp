@@ -18,6 +18,7 @@ constexpr int WIN_WIDTH = 1280;
 constexpr int WIN_HEIGHT= 720;
 
 using namespace marmot;
+using namespace std;
 
 int main(int argc, char** argv) {
     // parse arguments ========================================================
@@ -51,9 +52,10 @@ int main(int argc, char** argv) {
     ImGuiIO& io = ImGui::GetIO(); 
 
     // init editor ============================================================
-    auto store = std::make_shared<marmota::MarmotaAssetStore>(logger);
-    auto worker = std::make_shared<marmot::Worker>();
-    auto editor = std::make_unique<studio::Editor>(renderer, io, logger, worker, workdir_path, store);
+    auto store = make_shared<marmota::MarmotaAssetStore>(logger);
+    auto db_cache = make_shared<marmota::MarmotaCache>();
+    auto worker = make_shared<marmot::Worker>();
+    auto editor = make_unique<studio::Editor>(renderer, io, logger, worker, workdir_path, store, db_cache);
 
     // main loop   ============================================================
     bool done = false;

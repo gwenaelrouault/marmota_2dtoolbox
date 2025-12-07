@@ -26,20 +26,24 @@ add_executable(marmot_studio
     imgui/backends/imgui_impl_sdl2.cpp
     imgui/backends/imgui_impl_sdlrenderer2.cpp
 	imgui/ImGuiFileDialog.cpp
+	
 	src/marmota/assets_db.cpp
+	src/marmota/model/marmota_cache.cpp
 	src/marmota/model/marmota_sprite.cpp
 	src/marmota/tables/index_table.cpp
 	src/marmota/tables/table_sprite.cpp
 	src/marmota/tables/table_frame.cpp
 	src/marmota/tables/table_state.cpp
 	src/marmota/marmota_asset_store.cpp
+	
 	src/async/worker.cpp
+
 	src/marmot_studio/editor/services/import_sheet.cpp
 	src/marmot_studio/editor/services/open_project.cpp
 	src/marmot_studio/editor/services/create_entity.cpp
 	src/marmot_studio/editor/services/editor_cmd.cpp
-	src/marmot_studio/editor/model/entity.cpp
-	src/marmot_studio/editor/model/entity_state.cpp
+	src/marmot_studio/editor/model/editor_sprite.cpp
+	src/marmot_studio/editor/model/editor_state.cpp
 	src/marmot_studio/editor/model/sprites_model.cpp
 	src/marmot_studio/editor/model/import_sheet_model.cpp
 	src/marmot_studio/editor/panels/editor_menu.cpp

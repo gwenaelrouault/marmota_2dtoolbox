@@ -18,21 +18,17 @@ namespace marmot
     };
 
     template <typename T>
-    concept Job = requires(T job) {
+    concept Job = requires(T job, int err_code) {
         { job.execute() } -> std::same_as<int>;
+        { job.onSuccess() } -> same_as<void>;
+        { job.onFailed(err_code) } -> same_as<void>;
     };
 
-    template <typename T>
-    concept Callback = requires(T cb, int err_code) {
-        { cb.onSuccess() } -> same_as<void>;
-        { cb.onFailed(err_code) } -> same_as<void>;
-    };
-
-    template <typename Job, typename Callback>
+    template <typename Job>
     class Task : public ITask
     {
     public:
-        Task(Job job, Callback cb) : _job(std::move(job)), _callback(std::move(cb)) {}
+        Task(Job job) : _job(std::move(job)) {}
         virtual ~Task() {}
 
         void run()
@@ -40,16 +36,15 @@ namespace marmot
             auto result = _job.execute();
             if (result == 0)
             {
-                _callback.onSuccess();
+                _job.onSuccess();
             }
             else
             {
-                _callback.onFailed(result);
+                _job.onFailed(result);
             }
         }
 
     private:
-        Callback _callback;
         Job _job;
     };
 }

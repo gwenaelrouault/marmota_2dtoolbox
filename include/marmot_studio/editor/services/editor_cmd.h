@@ -11,12 +11,11 @@ namespace marmot
     public:
         Cmd(log4cpp::Category &logger) : _logger(logger) {}
 
-        void execute(const std::string& cmd);
+        void execute(const std::string &cmd);
 
-        std::vector<std::string>& get_history();
+        std::vector<std::string> &get_history();
 
     private:
-
         std::vector<std::string> parse_command(const std::string &line);
 
         log4cpp::Category &_logger;

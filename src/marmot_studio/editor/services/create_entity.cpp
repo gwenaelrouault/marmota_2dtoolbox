@@ -4,7 +4,7 @@
 
 using namespace marmot::studio;
 
-void CreateEntityCallback::onSuccess()
+void CreateEntityJob::onSuccess()
 {
     // load new created sprite ------------------------------------------------
     auto id = _model->get_current_sprite();
@@ -12,13 +12,13 @@ void CreateEntityCallback::onSuccess()
     {
         uint64_t sprite_id = id.value();
         _logger.infoStream() << "ASYNC:CreateSprite:load(" << sprite_id << ")";
-        auto sprite = _store->load_sprite(sprite_id);
-        _model->set_sprite(sprite);
+        //_store->load_sprite(sprite_id);
     }
+    // notify sprite updated --------------------------------------------------
     _model->on_no_sprite();
 }
 
-void CreateEntityCallback::onFailed(int err_code)
+void CreateEntityJob::onFailed(int err_code)
 {
     // notify sprite updated --------------------------------------------------
     _model->on_no_sprite();
@@ -28,12 +28,9 @@ int CreateEntityJob::execute()
 {
     try
     {
-        // create new sprite --------------------------------------------------
-        _logger.infoStream() << "ASYNC:CreateSprite:create " << _name;
-        uint64_t entity_id = _store->create_sprite(_name);
-        _logger.infoStream() << "ASYNC:created sprite (" << _name << "," << entity_id << ")";
-        // notify sprite update -----------------------------------------------
-        _model->on_current_sprite(entity_id);
+        _logger.infoStream() << "ASYNC:CreateSprite:create new sprite";
+        _model->create_new_sprite();
+        _logger.infoStream() << "ASYNC:created new sprite";
     }
     catch (marmota::DBException &e)
     {

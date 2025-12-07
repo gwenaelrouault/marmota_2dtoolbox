@@ -14,23 +14,31 @@ void SpritesPanel::display()
     ImGui::SetCursorPosX(ImGui::GetCursorPosX() + full_width - total_buttons_width);
     if (ImGui::Button("+", ImVec2(button_size, button_size)))
     {
-        _model->create_sprite();
+        create_sprite();
     }
     ImGui::SameLine();
     if (ImGui::Button("-", ImVec2(button_size, button_size)))
     {
-        _model->remove_sprite();
+        remove_sprite();
     }
-    if (_model.get()->is_updated()) {
-        _model.get()->set_updated(false);
-    }
-    for (const auto &sprite : _model->get_sprites())
-    {
+    _model->update_model_from_cache(_sprites);
+    for (const auto& [id, sprite] : _sprites) {
         display_entity(sprite.get());
     }
 }
 
-void SpritesPanel::display_entity(Entity *entity)
+void SpritesPanel::create_sprite() {
+    std::unique_ptr<CreateEntity> async_create= make_unique<CreateEntity>(
+            _logger, 
+            CreateEntityJob{_logger, _model});
+        _worker->async(std::move(async_create));
+}
+
+void SpritesPanel::remove_sprite() {
+    _model->remove_sprite();
+}
+
+void SpritesPanel::display_entity(EditorSprite *entity)
 {
     ImGui::PushID(entity);
     if (entity->_editing)
@@ -75,7 +83,7 @@ void SpritesPanel::display_entity(Entity *entity)
     ImGui::PopID();
 }
 
-void SpritesPanel::display_states(Entity *entity)
+void SpritesPanel::display_states(EditorSprite *entity)
 {
     ImGuiTreeNodeFlags flag = ImGuiTreeNodeFlags_DefaultOpen;
     if (ImGui::TreeNodeEx("Etats", flag))
@@ -103,7 +111,7 @@ void SpritesPanel::display_states(Entity *entity)
     }
 }
 
-bool SpritesPanel::input_state_name(EntityState *state)
+bool SpritesPanel::input_state_name(EditorState *state)
 {
     if (ImGui::InputText("name", _input_buf, INPUT_BUFFER_SIZE)) {
         state->set_name(_input_buf);
@@ -112,7 +120,7 @@ bool SpritesPanel::input_state_name(EntityState *state)
     return false;
 }
 
-bool SpritesPanel::input_size(EntityState *state)
+bool SpritesPanel::input_size(EditorState *state)
 {
     static int width = 32;
     static int height = 32;
@@ -137,7 +145,7 @@ bool SpritesPanel::input_size(EntityState *state)
     return updated;
 }
 
-void SpritesPanel::display_state(EntityState *state)
+void SpritesPanel::display_state(EditorState *state)
 {
     bool updated_state = false;
     ImGui::Separator();
@@ -176,7 +184,7 @@ void SpritesPanel::display_state(EntityState *state)
     }
 }
 
-void SpritesPanel::display_state_frames(EntityState *state)
+void SpritesPanel::display_state_frames(EditorState *state)
 {
     auto &frames = state->get_frames();
     int count_frames = frames.size();
