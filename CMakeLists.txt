@@ -31,9 +31,11 @@ add_executable(marmot_studio
 	src/marmota/model/marmota_cache.cpp
 	src/marmota/model/marmota_sprite.cpp
 	src/marmota/tables/index_table.cpp
-	src/marmota/tables/table_sprite.cpp
 	src/marmota/tables/table_frame.cpp
 	src/marmota/tables/table_state.cpp
+	src/marmota/tables/table_sprite.cpp
+	src/marmota/tables/table_level.cpp
+	src/marmota/tables/table_level_sprite.cpp
 	src/marmota/marmota_asset_store.cpp
 	
 	src/async/worker.cpp

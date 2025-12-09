@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <sqlite3.h>
+
 namespace marmot::marmota
 {
 

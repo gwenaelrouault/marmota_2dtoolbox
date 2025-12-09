@@ -12,8 +12,8 @@ void TableState::create() {
             speed INTEGER NOT NULL DEFAULT 0,
             width  INTEGER NOT NULL DEFAULT 0,
             height INTEGER NOT NULL DEFAULT 0,
-            entity_id  INTEGER NOT NULL,
-            FOREIGN KEY (entity_id) REFERENCES entity(id)
+            sprite_id  INTEGER NOT NULL,
+            FOREIGN KEY (sprite_id) REFERENCES sprite(id)
                 ON DELETE CASCADE
                 ON UPDATE CASCADE  
             );
@@ -24,22 +24,13 @@ void TableState::create() {
 
 void TableState::load_states(shared_ptr<MarmotaSprite>& sprite) {
     sprite->_states.clear();
-    // create query -----------------------------------------------------------
-    sqlite3_stmt *stmt;
     const char *query = R"(
-        SELECT id,name,loop,speed,width,height FROM state WHERE entity_id = ?;
+        SELECT id,name,loop,speed,width,height FROM state WHERE sprite_id = ?;
         )";
-    if (sqlite3_prepare_v2(_db.get(), query, -1, &stmt, nullptr) != SQLITE_OK)
-    {
-        const char *err = sqlite3_errmsg(_db.get());
-        _logger.errorStream() << "Marmota:Table[STATE]:" << err << "\n";
-        throw DBException(err);
-    }
-    // complete query complete query with id-----------------------------------
+    sqlite3_stmt *stmt = prepare_query(query);
     sqlite3_bind_int(stmt, 1, sprite->_id);
 
-    // fill vector with query result -------------------------------------------
-    while (sqlite3_step(stmt) == SQLITE_ROW) {
+    while (run_query(stmt) == SQLITE_ROW) {
         uint64_t id = (uint64_t) sqlite3_column_int(stmt, 0);
         string name = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
         bool loop = sqlite3_column_int(stmt, 2) == 1;
@@ -47,6 +38,6 @@ void TableState::load_states(shared_ptr<MarmotaSprite>& sprite) {
         int height = sqlite3_column_int(stmt, 4);
         sprite->_states[id] = make_shared<MarmotaState>(name, id, loop, width, height);
     }
-    sqlite3_finalize(stmt);
+    release_query(stmt);
     _logger.infoStream() << "Marmota:Table[STATE]:loaded " << sprite->_states.size() << " states from table STATE for sprite (" << sprite->_id << ")";
 }

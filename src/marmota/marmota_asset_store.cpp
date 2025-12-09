@@ -26,13 +26,8 @@ void MarmotaAssetStore::open(shared_ptr<MarmotaCache>& cache, const filesystem::
     _logger.infoStream() << "Marmota:open(" << path << ") - foreign_keys enabled";
     _db_index = make_index_db(index_db);
     _logger.infoStream() << "Marmota:open(" << path << ") - database created";
-    _table_sprite = make_unique<TableSprite>(_logger, _db_index);
-    _table_sprite->create();
-    _table_state = make_unique<TableState>(_logger, _db_index);
-    _table_state->create();
-    _table_frame = make_unique<TableFrame>(_logger, _db_index);
-    _table_frame->create();
-    _logger.infoStream() << "Marmota:open(" << path << ") - database initialized";
+    create_tables();
+    _logger.infoStream() << "Marmota:open(" << path << ") - [OK]";
 }
 
 uint64_t MarmotaAssetStore::create_sprite(shared_ptr<MarmotaCache>& cache)
@@ -42,7 +37,9 @@ uint64_t MarmotaAssetStore::create_sprite(shared_ptr<MarmotaCache>& cache)
         throw DBException("Cannot create sprite : table sprite not created");
     }
     uint64_t new_id = _table_sprite->new_entity("NEW");
-    _logger.infoStream() << "Marmota:create_sprite(" << new_id << ") [OK]";
+    auto default_level_id = _table_level->get_default_id();
+    _table_level_sprite->add_sprite_to_level(new_id, default_level_id);
+    _logger.infoStream() << "Marmota:create_sprite(" << new_id << ") - [OK]";
     load_sprite(cache, new_id);
     return new_id;
 }
@@ -95,4 +92,17 @@ void MarmotaAssetStore::load_sprite(shared_ptr<MarmotaCache>& cache, uint64_t id
     {
         cache->_sprites[id] = std::move(new_sprite);
     }
+}
+
+void MarmotaAssetStore::create_tables() {
+    _table_sprite = make_unique<TableSprite>(_logger, _db_index);
+    _table_sprite->create();
+    _table_state = make_unique<TableState>(_logger, _db_index);
+    _table_state->create();
+    _table_frame = make_unique<TableFrame>(_logger, _db_index);
+    _table_frame->create();
+    _table_level = make_unique<TableLevel>(_logger, _db_index);
+    _table_level->create();
+    _table_level_sprite = make_unique<TableLevelSprite>(_logger, _db_index);
+    _table_level_sprite->create();
 }
