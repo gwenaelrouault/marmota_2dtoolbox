@@ -31,13 +31,52 @@ void TableState::load_states(shared_ptr<MarmotaSprite>& sprite) {
     sqlite3_bind_int(stmt, 1, sprite->_id);
 
     while (run_query(stmt) == SQLITE_ROW) {
-        uint64_t id = (uint64_t) sqlite3_column_int(stmt, 0);
-        string name = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
-        bool loop = sqlite3_column_int(stmt, 2) == 1;
-        int width = sqlite3_column_int(stmt, 3);
-        int height = sqlite3_column_int(stmt, 4);
-        sprite->_states[id] = make_shared<MarmotaState>(name, id, loop, width, height);
+        auto state = make_state_from_result(stmt);
+        sprite->_states[state->_id] = std::move(state);
     }
     release_query(stmt);
     _logger.infoStream() << "Marmota:Table[STATE]:loaded " << sprite->_states.size() << " states from table STATE for sprite (" << sprite->_id << ")";
+}
+
+uint64_t TableState::new_entity(uint64_t sprite_id, const string &name) {
+    _logger.infoStream() << "Marmota:Table[STATE]:new(" << name << ")";
+    const char *query = R"(
+        INSERT INTO state (name,sprite_id) VALUES (?,?);
+        )";
+    sqlite3_stmt *stmt = prepare_query(query);
+    sqlite3_bind_text(stmt, 1, name.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_int64(stmt, 2, static_cast<sqlite3_int64>(sprite_id));
+    if (run_query(stmt) != SQLITE_DONE)
+    {
+        release_query(stmt);
+        raise_db_error("sprite");
+    }
+    sqlite3_int64 newId = sqlite3_last_insert_rowid(_db.get());
+    _logger.infoStream() << "Marmota:Table[STATE]:added (" << newId << ")";
+    release_query(stmt);
+    return (uint64_t)newId;
+}
+
+shared_ptr<MarmotaState> TableState::load_state(uint64_t id) {
+    const char *query = R"(
+        SELECT id,name,loop,speed,width,height FROM state WHERE id=?;
+        )";
+    sqlite3_stmt *stmt = prepare_query(query);
+    sqlite3_bind_int(stmt, 1, id);
+    if (run_query(stmt) == SQLITE_ROW)
+    {
+        return make_state_from_result(stmt);
+    }
+    release_query(stmt);
+    throw DBException("No sprite");
+}
+
+shared_ptr<MarmotaState> TableState::make_state_from_result(sqlite3_stmt *stmt) {
+    uint64_t id = (uint64_t) sqlite3_column_int(stmt, 0);
+    string name = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
+    bool loop = sqlite3_column_int(stmt, 2) != 0;
+    int speed = sqlite3_column_int(stmt, 3) != 0;
+    int width = sqlite3_column_int(stmt, 4) != 0;
+    int height = sqlite3_column_int(stmt, 5) != 0;
+    return make_shared<MarmotaState>(name, id, loop, speed, width, height);
 }

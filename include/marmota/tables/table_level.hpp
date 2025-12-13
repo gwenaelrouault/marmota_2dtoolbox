@@ -13,7 +13,7 @@ namespace marmot::marmota
     class TableLevel : public IndexTable
     {
     public:
-        TableLevel(log4cpp::Category &logger, SQLiteDB &db) : IndexTable(logger, db), _default_id(nullopt) {}
+        TableLevel(log4cpp::Category &logger, SQLiteDB db) : IndexTable(logger, db), _default_id(nullopt) {}
         virtual ~TableLevel() {}
 
         virtual void create();

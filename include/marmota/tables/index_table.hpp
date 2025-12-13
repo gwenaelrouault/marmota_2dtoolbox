@@ -12,7 +12,7 @@ namespace marmot::marmota
     class IndexTable
     {
     public:
-        IndexTable(log4cpp::Category &logger, SQLiteDB &db) : _logger(logger), _db(db) {}
+        IndexTable(log4cpp::Category &logger, SQLiteDB db) : _logger(logger), _db(db) {}
         virtual ~IndexTable() {}
 
         virtual void create() = 0;
@@ -29,6 +29,6 @@ namespace marmot::marmota
 
     protected:
         log4cpp::Category &_logger;
-        SQLiteDB &_db;
+        SQLiteDB _db;
     };
 }

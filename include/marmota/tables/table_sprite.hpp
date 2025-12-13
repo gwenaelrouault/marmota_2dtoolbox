@@ -10,7 +10,7 @@ namespace marmot::marmota
     class TableSprite : public IndexTable
     {
     public:
-        TableSprite(log4cpp::Category &logger, SQLiteDB &db) : IndexTable(logger, db) {}
+        TableSprite(log4cpp::Category &logger, SQLiteDB db) : IndexTable(logger, db) {}
         virtual ~TableSprite() {}
 
         virtual void create();

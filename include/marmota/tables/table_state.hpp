@@ -9,11 +9,17 @@ namespace marmot::marmota
     class TableState : public IndexTable
     {
     public:
-        TableState(log4cpp::Category &logger, SQLiteDB &db) : IndexTable(logger, db) {}
+        TableState(log4cpp::Category &logger, SQLiteDB db) : IndexTable(logger, db) {}
         virtual ~TableState() {}
 
         virtual void create();
 
+        uint64_t new_entity(uint64_t sprite_id, const string &name);
+
         void load_states(shared_ptr<MarmotaSprite>& sprite);
+
+        shared_ptr<MarmotaState> load_state(uint64_t id);
+    private:
+        shared_ptr<MarmotaState> make_state_from_result(sqlite3_stmt *stmt);
     };
 }

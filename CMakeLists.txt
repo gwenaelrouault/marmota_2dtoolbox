@@ -30,6 +30,7 @@ add_executable(marmot_studio
 	src/marmota/assets_db.cpp
 	src/marmota/model/marmota_cache.cpp
 	src/marmota/model/marmota_sprite.cpp
+	src/marmota/model/marmota_state.cpp
 	src/marmota/tables/index_table.cpp
 	src/marmota/tables/table_frame.cpp
 	src/marmota/tables/table_state.cpp
@@ -40,20 +41,26 @@ add_executable(marmot_studio
 	
 	src/async/worker.cpp
 
-	src/marmot_studio/editor/services/import_sheet.cpp
-	src/marmot_studio/editor/services/open_project.cpp
-	src/marmot_studio/editor/services/create_sprite.cpp
-	src/marmot_studio/editor/services/update_sprite.cpp
-	src/marmot_studio/editor/services/editor_cmd.cpp
-	src/marmot_studio/editor/model/editor_sprite.cpp
-	src/marmot_studio/editor/model/editor_state.cpp
-	src/marmot_studio/editor/model/sprites_model.cpp
-	src/marmot_studio/editor/model/import_sheet_model.cpp
-	src/marmot_studio/editor/panels/editor_menu.cpp
-	src/marmot_studio/editor/panels/editor_import_sheet_panel.cpp
-	src/marmot_studio/editor/panels/editor_sprites.cpp
-	src/marmot_studio/editor/panels/editor_main_panel.cpp
-	src/marmot_studio/editor/editor.cpp
+	src/marmot_studio/evt/create_sprite_event.cpp
+	src/marmot_studio/evt/update_sprite_event.cpp
+	src/marmot_studio/evt/delete_sprite_event.cpp
+	src/marmot_studio/evt/create_state_event.cpp
+	src/marmot_studio/evt/update_state_event.cpp
+	src/marmot_studio/evt/delete_state_event.cpp
+	src/marmot_studio/async/import_sheet.cpp
+	src/marmot_studio/async/open_project.cpp
+	src/marmot_studio/async/create_sprite.cpp
+	src/marmot_studio/async/update_sprite.cpp
+	src/marmot_studio/async/create_state.cpp
+	src/marmot_studio/model/editor_state.cpp
+	src/marmot_studio/services/editor_cmd.cpp
+	src/marmot_studio/services/sprites_model.cpp
+	src/marmot_studio/services/import_sheet_model.cpp
+	src/marmot_studio/panels/editor_menu.cpp
+	src/marmot_studio/panels/editor_import_sheet_panel.cpp
+	src/marmot_studio/panels/editor_sprites.cpp
+	src/marmot_studio/panels/editor_main_panel.cpp
+	src/marmot_studio/editor.cpp
 	src/marmot_studio/marmot_studio.cpp
 )
 
@@ -71,10 +78,12 @@ add_executable(marmot_baby
 include_directories(
 	include
 	include/utils
-	include/marmot_studio/editor
-	include/marmot_studio/editor/model
-	include/marmot_studio/editor/panels
-	include/marmot_studio/editor/services
+	include/marmot_studio/
+	include/marmot_studio/async
+	include/marmot_studio/model
+	include/marmot_studio/evt
+	include/marmot_studio/panels
+	include/marmot_studio/services
 	include/marmota/model
 	include/marmota/tables
 	include/marmota

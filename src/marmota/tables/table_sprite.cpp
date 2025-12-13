@@ -17,6 +17,7 @@ void TableSprite::create()
 uint64_t TableSprite::new_entity(const string &name)
 {
     _logger.infoStream() << "Marmota:Table[SPRITE]:new(" << name << ")";
+    uint64_t id = 0;
     const char *query = R"(
         INSERT INTO sprite (name) VALUES (?);
         )";
@@ -33,8 +34,9 @@ uint64_t TableSprite::new_entity(const string &name)
         sqlite3_int64 newId = sqlite3_last_insert_rowid(_db.get());
         _logger.infoStream() << "Marmota:Table[SPRITE]:added (" << newId << ")";
         release_query(stmt);
-        return (uint64_t)newId;
+        id = (uint64_t)newId;
     }
+    return id;
 }
 
 void TableSprite::update_entity(uint64_t id, const string &name)
@@ -88,5 +90,5 @@ shared_ptr<MarmotaSprite> TableSprite::load_sprite(uint64_t id)
         return make_shared<MarmotaSprite>(name, id);
     }
     release_query(stmt);
-    return nullptr;
+    throw DBException("No sprite");
 }

@@ -57,22 +57,26 @@ void MarmotaAssetStore::update_sprite(shared_ptr<MarmotaCache>& cache, uint64_t 
     _logger.infoStream() << "Marmota:update_sprite(" << id << "," << name << ") [OK]";
 }
 
-int MarmotaAssetStore::create_state(int entity_id, const string &name)
+uint64_t MarmotaAssetStore::create_state(uint64_t sprite_id, const string &name)
 {
+    _logger.infoStream() << "Marmota:create_state(" << sprite_id << "," << name << ")";
+    if (_table_state == nullptr) {
+        throw DBException("Cannot create state : table state not created");
+    }
+    uint64_t new_id = _table_state->new_entity(sprite_id, name);
+    _logger.infoStream() << "Marmota:create_state(" << new_id << ") - [OK]";
+    return new_id;
 }
 
-int MarmotaAssetStore::create_frame(int state_id)
+uint64_t MarmotaAssetStore::create_frame(uint64_t state_id)
 {
+    return 0;
 }
 
 void MarmotaAssetStore::load_sprite(shared_ptr<MarmotaCache>& cache, uint64_t id)
 {
     _logger.infoStream() << "Marmota:load_sprite(" << id << ")";
     auto new_sprite = _table_sprite->load_sprite(id);
-    if (new_sprite == nullptr)
-    {
-        throw DBException("No sprite");
-    }
     bool updated = false;
     _table_state->load_states(new_sprite);
     for (auto state : new_sprite->_states)
@@ -91,6 +95,27 @@ void MarmotaAssetStore::load_sprite(shared_ptr<MarmotaCache>& cache, uint64_t id
     if (!updated)
     {
         cache->_sprites[id] = std::move(new_sprite);
+    }
+}
+
+void MarmotaAssetStore::load_state(shared_ptr<MarmotaCache>& cache, uint64_t sprite_id, uint64_t id) {
+    _logger.infoStream() << "Marmota:load_state(" << id << ")";
+    auto new_state = _table_state->load_state(id);
+    bool updated = false;
+    _table_frame->load_frames(new_state);
+    if (!cache->_sprites.contains(sprite_id)) {
+        throw DBException("No sprite");
+    }
+    for (auto state : cache->_sprites[sprite_id]->_states) {
+        if (state.first == id) {
+            state.second->update(new_state);
+            updated = true;
+            break;
+        }
+    }
+    if (!updated)
+    {
+        cache->_sprites[sprite_id]->_states[id] = std::move(new_state);
     }
 }
 

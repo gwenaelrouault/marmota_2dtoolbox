@@ -25,6 +25,7 @@ void TableLevelSprite::create()
 uint64_t TableLevelSprite::add_sprite_to_level(uint64_t sprite_id, uint64_t level_id)
 {
     _logger.infoStream() << "Marmota:Table[LEVEL_SPRITE]:update(" << sprite_id << "," << level_id << ")";
+    uint64_t id = 0;
     const char *query = R"(
         INSERT INTO level_sprite (sprite_id,level_id) VALUES (?,?);
         )";
@@ -42,6 +43,7 @@ uint64_t TableLevelSprite::add_sprite_to_level(uint64_t sprite_id, uint64_t leve
         sqlite3_int64 newId = sqlite3_last_insert_rowid(_db.get());
         _logger.infoStream() << "Marmota:Table[LEVEL_SPRITE]:added (" << newId << ")";
         release_query(stmt);
-        return (uint64_t)newId;
+        id = (uint64_t)newId;
     }
+    return id;
 }
