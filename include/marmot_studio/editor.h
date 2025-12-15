@@ -24,7 +24,7 @@ namespace marmot::studio
         {
             // create models
             _sheet_model = make_shared<ImportSheetModel>();
-            _sprites_model = make_shared<SpritesModel>(store, cache);
+            _sprites_model = make_shared<SpritesModel>(logger, store, cache);
             
             // create panels
             _menu = make_unique<MainMenu>(logger, worker, renderer, io, _sprites_model);

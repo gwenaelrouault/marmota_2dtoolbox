@@ -3,6 +3,7 @@
 #include <cstdint>
 #include "editor_sprite.h"
 #include "marmota_cache.hpp"
+#include <ostream>
 
 namespace marmot::studio
 {
@@ -28,6 +29,16 @@ namespace marmot::studio
         virtual ~UpdateEvt() {}
 
         virtual bool apply(map<uint64_t, unique_ptr<EditorSprite>> &sprites, shared_ptr<marmota::MarmotaCache> &db_cache) = 0;
+
+        uint64_t get_id() const { return _id; }
+
+        virtual void print(std::ostream& os) const = 0;
+
+        friend std::ostream& operator<<(std::ostream& os, const UpdateEvt& obj) {
+            obj.print(os);
+            return os;
+        }
+
 
     protected:
         EntityType _entity;

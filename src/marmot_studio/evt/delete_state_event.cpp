@@ -11,3 +11,9 @@ bool DeleteStateEvt::apply(map<uint64_t, unique_ptr<EditorSprite>> &sprites, sha
     }
     return false;
 }
+
+
+void DeleteStateEvt::print(std::ostream& os) const
+{
+    os << "EVT:state:delete(" << _id <<  "," << _sprite_id << ")";
+}

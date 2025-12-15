@@ -16,7 +16,7 @@ namespace marmot::marmota
 
         uint64_t new_entity(uint64_t sprite_id, const string &name);
 
-        void load_states(shared_ptr<MarmotaSprite>& sprite);
+        void load_states(shared_ptr<MarmotaSprite> sprite);
 
         shared_ptr<MarmotaState> load_state(uint64_t id);
     private:

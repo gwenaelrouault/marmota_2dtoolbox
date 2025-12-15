@@ -1,5 +1,6 @@
 #pragma once
 
+#include <ostream>
 #include "update_event.h"
 
 namespace marmot::studio
@@ -11,5 +12,9 @@ namespace marmot::studio
         virtual ~CreateSpriteEvt() {}
 
         bool apply(map<uint64_t, unique_ptr<EditorSprite>> &sprites, shared_ptr<marmota::MarmotaCache> &db_cache) override;
+
+        friend std::ostream& operator<<(std::ostream&, const CreateSpriteEvt&);
+
+        void print(std::ostream& os) const override;
     };
-}
+} 

@@ -63,7 +63,7 @@ void SpritesModel::create_new_state(uint64_t id, const string &name)
 {
     lock_guard<std::mutex> lock(_mutex);
     {
-        auto new_id = _store->create_state(id, name);
+        auto new_id = _store->create_state(_db_cache, id, name);
         _evt_queue.push(make_unique<CreateStateEvt>(id, new_id));
     }
 }
@@ -94,6 +94,7 @@ bool SpritesModel::update_model_from_cache(map<uint64_t, unique_ptr<EditorSprite
         if (!_evt_queue.empty())
         {
             auto evt = std::move(_evt_queue.back());
+            _logger.infoStream() << "MODEL:" << *evt.get();
             _evt_queue.pop();
             evt->apply(sprites, _db_cache);
         }

@@ -11,5 +11,7 @@ namespace marmot::studio
         virtual ~DeleteSpriteEvt() {}
 
         bool apply(map<uint64_t, unique_ptr<EditorSprite>> &sprites, shared_ptr<marmota::MarmotaCache> &db_cache) override;
+
+        void print(std::ostream& os) const override;
     };
 }

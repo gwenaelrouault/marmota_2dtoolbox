@@ -14,6 +14,6 @@ namespace marmot::marmota
 
         virtual void create();
 
-        void load_frames(shared_ptr<MarmotaState>& state);
+        void load_frames(shared_ptr<MarmotaState> state);
     };
 }

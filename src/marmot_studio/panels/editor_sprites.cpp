@@ -92,13 +92,13 @@ void SpritesPanel::display_states(EditorSprite *entity)
         float spacing = ImGui::GetStyle().ItemSpacing.x;
         float total_buttons_width = button_size * 2 + spacing;
         ImGui::SetCursorPosX(ImGui::GetCursorPosX() + full_width - total_buttons_width);
-        if (ImGui::Button("+", ImVec2(button_size, button_size)))
+        if (ImGui::Button("+##stateAdd", ImVec2(button_size, button_size)))
         {
             //entity->create_new_state();
             create_state(entity->_id, "");
         }
         ImGui::SameLine();
-        if (ImGui::Button("-", ImVec2(button_size, button_size)))
+        if (ImGui::Button("-##stateDel", ImVec2(button_size, button_size)))
         {
             //entity->remove_state();
         }
@@ -146,6 +146,7 @@ bool SpritesPanel::input_size(EditorState *state)
 
 void SpritesPanel::display_state(EditorState *state)
 {
+    ImGui::PushID(state);
     bool updated_state = false;
     ImGui::Separator();
     ImGuiTreeNodeFlags flag = ImGuiTreeNodeFlags_DefaultOpen;
@@ -180,6 +181,7 @@ void SpritesPanel::display_state(EditorState *state)
         ImGui::SetNextItemWidth(100);
         ImGui::InputInt("##state_speed", &state->_speed, 10);
         ImGui::TreePop();
+        ImGui::PopID();
     }
 }
 

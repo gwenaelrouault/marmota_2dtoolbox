@@ -11,3 +11,8 @@ bool DeleteSpriteEvt::apply(map<uint64_t, unique_ptr<EditorSprite>> &sprites, sh
     }
     return false;
 }
+
+void DeleteSpriteEvt::print(std::ostream& os) const
+{
+    os << "EVT:sprite:delete(" << _id <<  ")";
+}

@@ -11,3 +11,8 @@ bool UpdateStateEvt::apply(map<uint64_t, unique_ptr<EditorSprite>> &sprites, sha
     }
     return false;
 }
+
+void UpdateStateEvt::print(std::ostream& os) const
+{
+    os << "EVT{state:update:" << _id <<  "," << _sprite_id << ")";
+}

@@ -31,12 +31,12 @@ namespace marmot::marmota
 
         
         uint64_t create_frame(uint64_t state_id);
-        void open(shared_ptr<MarmotaCache>& cache, const filesystem::path &path);
-        uint64_t create_sprite(shared_ptr<MarmotaCache>& cache);
-        uint64_t create_state(uint64_t entity_id, const string &name);
-        void update_sprite(shared_ptr<MarmotaCache>& cache, uint64_t id, const string& name);
-        void load_sprite(shared_ptr<MarmotaCache>& cache, uint64_t id);
-        void load_state(shared_ptr<MarmotaCache>& cache, uint64_t sprite_id, uint64_t id);
+        void open(shared_ptr<MarmotaCache> cache, const filesystem::path &path);
+        uint64_t create_sprite(shared_ptr<MarmotaCache> cache);
+        uint64_t create_state(shared_ptr<MarmotaCache> cache, uint64_t entity_id, const string &name);
+        void update_sprite(shared_ptr<MarmotaCache> cache, uint64_t id, const string& name);
+        void load_sprite(shared_ptr<MarmotaCache> cache, uint64_t id);
+        void load_state(shared_ptr<MarmotaCache> cache, uint64_t sprite_id, uint64_t id);
 
     private:
 

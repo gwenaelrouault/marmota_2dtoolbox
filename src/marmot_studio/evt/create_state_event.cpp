@@ -10,3 +10,8 @@ bool CreateStateEvt::apply(map<uint64_t, unique_ptr<EditorSprite>> &sprites, sha
     }
     return false;
 }
+
+void CreateStateEvt::print(std::ostream& os) const
+{
+    os << "EVT:state:create(" << _id <<  "," << _sprite_id << ")";
+}

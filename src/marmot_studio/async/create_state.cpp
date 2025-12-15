@@ -6,12 +6,12 @@ using namespace marmot::studio;
 
 void CreateStateJob::onSuccess()
 {
-    _logger.infoStream() << "ASYNC:CreateState:create new sprite [OK]";
+    _logger.infoStream() << "ASYNC:CreateState:create new state [OK]";
 }
 
 void CreateStateJob::onFailed(int err_code)
 {
-    _logger.infoStream() << "ASYNC:CreateState:create new sprite [KO]";
+    _logger.infoStream() << "ASYNC:CreateState:create new state [KO]";
 }
 
 int CreateStateJob::execute()

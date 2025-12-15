@@ -22,7 +22,8 @@ void TableState::create() {
     _logger.infoStream() << "Marmota:Table[STATE]:created";
 }
 
-void TableState::load_states(shared_ptr<MarmotaSprite>& sprite) {
+void TableState::load_states(shared_ptr<MarmotaSprite> sprite) {
+    _logger.infoStream() << "Marmota:Table[STATE]:load all for sprite(" << sprite->_id << ")";
     sprite->_states.clear();
     const char *query = R"(
         SELECT id,name,loop,speed,width,height FROM state WHERE sprite_id = ?;
@@ -58,6 +59,7 @@ uint64_t TableState::new_entity(uint64_t sprite_id, const string &name) {
 }
 
 shared_ptr<MarmotaState> TableState::load_state(uint64_t id) {
+    _logger.infoStream() << "Marmota:Table[STATE]:load(" << id << ")";
     const char *query = R"(
         SELECT id,name,loop,speed,width,height FROM state WHERE id=?;
         )";
@@ -78,5 +80,8 @@ shared_ptr<MarmotaState> TableState::make_state_from_result(sqlite3_stmt *stmt) 
     int speed = sqlite3_column_int(stmt, 3) != 0;
     int width = sqlite3_column_int(stmt, 4) != 0;
     int height = sqlite3_column_int(stmt, 5) != 0;
-    return make_shared<MarmotaState>(name, id, loop, speed, width, height);
+    auto loaded = make_shared<MarmotaState>(name, id, loop, speed, width, height);
+    _logger.infoStream() << "Marmota:Table[STATE]:loaded(" << loaded << ")";
+    release_query(stmt);
+    return loaded;
 }

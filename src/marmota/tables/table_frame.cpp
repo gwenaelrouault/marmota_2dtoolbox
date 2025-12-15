@@ -18,11 +18,12 @@ void TableFrame::create() {
     _logger.infoStream() << "Marmota:Table[FRAME]:created";
 }
 
-void TableFrame::load_frames(shared_ptr<MarmotaState>& state) {
+void TableFrame::load_frames(shared_ptr<MarmotaState> state) {
+    _logger.infoStream() << "Marmota:Table[FRAME]:load(" << state->_id << ")";
     state->_frames.clear();
     // create query -----------------------------------------------------------
     const char *query = R"(
-        SELECT id WHERE state_id = ?;
+        SELECT id FROM frame WHERE state_id = ?;
         )";
     sqlite3_stmt *stmt = prepare_query(query);
     sqlite3_bind_int(stmt, 1, state->_id);
