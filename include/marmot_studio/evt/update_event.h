@@ -9,6 +9,7 @@ namespace marmot::studio
 {
     enum EntityType
     {
+        E_ALL,
         E_LEVEL,
         E_SPRITE,
         E_STATE,
@@ -25,12 +26,10 @@ namespace marmot::studio
     class UpdateEvt
     {
     public:
-        UpdateEvt(EntityType et, ModificationType mt, uint64_t id) : _entity(et), _type(mt), _id(id) {}
+        UpdateEvt(EntityType et, ModificationType mt) : _entity(et), _type(mt) {}
         virtual ~UpdateEvt() {}
 
         virtual bool apply(map<uint64_t, unique_ptr<EditorSprite>> &sprites, shared_ptr<marmota::MarmotaCache> &db_cache) = 0;
-
-        uint64_t get_id() const { return _id; }
 
         virtual void print(std::ostream& os) const = 0;
 
@@ -39,10 +38,8 @@ namespace marmot::studio
             return os;
         }
 
-
     protected:
         EntityType _entity;
         ModificationType _type;
-        uint64_t _id;
     };
 }

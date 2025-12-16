@@ -22,7 +22,24 @@ void TableLevel::create()
     release_query(stmt);
 }
 
-uint64_t TableLevel::add_level(const string &name)
+shared_ptr<MarmotaLevel> TableLevel::load_level(const string& name) {
+    const char *query = R"(
+        SELECT id FROM level WHERE name=?;
+        )";
+    sqlite3_stmt *stmt = prepare_query(query);
+    sqlite3_bind_text(stmt, 1, name.c_str(), -1, SQLITE_TRANSIENT);
+    if (run_query(stmt) == SQLITE_ROW)
+    {
+        MarmotaId id = sqlite3_column_int(stmt, 0);
+        release_query(stmt);
+        return make_shared<MarmotaLevel>(name, id);
+    }
+    release_query(stmt);
+    throw DBException("No level");
+}
+
+
+MarmotaId TableLevel::add_level(const string &name)
 {
     const char *query = R"(
         INSERT INTO level (name) VALUES (?);
@@ -36,12 +53,12 @@ uint64_t TableLevel::add_level(const string &name)
         raise_db_error("LEVEL");
     }
     sqlite3_int64 newId = sqlite3_last_insert_rowid(_db.get());
-    _logger.infoStream() << "Marmota:Table[SPRITE]:added (" << newId << ")";
+    _logger.infoStream() << "Marmota:Table[LEVEL]:added (" << newId << ")";
     release_query(stmt);
-    return (uint64_t)newId;
+    return (MarmotaId)newId;
 }
 
-uint64_t TableLevel::get_default_id()
+MarmotaId TableLevel::get_default_id()
 {
     if (!_default_id.has_value())
     {
@@ -52,7 +69,7 @@ uint64_t TableLevel::get_default_id()
         sqlite3_bind_text(stmt, 1, DEFAULT_LEVEL_NAME.c_str(), -1, SQLITE_STATIC);
         if (run_query(stmt) == SQLITE_ROW)
         {
-            _default_id = (uint64_t)sqlite3_column_int64(stmt, 0);
+            _default_id = (MarmotaId)sqlite3_column_int64(stmt, 0);
         }
         else
         {
@@ -60,4 +77,8 @@ uint64_t TableLevel::get_default_id()
         }
     }
     return _default_id.value();
+}
+
+void TableLevel::delete_item(MarmotaId id) {
+    _logger.infoStream() << "Marmota:Table[LEVEL]:delete(" << id << ")";
 }

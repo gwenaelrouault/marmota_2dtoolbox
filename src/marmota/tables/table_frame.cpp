@@ -30,9 +30,13 @@ void TableFrame::load_frames(shared_ptr<MarmotaState> state) {
     
     // fill vector with query result -------------------------------------------
     while (run_query(stmt) == SQLITE_ROW) {
-        uint64_t id = (uint64_t) sqlite3_column_int(stmt, 0);
+        MarmotaId id = (MarmotaId) sqlite3_column_int(stmt, 0);
         state->_frames[id] = make_shared<MarmotaFrame>(id);
     }
     release_query(stmt);
      _logger.infoStream() << "Marmota:Table[FRAME]:Loaded " << state->_frames.size() << " from table frame for FRAME (" << state->_id << ")";
+}
+
+void TableFrame::delete_item(MarmotaId id) {
+    _logger.infoStream() << "Marmota:Table[FRAME]:delete(" << id << ")";
 }

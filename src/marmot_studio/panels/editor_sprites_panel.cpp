@@ -1,7 +1,8 @@
-#include "editor_sprites.h"
+#include "editor_sprites_panel.h"
 #include "create_sprite.h"
 #include "update_sprite.h"
 #include "create_state.h"
+#include "remove_sprite.h"
 
 using namespace marmot::studio;
 
@@ -16,31 +17,29 @@ void SpritesPanel::display()
     ImGui::SetCursorPosX(ImGui::GetCursorPosX() + full_width - total_buttons_width);
     if (ImGui::Button("+", ImVec2(button_size, button_size)))
     {
-        create_sprite();
-    }
-    ImGui::SameLine();
-    if (ImGui::Button("-", ImVec2(button_size, button_size)))
-    {
-        remove_sprite();
+        auto async_create = make_unique<CreateSprite>(_logger, CreateSpriteJob{_logger, _model});
+        _worker->async(std::move(async_create));
     }
     _model->update_model_from_cache(_sprites);
-    for (const auto& [id, sprite] : _sprites) {
+    for (const auto &[id, sprite] : _sprites)
+    {
         display_entity(sprite.get());
     }
-}
-
-
-
-void SpritesPanel::remove_sprite() {
-    _model->remove_sprite();
 }
 
 void SpritesPanel::display_entity(EditorSprite *entity)
 {
     ImGui::PushID(entity);
+    float full_width = ImGui::GetContentRegionAvail().x;
+        float button_size = ImGui::GetFrameHeight();
+        float spacing = ImGui::GetStyle().ItemSpacing.x;
+        float total_buttons_width = button_size + spacing;
+        float left_width = full_width - total_buttons_width;
     if (entity->_editing)
     {
-        ImGui::SetNextItemWidth(-1);
+        
+        ImGui::SetNextItemWidth(left_width);
+        _logger.infoStream() << " WIDTH " << left_width;
         if (entity->_request_focus)
         {
             ImGui::SetKeyboardFocusHere();
@@ -64,7 +63,7 @@ void SpritesPanel::display_entity(EditorSprite *entity)
     }
 
     bool open = ImGui::CollapsingHeader(entity->_name.c_str(),
-                                        ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_SpanAvailWidth);
+                                        ImGuiTreeNodeFlags_DefaultOpen );
 
     if (ImGui::IsItemFocused() && ImGui::IsKeyPressed(ImGuiKey_Enter))
     {
@@ -74,6 +73,13 @@ void SpritesPanel::display_entity(EditorSprite *entity)
         ImGui::PopID();
         return;
     }
+
+        //ImGui::SetCursorPosX(ImGui::GetCursorPosX() + full_width - total_buttons_width);
+        if (ImGui::Button("delete", ImVec2(80, button_size)))
+        {
+            auto async_remove = make_unique<RemoveSprite>(_logger, RemoveSpriteJob{_logger, _model, entity->_id});
+            _worker->async(std::move(async_remove));
+        }
     if (open)
     {
         display_states(entity);
@@ -94,15 +100,14 @@ void SpritesPanel::display_states(EditorSprite *entity)
         ImGui::SetCursorPosX(ImGui::GetCursorPosX() + full_width - total_buttons_width);
         if (ImGui::Button("+##stateAdd", ImVec2(button_size, button_size)))
         {
-            //entity->create_new_state();
             create_state(entity->_id, "");
         }
         ImGui::SameLine();
         if (ImGui::Button("-##stateDel", ImVec2(button_size, button_size)))
         {
-            //entity->remove_state();
+            // entity->remove_state();
         }
-        for (const auto& [id, state] : entity->_states)
+        for (const auto &[id, state] : entity->_states)
         {
             display_state(state.get());
         }
@@ -112,7 +117,8 @@ void SpritesPanel::display_states(EditorSprite *entity)
 
 bool SpritesPanel::input_state_name(EditorState *state)
 {
-    if (ImGui::InputText("name", _input_buf, INPUT_BUFFER_SIZE)) {
+    if (ImGui::InputText("name", state->_input_buf, INPUT_BUF_STATE_SIZE))
+    {
         state->set_name(_input_buf);
         return true;
     }
@@ -121,26 +127,24 @@ bool SpritesPanel::input_state_name(EditorState *state)
 
 bool SpritesPanel::input_size(EditorState *state)
 {
-    static int width = 32;
-    static int height = 32;
     bool updated = false;
     ImGui::TextUnformatted("size");
     ImGui::SameLine();
     ImGui::TextUnformatted("Width=");
     ImGui::SameLine();
     ImGui::SetNextItemWidth(100);
-    if (ImGui::InputInt("##width", &width)) {
+    if (ImGui::InputInt("##width", &state->_width))
+    {
         updated = true;
     }
     ImGui::SameLine();
     ImGui::TextUnformatted("Height=");
     ImGui::SameLine();
     ImGui::SetNextItemWidth(100);
-    if (ImGui::InputInt("##height", &height)) {
+    if (ImGui::InputInt("##height", &state->_height))
+    {
         updated = true;
     }
-    state->set_width(width);
-    state->set_height(height);
     return updated;
 }
 
@@ -181,8 +185,8 @@ void SpritesPanel::display_state(EditorState *state)
         ImGui::SetNextItemWidth(100);
         ImGui::InputInt("##state_speed", &state->_speed, 10);
         ImGui::TreePop();
-        ImGui::PopID();
     }
+    ImGui::PopID();
 }
 
 void SpritesPanel::display_state_frames(EditorState *state)
@@ -215,24 +219,23 @@ void SpritesPanel::display_state_frames(EditorState *state)
     }
 }
 
-void SpritesPanel::create_sprite() {
-    std::unique_ptr<CreateSprite> async_create= make_unique<CreateSprite>(
-            _logger, 
-            CreateSpriteJob{_logger, _model});
-        _worker->async(std::move(async_create));
-}
-
-void SpritesPanel::update_sprite(uint64_t id, const string& name) {
+void SpritesPanel::update_sprite(uint64_t id, const string &name)
+{
     auto async_update = make_unique<UpdateSprite>(
-            _logger, 
-            UpdateSpriteJob{_logger, _model, id, name});
-        _worker->async(std::move(async_update));
+        _logger,
+        UpdateSpriteJob{_logger, _model, id, name});
+    _worker->async(std::move(async_update));
 }
 
-void SpritesPanel::create_state(uint64_t id, const string& name) {
-    _logger.infoStream() << "EDITOR:create_state:(" << id << "," << name << ")"; 
+void SpritesPanel::create_state(uint64_t id, const string &name)
+{
+    _logger.infoStream() << "EDITOR:create_state:(" << id << "," << name << ")";
     auto async_create = make_unique<CreateState>(
-            _logger, 
-            CreateStateJob{_logger, _model, id, name});
-        _worker->async(std::move(async_create));
+        _logger,
+        CreateStateJob{_logger, _model, id, name});
+    _worker->async(std::move(async_create));
+}
+
+void SpritesPanel::remove_state()
+{
 }

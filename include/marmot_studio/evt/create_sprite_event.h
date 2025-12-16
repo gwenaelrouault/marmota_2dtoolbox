@@ -1,14 +1,13 @@
 #pragma once
 
-#include <ostream>
-#include "update_event.h"
+#include "update_entity_event.h"
 
 namespace marmot::studio
 {
-    class CreateSpriteEvt : public UpdateEvt
+    class CreateSpriteEvt : public UpdateEntityEvt
     {
     public:
-        explicit CreateSpriteEvt(uint64_t id) : UpdateEvt(E_SPRITE, M_CREATE, id) {}
+        explicit CreateSpriteEvt(uint64_t id) : UpdateEntityEvt(E_SPRITE, M_CREATE, id) {}
         virtual ~CreateSpriteEvt() {}
 
         bool apply(map<uint64_t, unique_ptr<EditorSprite>> &sprites, shared_ptr<marmota::MarmotaCache> &db_cache) override;

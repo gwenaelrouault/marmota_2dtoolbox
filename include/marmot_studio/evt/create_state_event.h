@@ -1,14 +1,14 @@
 #pragma once
 
-#include "update_event.h"
+#include "update_entity_event.h"
 
 namespace marmot::studio
 {
-    class CreateStateEvt : public UpdateEvt
+    class CreateStateEvt : public UpdateEntityEvt
     {
     public:
         explicit CreateStateEvt(uint64_t sprite_id, uint64_t id)
-            : UpdateEvt(E_SPRITE, M_CREATE, id), _sprite_id(sprite_id) {}
+            : UpdateEntityEvt(E_SPRITE, M_CREATE, id), _sprite_id(sprite_id) {}
         virtual ~CreateStateEvt() {}
 
         bool apply(map<uint64_t, unique_ptr<EditorSprite>> &sprites, shared_ptr<marmota::MarmotaCache> &db_cache) override;

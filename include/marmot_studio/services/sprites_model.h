@@ -27,7 +27,7 @@ namespace marmot::studio
 
         void add_sprite(unique_ptr<EditorSprite> &item);
         void create_sprite();
-        void remove_sprite();
+        void remove_sprite(uint64_t id);
 
         vector<unique_ptr<EditorSprite>> &get_sprites();
 
@@ -39,7 +39,8 @@ namespace marmot::studio
         bool is_updated();
 
         bool update_model_from_cache(map<uint64_t, unique_ptr<EditorSprite>> &sprites);
-        void load_cache_from_db(const filesystem::path &path);
+        void open_db(const filesystem::path &path);
+        void load_level(const std::string& level_name);
         void create_new_sprite();
         void update_sprite(uint64_t id, const string &name);
         void create_new_state(uint64_t id, const string &name);

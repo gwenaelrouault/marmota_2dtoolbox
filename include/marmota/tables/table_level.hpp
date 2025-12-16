@@ -1,8 +1,8 @@
 #pragma once
 
-#include <cstdint>
 #include <optional>
 #include "index_table.hpp"
+#include "marmota_level.hpp"
 
 
 namespace marmot::marmota
@@ -16,13 +16,17 @@ namespace marmot::marmota
         TableLevel(log4cpp::Category &logger, SQLiteDB db) : IndexTable(logger, db), _default_id(nullopt) {}
         virtual ~TableLevel() {}
 
-        virtual void create();
+        virtual void create() override;
 
         uint64_t add_level(const string& name);
 
         uint64_t get_default_id();
 
+        virtual void delete_item(MarmotaId) override;
+
+        shared_ptr<MarmotaLevel> load_level(const string& name);
+
     private:
-        optional<uint64_t> _default_id;
+        optional<MarmotaId> _default_id;
     };
 }

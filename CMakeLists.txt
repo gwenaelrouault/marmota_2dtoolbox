@@ -41,6 +41,7 @@ add_executable(marmot_studio
 	
 	src/async/worker.cpp
 
+	src/marmot_studio/evt/init_event.cpp
 	src/marmot_studio/evt/create_sprite_event.cpp
 	src/marmot_studio/evt/update_sprite_event.cpp
 	src/marmot_studio/evt/delete_sprite_event.cpp
@@ -51,6 +52,7 @@ add_executable(marmot_studio
 	src/marmot_studio/async/open_project.cpp
 	src/marmot_studio/async/create_sprite.cpp
 	src/marmot_studio/async/update_sprite.cpp
+	src/marmot_studio/async/remove_sprite.cpp
 	src/marmot_studio/async/create_state.cpp
 	src/marmot_studio/model/editor_state.cpp
 	src/marmot_studio/services/editor_cmd.cpp
@@ -58,7 +60,7 @@ add_executable(marmot_studio
 	src/marmot_studio/services/import_sheet_model.cpp
 	src/marmot_studio/panels/editor_menu.cpp
 	src/marmot_studio/panels/editor_import_sheet_panel.cpp
-	src/marmot_studio/panels/editor_sprites.cpp
+	src/marmot_studio/panels/editor_sprites_panel.cpp
 	src/marmot_studio/panels/editor_main_panel.cpp
 	src/marmot_studio/editor.cpp
 	src/marmot_studio/marmot_studio.cpp

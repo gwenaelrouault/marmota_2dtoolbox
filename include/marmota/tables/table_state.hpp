@@ -12,13 +12,16 @@ namespace marmot::marmota
         TableState(log4cpp::Category &logger, SQLiteDB db) : IndexTable(logger, db) {}
         virtual ~TableState() {}
 
-        virtual void create();
+        virtual void create() override;
 
-        uint64_t new_entity(uint64_t sprite_id, const string &name);
+        MarmotaId new_entity(MarmotaId sprite_id, const string &name);
 
         void load_states(shared_ptr<MarmotaSprite> sprite);
 
-        shared_ptr<MarmotaState> load_state(uint64_t id);
+        shared_ptr<MarmotaState> load_state(MarmotaId id);
+
+        virtual void delete_item(MarmotaId id) override;
+
     private:
         shared_ptr<MarmotaState> make_state_from_result(sqlite3_stmt *stmt);
     };

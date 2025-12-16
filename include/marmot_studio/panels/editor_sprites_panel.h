@@ -3,7 +3,6 @@
 #include <memory>
 #include <map>
 #include <cstdint>
-#include "editor_sprites.h"
 #include "sprites_model.h"
 #include "editor_panel.h"
 #include "marmota_asset_store.hpp"
@@ -21,7 +20,11 @@ namespace marmot::studio
             shared_ptr<Worker> worker, 
             SDL_Renderer *renderer, ImGuiIO &io,
             shared_ptr<SpritesModel> &sprites_model) : EditorPanel(SPRITES_PANEL, logger, worker, renderer, io),
-             _model(sprites_model) {}
+             _model(sprites_model) {
+                for(int i = 0; i < INPUT_BUFFER_SIZE; i++) {
+                    _input_buf[i] = 0;
+                }
+             }
         virtual ~SpritesPanel() {}
         virtual void display();
 
@@ -34,11 +37,10 @@ namespace marmot::studio
         bool input_state_name(EditorState *state);
         bool input_size(EditorState *state);
 
-        void create_sprite();
         void update_sprite(uint64_t id, const string& name);
-        void remove_sprite();
 
         void create_state(uint64_t id, const string& name);
+        void remove_state();
 
         shared_ptr<SpritesModel> _model;
         char _input_buf[INPUT_BUFFER_SIZE];

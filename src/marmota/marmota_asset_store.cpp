@@ -30,6 +30,22 @@ void MarmotaAssetStore::open(shared_ptr<MarmotaCache> cache, const filesystem::p
     _logger.infoStream() << "Marmota:open(" << path << ") - [OK]";
 }
 
+
+void MarmotaAssetStore::load_level(shared_ptr<MarmotaCache> cache, const string& name) {
+    _logger.infoStream() << "Marmota:load level(" << name << ")";
+    cache->clear();
+    if (_table_level == nullptr || _table_level_sprite == nullptr) {
+        throw DBException("Cannot load level : table level not created");
+    }
+    auto level = _table_level->load_level(name);
+    _table_level_sprite->get_level_sprites(level);
+    cache->_level = std::move(level);
+    for(auto id : cache->_level->_sprites) {
+        load_sprite(cache, id);
+    }
+    _logger.infoStream() << "Marmota:load level(" << name << ") - [OK]";
+}
+
 uint64_t MarmotaAssetStore::create_sprite(shared_ptr<MarmotaCache> cache)
 {
     _logger.infoStream() << "Marmota:create_sprite";
@@ -42,6 +58,18 @@ uint64_t MarmotaAssetStore::create_sprite(shared_ptr<MarmotaCache> cache)
     _logger.infoStream() << "Marmota:create_sprite(" << new_id << ") - [OK]";
     load_sprite(cache, new_id);
     return new_id;
+}
+
+void MarmotaAssetStore::remove_sprite(shared_ptr<MarmotaCache> cache, uint64_t id) {
+    _logger.infoStream() << "Marmota:remove_sprite(" << id << ")";
+    if (_table_sprite == nullptr) {
+        throw DBException("Cannot remove sprite : table sprite not created");
+    }
+    _table_sprite->delete_item(id);
+    if (cache->_sprites.contains(id)) {
+        cache->_sprites.erase(id);
+    }
+    _logger.infoStream() << "Marmota:remove_sprite(" << id << ") [OK]";
 }
 
 void MarmotaAssetStore::update_sprite(shared_ptr<MarmotaCache> cache, uint64_t id, const string& name) {
@@ -74,7 +102,7 @@ uint64_t MarmotaAssetStore::create_frame(uint64_t state_id)
     return 0;
 }
 
-void MarmotaAssetStore::load_sprite(shared_ptr<MarmotaCache> cache, uint64_t id)
+void MarmotaAssetStore::load_sprite(shared_ptr<MarmotaCache> cache, MarmotaId id)
 {
     _logger.infoStream() << "Marmota:load_sprite(" << id << ")";
     auto new_sprite = _table_sprite->load_sprite(id);
@@ -99,7 +127,7 @@ void MarmotaAssetStore::load_sprite(shared_ptr<MarmotaCache> cache, uint64_t id)
     }
 }
 
-void MarmotaAssetStore::load_state(shared_ptr<MarmotaCache> cache, uint64_t sprite_id, uint64_t id) {
+void MarmotaAssetStore::load_state(shared_ptr<MarmotaCache> cache, MarmotaId sprite_id, MarmotaId id) {
     _logger.infoStream() << "Marmota:load_state(" << id << ")";
     auto new_state = _table_state->load_state(id);
     bool updated = false;

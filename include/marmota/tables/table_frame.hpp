@@ -12,8 +12,10 @@ namespace marmot::marmota
         TableFrame(log4cpp::Category &logger, SQLiteDB db) : IndexTable(logger, db) {}
         virtual ~TableFrame() {}
 
-        virtual void create();
+        virtual void create() override;
 
         void load_frames(shared_ptr<MarmotaState> state);
+
+        virtual void delete_item(MarmotaId id) override;
     };
 }

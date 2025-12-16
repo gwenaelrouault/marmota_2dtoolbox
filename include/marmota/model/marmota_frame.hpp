@@ -1,16 +1,14 @@
 #pragma once
-#include <cstdint>
-
-using namespace std;
+#include "marmota_types.hpp"
 
 namespace marmot::marmota
 {
     struct MarmotaFrame
     {
         MarmotaFrame() : _id(-1) {}
-        MarmotaFrame(uint64_t id) : _id(id) {}
+        MarmotaFrame(MarmotaId id) : _id(id) {}
         virtual ~MarmotaFrame() {}
         
-        uint64_t _id;
+        MarmotaId _id;
     };
 }

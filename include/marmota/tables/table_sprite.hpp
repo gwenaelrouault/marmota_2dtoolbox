@@ -13,14 +13,16 @@ namespace marmot::marmota
         TableSprite(log4cpp::Category &logger, SQLiteDB db) : IndexTable(logger, db) {}
         virtual ~TableSprite() {}
 
-        virtual void create();
+        virtual void create() override;
 
-        uint64_t new_entity(const string& name);
+        MarmotaId new_entity(const string& name);
 
-        void update_entity(uint64_t id, const string& name);
+        void update_entity(MarmotaId id, const string& name);
 
         void load_sprites(vector<shared_ptr<MarmotaSprite>>& sprites);
 
-        shared_ptr<MarmotaSprite> load_sprite(uint64_t id);
+        shared_ptr<MarmotaSprite> load_sprite(MarmotaId id);
+
+        virtual void delete_item(MarmotaId id) override;
     };
 }

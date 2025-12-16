@@ -10,7 +10,7 @@ using namespace std;
 
 namespace marmot::studio
 {
-    constexpr int SIZE_BUF = 256;
+    constexpr int SIZE_BUF = 32;
 
     struct EditorSprite
     {

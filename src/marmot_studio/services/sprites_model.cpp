@@ -6,6 +6,7 @@
 #include "create_state_event.h"
 #include "update_state_event.h"
 #include "delete_state_event.h"
+#include "init_event.h"
 
 using namespace marmot::studio;
 
@@ -20,10 +21,6 @@ void SpritesModel::create_sprite()
     add_sprite(sp);
 }
 
-void SpritesModel::remove_sprite()
-{
-    //_sprites.pop_back();
-}
 
 void SpritesModel::on_current_sprite(uint64_t id)
 {
@@ -59,6 +56,16 @@ void SpritesModel::create_new_sprite()
     }
 }
 
+void SpritesModel::remove_sprite(uint64_t id)
+{
+    lock_guard<std::mutex> lock(_mutex);
+    {
+        _store->remove_sprite(_db_cache, id);
+        _evt_queue.push(make_unique<DeleteSpriteEvt>(id));
+    }
+}
+
+
 void SpritesModel::create_new_state(uint64_t id, const string &name)
 {
     lock_guard<std::mutex> lock(_mutex);
@@ -77,11 +84,20 @@ void SpritesModel::update_sprite(uint64_t id, const string &name)
     }
 }
 
-void SpritesModel::load_cache_from_db(const filesystem::path &path)
+void SpritesModel::open_db(const filesystem::path &path)
 {
     lock_guard<std::mutex> lock(_mutex);
     {
         _store->open(_db_cache, path);
+        _evt_queue.push(make_unique<InitEvt>());
+    }
+}
+
+void SpritesModel::load_level(const std::string& level_name) {
+    lock_guard<std::mutex> lock(_mutex);
+    {
+        _store->load_level(_db_cache, level_name);
+        _evt_queue.push(make_unique<InitEvt>());
     }
 }
 
@@ -96,7 +112,7 @@ bool SpritesModel::update_model_from_cache(map<uint64_t, unique_ptr<EditorSprite
             auto evt = std::move(_evt_queue.back());
             _logger.infoStream() << "MODEL:" << *evt.get();
             _evt_queue.pop();
-            evt->apply(sprites, _db_cache);
+            updated = evt->apply(sprites, _db_cache);
         }
     }
     return updated;

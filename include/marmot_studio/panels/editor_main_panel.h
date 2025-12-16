@@ -8,7 +8,7 @@
 #include <filesystem>
 #include "imgui_impl_sdlrenderer2.h"
 #include "editor_cmd.h"
-#include "editor_sprites.h"
+#include "editor_sprites_panel.h"
 #include "editor_import_sheet_panel.h"
 #include "worker.hpp"
 #include "import_sheet_model.h"

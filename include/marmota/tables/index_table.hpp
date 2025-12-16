@@ -2,7 +2,7 @@
 
 #include <log4cpp/Category.hh>
 #include <memory>
-#include <string>
+#include "marmota_types.hpp"
 #include "index_db.hpp"
 
 namespace marmot::marmota
@@ -16,6 +16,8 @@ namespace marmot::marmota
         virtual ~IndexTable() {}
 
         virtual void create() = 0;
+
+        virtual void delete_item(MarmotaId id) = 0;
 
         void exec(std::string_view sql);
 
