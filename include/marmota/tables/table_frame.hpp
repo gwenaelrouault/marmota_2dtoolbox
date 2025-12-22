@@ -16,6 +16,13 @@ namespace marmot::marmota
 
         void load_frames(shared_ptr<MarmotaState> state);
 
+        shared_ptr<MarmotaFrame> load_frame(MarmotaId id);
+
         virtual void delete_item(MarmotaId id) override;
+
+        MarmotaId new_entity(MarmotaId state_id, int num);
+
+    private:
+        shared_ptr<MarmotaFrame> make_frame_from_result(sqlite3_stmt *stmt);
     };
 }

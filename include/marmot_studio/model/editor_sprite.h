@@ -21,11 +21,11 @@ namespace marmot::studio
 
         void remove_state();
 
-        map<uint64_t, unique_ptr<EditorState>> _states;
+        map<MarmotaId, unique_ptr<EditorState>> _states;
 
         char _buffer[SIZE_BUF]{};
 
-        uint64_t _id;
+        MarmotaId _id;
 
         string _name;
 

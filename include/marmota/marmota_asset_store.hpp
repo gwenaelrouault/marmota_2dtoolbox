@@ -30,16 +30,19 @@ namespace marmot::marmota
         void open(shared_ptr<MarmotaCache> cache, const filesystem::path &path);
         
         uint64_t create_sprite(shared_ptr<MarmotaCache> cache);
-        uint64_t create_state(shared_ptr<MarmotaCache> cache, uint64_t entity_id, const string &name);
-        uint64_t create_frame(uint64_t state_id);
+        uint64_t create_state(shared_ptr<MarmotaCache> cache, MarmotaId sprite_id, const string &name);
+        uint64_t create_frame(shared_ptr<MarmotaCache> cache, MarmotaId sprite_id, MarmotaId state_id, int num_frame);
 
         void load_level(shared_ptr<MarmotaCache> cache, const string& name);
         void load_sprite(shared_ptr<MarmotaCache> cache, MarmotaId id);
         void load_state(shared_ptr<MarmotaCache> cache, MarmotaId sprite_id, MarmotaId id);
+        void load_frame(shared_ptr<MarmotaCache> cache, MarmotaId sprite_id, MarmotaId state_id, MarmotaId id);
 
         void update_sprite(shared_ptr<MarmotaCache> cache, uint64_t id, const string& name);
 
         void remove_sprite(shared_ptr<MarmotaCache> cache, uint64_t id);
+
+        void delete_state(shared_ptr<MarmotaCache> cache, MarmotaId sprite_id, uint64_t id);
 
     private:
 

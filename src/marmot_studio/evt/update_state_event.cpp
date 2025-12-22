@@ -2,7 +2,7 @@
 
 using namespace marmot::studio;
 
-bool UpdateStateEvt::apply(map<uint64_t, unique_ptr<EditorSprite>> &sprites, shared_ptr<marmota::MarmotaCache> &db_cache)
+bool UpdateStateEvt::apply(map<MarmotaId, unique_ptr<EditorSprite>> &sprites, shared_ptr<marmota::MarmotaCache> &db_cache)
 {
     if (sprites.contains(_sprite_id) && (sprites[_sprite_id]->_states.contains(_id)))
     {
@@ -12,7 +12,7 @@ bool UpdateStateEvt::apply(map<uint64_t, unique_ptr<EditorSprite>> &sprites, sha
     return false;
 }
 
-void UpdateStateEvt::print(std::ostream& os) const
+void UpdateStateEvt::print(std::ostream &os) const
 {
-    os << "EVT{state:update:" << _id <<  "," << _sprite_id << ")";
+    os << "EVT{state:update:" << _id << "," << _sprite_id << ")";
 }

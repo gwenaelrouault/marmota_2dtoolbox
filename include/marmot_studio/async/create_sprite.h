@@ -3,8 +3,7 @@
 #include <filesystem>
 #include <log4cpp/Category.hh>
 #include "task.hpp"
-#include "sprites_model.h"
-#include "marmota_asset_store.hpp"
+#include "asset_db.h"
 
 using namespace std;
 
@@ -18,9 +17,9 @@ namespace marmot::studio
     class CreateSpriteJob
     {
     public:
-        CreateSpriteJob(log4cpp::Category &logger,
-                        shared_ptr<SpritesModel> model)
-            : _logger(logger), _model(model) {}
+        explicit CreateSpriteJob(log4cpp::Category &logger,
+                        shared_ptr<AssetDB> db)
+            : _logger(logger), _db(db) {}
         virtual ~CreateSpriteJob() {}
         int execute();
         void onSuccess();
@@ -28,13 +27,13 @@ namespace marmot::studio
 
     private:
         log4cpp::Category &_logger;
-        shared_ptr<SpritesModel> _model;
+        shared_ptr<AssetDB> _db;
     };
 
     class CreateSprite : public Task<CreateSpriteJob>
     {
     public:
-        CreateSprite(log4cpp::Category &logger, CreateSpriteJob job) : Task(job), _logger(logger) {}
+        explicit CreateSprite(log4cpp::Category &logger, CreateSpriteJob job) : Task(job), _logger(logger) {}
         virtual ~CreateSprite() {}
 
     private:

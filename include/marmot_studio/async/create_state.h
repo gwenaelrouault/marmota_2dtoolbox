@@ -4,7 +4,7 @@
 #include <log4cpp/Category.hh>
 #include <cstdint>
 #include "task.hpp"
-#include "sprites_model.h"
+#include "asset_db.h"
 
 using namespace std;
 
@@ -18,11 +18,11 @@ namespace marmot::studio
     class CreateStateJob
     {
     public:
-        CreateStateJob(log4cpp::Category &logger,
-                        shared_ptr<SpritesModel> model,
-                        uint64_t id,
+        explicit CreateStateJob(log4cpp::Category &logger,
+                        shared_ptr<AssetDB> db,
+                        MarmotaId id,
                     const string& name)
-            : _logger(logger), _model(model), _id(id), _name(name) {}
+            : _logger(logger), _db(db), _id(id), _name(name) {}
         virtual ~CreateStateJob() {}
         int execute();
         void onSuccess();
@@ -30,15 +30,15 @@ namespace marmot::studio
 
     private:
         log4cpp::Category &_logger;
-        shared_ptr<SpritesModel> _model;
-        uint64_t _id;
+        shared_ptr<AssetDB> _db;
+        MarmotaId _id;
         string _name;
     };
 
     class CreateState : public Task<CreateStateJob>
     {
     public:
-        CreateState(log4cpp::Category &logger, CreateStateJob job) : Task(job), _logger(logger) {}
+        explicit CreateState(log4cpp::Category &logger, CreateStateJob job) : Task(job), _logger(logger) {}
         virtual ~CreateState() {}
 
     private:

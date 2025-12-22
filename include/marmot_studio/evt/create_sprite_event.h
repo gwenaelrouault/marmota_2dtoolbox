@@ -7,10 +7,10 @@ namespace marmot::studio
     class CreateSpriteEvt : public UpdateEntityEvt
     {
     public:
-        explicit CreateSpriteEvt(uint64_t id) : UpdateEntityEvt(E_SPRITE, M_CREATE, id) {}
+        explicit CreateSpriteEvt(MarmotaId id) : UpdateEntityEvt(E_SPRITE, M_CREATE, id) {}
         virtual ~CreateSpriteEvt() {}
 
-        bool apply(map<uint64_t, unique_ptr<EditorSprite>> &sprites, shared_ptr<marmota::MarmotaCache> &db_cache) override;
+        bool apply(map<MarmotaId, unique_ptr<EditorSprite>> &sprites, shared_ptr<marmota::MarmotaCache> &db_cache) override;
 
         friend std::ostream& operator<<(std::ostream&, const CreateSpriteEvt&);
 

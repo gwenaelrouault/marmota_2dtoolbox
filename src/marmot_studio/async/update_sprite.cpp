@@ -19,7 +19,7 @@ int UpdateSpriteJob::execute()
     try
     {
         _logger.infoStream() << "ASYNC:UpdateSprite";
-        _model->update_sprite(_id, _name);
+        _db->update_sprite(_id, _name);
     }
     catch (marmota::DBException &e)
     {

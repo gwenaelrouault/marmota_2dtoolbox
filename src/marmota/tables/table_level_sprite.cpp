@@ -61,6 +61,7 @@ void TableLevelSprite::get_level_sprites(shared_ptr<MarmotaLevel> level)
     {
         level->_sprites.push_back((MarmotaId) sqlite3_column_int(stmt, 0));
     }
+    release_query(stmt);
 }
 
 void TableLevelSprite::delete_item(MarmotaId id)

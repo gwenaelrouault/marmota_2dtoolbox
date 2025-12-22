@@ -2,7 +2,7 @@
 
 using namespace marmot::studio;
 
-bool DeleteStateEvt::apply(map<uint64_t, unique_ptr<EditorSprite>> &sprites, shared_ptr<marmota::MarmotaCache> &db_cache)
+bool DeleteStateEvt::apply(map<MarmotaId, unique_ptr<EditorSprite>> &sprites, shared_ptr<marmota::MarmotaCache> &db_cache)
 {
     if (sprites.contains(_sprite_id) && (sprites[_sprite_id]->_states.contains(_id)))
     {
@@ -12,8 +12,7 @@ bool DeleteStateEvt::apply(map<uint64_t, unique_ptr<EditorSprite>> &sprites, sha
     return false;
 }
 
-
-void DeleteStateEvt::print(std::ostream& os) const
+void DeleteStateEvt::print(std::ostream &os) const
 {
-    os << "EVT:state:delete(" << _id <<  "," << _sprite_id << ")";
+    os << "EVT:state:delete(" << _id << "," << _sprite_id << ")";
 }

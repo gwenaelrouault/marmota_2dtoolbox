@@ -56,6 +56,14 @@ void SpritesModel::create_new_sprite()
     }
 }
 
+void SpritesModel::create_new_frame(MarmotaId sprite_id, MarmotaId state_id, int num) {
+    lock_guard<std::mutex> lock(_mutex);
+    {
+        //auto new_id = _store->create_frame(_db_cache, sprite_id, num);
+        //_evt_queue.push(make_unique<CreateSpriteEvt>(new_id));
+    }
+}
+
 void SpritesModel::remove_sprite(uint64_t id)
 {
     lock_guard<std::mutex> lock(_mutex);
@@ -101,7 +109,6 @@ void SpritesModel::load_level(const std::string& level_name) {
     }
 }
 
-// Update model from db =======================================================
 bool SpritesModel::update_model_from_cache(map<uint64_t, unique_ptr<EditorSprite>> &sprites)
 {
     bool updated = false;

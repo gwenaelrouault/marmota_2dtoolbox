@@ -25,6 +25,7 @@ void TableState::create() {
 void TableState::load_states(shared_ptr<MarmotaSprite> sprite) {
     _logger.infoStream() << "Marmota:Table[STATE]:load all for sprite(" << sprite->_id << ")";
     sprite->_states.clear();
+  
     const char *query = R"(
         SELECT id,name,loop,speed,width,height FROM state WHERE sprite_id = ?;
         )";
@@ -32,10 +33,16 @@ void TableState::load_states(shared_ptr<MarmotaSprite> sprite) {
     sqlite3_bind_int(stmt, 1, sprite->_id);
 
     while (run_query(stmt) == SQLITE_ROW) {
+       _logger.infoStream()<<"QUERY1";
         auto state = make_state_from_result(stmt);
-        sprite->_states[state->_id] = std::move(state);
+         _logger.infoStream()<<"QUERY";
+         auto key = state->_id;
+        sprite->_states[key] = state;
+        _logger.infoStream()<<"QUERY2";
     }
+     _logger.infoStream()<<"QUERY3";
     release_query(stmt);
+ 
     _logger.infoStream() << "Marmota:Table[STATE]:loaded " << sprite->_states.size() << " states from table STATE for sprite (" << sprite->_id << ")";
 }
 
@@ -75,15 +82,18 @@ shared_ptr<MarmotaState> TableState::load_state(MarmotaId id) {
 
 shared_ptr<MarmotaState> TableState::make_state_from_result(sqlite3_stmt *stmt) {
     auto id = (MarmotaId) sqlite3_column_int(stmt, 0);
-    string name = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
+    string name;
+    const char* n = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
+    if (n != nullptr) {
+        name = n;
+    }
     bool loop = sqlite3_column_int(stmt, 2) != 0;
     int speed = sqlite3_column_int(stmt, 3) != 0;
     int width = sqlite3_column_int(stmt, 4) != 0;
     int height = sqlite3_column_int(stmt, 5) != 0;
     auto loaded = make_shared<MarmotaState>(name, id, loop, speed, width, height);
     _logger.infoStream() << "Marmota:Table[STATE]:loaded(" << loaded << ")";
-    release_query(stmt);
-    return loaded;
+    return std::move(loaded);
 }
 
 void TableState::delete_item(MarmotaId id) {

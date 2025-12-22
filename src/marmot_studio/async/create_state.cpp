@@ -19,7 +19,7 @@ int CreateStateJob::execute()
     try
     {
         _logger.infoStream() << "ASYNC:CreateState:create new state";
-        _model->create_new_state(_id, _name);
+        _db->create_new_state(_id, _name);
         _logger.infoStream() << "ASYNC:CreateState:created new state";
     }
     catch (marmota::DBException &e)

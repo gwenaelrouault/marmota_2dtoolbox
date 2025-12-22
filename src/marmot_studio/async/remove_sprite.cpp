@@ -19,7 +19,7 @@ int RemoveSpriteJob::execute()
     try
     {
         _logger.infoStream() << "ASYNC:RemoveSprite:remove sprite " << _id;
-        _model->remove_sprite(_id);
+        _db->remove_sprite(_id);
         _logger.infoStream() << "ASYNC:removed sprite " << _id;
     }
     catch (marmota::DBException &e)

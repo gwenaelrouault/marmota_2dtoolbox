@@ -5,6 +5,7 @@
 
 #include "sdl_utils.h"
 #include "marmota_state.hpp"
+#include "editor_frame.h"
 
 using namespace std;
 
@@ -14,7 +15,7 @@ namespace marmot::studio
 
     struct EditorState
     {
-        EditorState(uint64_t id) : _id(id), _loop(false), _frame_speed(0), _speed(0), _width(32), _height(32) {
+        EditorState(MarmotaId id) : _id(id), _loop(false), _frame_speed(0), _speed(0), _width(32), _height(32) {
             for(int i = 0; i < INPUT_BUF_STATE_SIZE; i++) {
                     _input_buf[i] = 0;
             }
@@ -33,15 +34,13 @@ namespace marmot::studio
         void create_frame(SDL_Renderer* renderer);
         void remove_frame();
 
-        vector<TexturePtr> &get_frames();
-
         void replace_frame(TexturePtr img, int index);
 
         void set(shared_ptr<marmota::MarmotaState> &other);
 
         char _input_buf[INPUT_BUF_STATE_SIZE];
 
-        uint64_t _id;
+        MarmotaId _id;
         bool _loop;
         bool _frame_speed;
         int _speed;
@@ -49,6 +48,7 @@ namespace marmot::studio
         string _name;
         int _width;
         int _height;
-        vector<TexturePtr> _frames;
+
+        map<MarmotaId, unique_ptr<EditorFrame>> _frames;
     };
 }

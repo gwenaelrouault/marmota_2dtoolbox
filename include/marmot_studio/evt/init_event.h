@@ -11,7 +11,7 @@ namespace marmot::studio
         explicit InitEvt() : UpdateEvt(E_ALL, M_CREATE) {}
         virtual ~InitEvt() {}
 
-        bool apply(map<uint64_t, unique_ptr<EditorSprite>> &sprites, shared_ptr<marmota::MarmotaCache> &db_cache) override;
+        bool apply(map<MarmotaId, unique_ptr<EditorSprite>> &sprites, shared_ptr<marmota::MarmotaCache> &db_cache) override;
 
         friend std::ostream& operator<<(std::ostream&, const InitEvt&);
 

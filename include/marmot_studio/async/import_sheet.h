@@ -10,7 +10,7 @@ namespace marmot::studio
     class ImportSheetJob
     {
     public:
-        ImportSheetJob(log4cpp::Category &logger, std::shared_ptr<ImportSheetModel> model, const string &filename, int width, int height)
+        explicit ImportSheetJob(log4cpp::Category &logger, std::shared_ptr<ImportSheetModel> model, const string &filename, int width, int height)
             : _logger(logger), _model(model), _path(filename), _width(width), _height(height) {}
         virtual ~ImportSheetJob() {}
         int execute();
@@ -28,7 +28,7 @@ namespace marmot::studio
     class ImportSheet : public Task<ImportSheetJob>
     {
     public:
-        ImportSheet(log4cpp::Category &logger, ImportSheetJob job) : Task(job), _logger(logger) {}
+        explicit ImportSheet(log4cpp::Category &logger, ImportSheetJob job) : Task(job), _logger(logger) {}
         virtual ~ImportSheet() {}
 
     private:

@@ -14,13 +14,13 @@ namespace marmot::marmota
 
         virtual void create() override;
 
+        virtual void delete_item(MarmotaId id) override;
+
         MarmotaId new_entity(MarmotaId sprite_id, const string &name);
 
         void load_states(shared_ptr<MarmotaSprite> sprite);
 
         shared_ptr<MarmotaState> load_state(MarmotaId id);
-
-        virtual void delete_item(MarmotaId id) override;
 
     private:
         shared_ptr<MarmotaState> make_state_from_result(sqlite3_stmt *stmt);

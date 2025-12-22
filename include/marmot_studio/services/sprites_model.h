@@ -44,6 +44,7 @@ namespace marmot::studio
         void create_new_sprite();
         void update_sprite(uint64_t id, const string &name);
         void create_new_state(uint64_t id, const string &name);
+        void create_new_frame(MarmotaId sprite_id, MarmotaId state_id, int num);
 
         optional<filesystem::path> _filename;
         atomic_bool _flag_updated;

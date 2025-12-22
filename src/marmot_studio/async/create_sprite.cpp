@@ -19,7 +19,7 @@ int CreateSpriteJob::execute()
     try
     {
         _logger.infoStream() << "ASYNC:CreateSprite:create new sprite";
-        _model->create_new_sprite();
+        _db->create_new_sprite();
         _logger.infoStream() << "ASYNC:created new sprite";
     }
     catch (marmota::DBException &e)

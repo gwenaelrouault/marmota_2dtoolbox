@@ -12,7 +12,8 @@
 #include <CLI/CLI.hpp>
 #include "yaml-cpp/yaml.h"
 #include "editor.h"
-#include "assets_db.h"
+#include "asset_db.h"
+#include "event_queue.h"
 
 constexpr int WIN_WIDTH = 1280;
 constexpr int WIN_HEIGHT= 720;
@@ -52,10 +53,12 @@ int main(int argc, char** argv) {
     ImGuiIO& io = ImGui::GetIO(); 
 
     // init editor ============================================================
-    auto store = make_shared<marmota::MarmotaAssetStore>(logger);
+    auto event_queue = make_shared<studio::EventQueue>();
     auto db_cache = make_shared<marmota::MarmotaCache>();
+    auto db = make_shared<studio::AssetDB>(logger, db_cache, event_queue);
     auto worker = make_shared<marmot::Worker>();
-    auto editor = make_unique<studio::Editor>(renderer, io, logger, worker, workdir_path, store, db_cache);
+    auto editor = make_unique<studio::Editor>(renderer, io, logger, worker, workdir_path, db, db_cache);
+    logger.infoStream() << "APP:initialized";
 
     // main loop   ============================================================
     bool done = false;

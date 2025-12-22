@@ -31,6 +31,7 @@ add_executable(marmot_studio
 	src/marmota/model/marmota_cache.cpp
 	src/marmota/model/marmota_sprite.cpp
 	src/marmota/model/marmota_state.cpp
+	src/marmota/model/marmota_frame.cpp
 	src/marmota/tables/index_table.cpp
 	src/marmota/tables/table_frame.cpp
 	src/marmota/tables/table_state.cpp
@@ -48,15 +49,23 @@ add_executable(marmot_studio
 	src/marmot_studio/evt/create_state_event.cpp
 	src/marmot_studio/evt/update_state_event.cpp
 	src/marmot_studio/evt/delete_state_event.cpp
+	src/marmot_studio/evt/create_frame_event.cpp
+
+	src/marmot_studio/db/asset_db.cpp
+
 	src/marmot_studio/async/import_sheet.cpp
 	src/marmot_studio/async/open_project.cpp
 	src/marmot_studio/async/create_sprite.cpp
 	src/marmot_studio/async/update_sprite.cpp
 	src/marmot_studio/async/remove_sprite.cpp
 	src/marmot_studio/async/create_state.cpp
+	src/marmot_studio/async/delete_state.cpp
+	src/marmot_studio/async/update_state.cpp
+	src/marmot_studio/async/create_frame.cpp
+	src/marmot_studio/async/event_queue.cpp
+	
 	src/marmot_studio/model/editor_state.cpp
 	src/marmot_studio/services/editor_cmd.cpp
-	src/marmot_studio/services/sprites_model.cpp
 	src/marmot_studio/services/import_sheet_model.cpp
 	src/marmot_studio/panels/editor_menu.cpp
 	src/marmot_studio/panels/editor_import_sheet_panel.cpp
@@ -86,6 +95,7 @@ include_directories(
 	include/marmot_studio/evt
 	include/marmot_studio/panels
 	include/marmot_studio/services
+	include/marmot_studio/db
 	include/marmota/model
 	include/marmota/tables
 	include/marmota

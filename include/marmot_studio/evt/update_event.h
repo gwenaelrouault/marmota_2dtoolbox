@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cstdint>
+#include "marmota_types.hpp"
 #include "editor_sprite.h"
 #include "marmota_cache.hpp"
 #include <ostream>
